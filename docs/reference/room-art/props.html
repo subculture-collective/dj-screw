@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<style>
+body{margin:0;padding:40px;background:transparent;display:flex;gap:40px;align-items:flex-start;flex-wrap:wrap}
+.noise{position:absolute;inset:0;pointer-events:none}
+
+/* ---- Wall AC grille: painted steel, louvers, grime, rust at the screws ---- */
+#grate{position:relative;width:520px;height:300px;border-radius:6px;overflow:hidden;
+ background:linear-gradient(180deg,#ece7da,#d8d1c0 60%,#cbc3b0);
+ box-shadow:inset 0 2px 0 rgba(255,255,255,.7),inset 0 -3px 0 rgba(0,0,0,.18),inset 3px 0 0 rgba(255,255,255,.4),inset -3px 0 0 rgba(0,0,0,.12)}
+#grate .opening{position:absolute;left:34px;right:34px;top:30px;bottom:30px;border-radius:3px;overflow:hidden;
+ background:#2a2620;box-shadow:inset 0 3px 6px rgba(0,0,0,.6)}
+#grate .louvers{position:absolute;inset:0;background:repeating-linear-gradient(180deg,
+  #f2eee3 0px,#e4ddcc 4px,#cfc6b1 9px,#a59b85 13px,#5a5244 15px,#2a2620 17px,#2a2620 19px)}
+/* dust settles on the top of each slat, darker toward the bottom of the unit */
+#grate .dust{position:absolute;inset:0;mix-blend-mode:multiply;background:
+  linear-gradient(180deg,rgba(120,100,70,.05),rgba(110,90,60,.28)),
+  repeating-linear-gradient(180deg,rgba(90,74,50,.22) 0 2px,transparent 2px 19px)}
+#grate .streak{position:absolute;inset:0;mix-blend-mode:multiply;background:
+  linear-gradient(90deg,transparent 18%,rgba(110,84,50,.18) 19%,transparent 21%,transparent 63%,rgba(110,84,50,.14) 64%,transparent 66.5%,transparent 82%,rgba(110,84,50,.16) 83%,transparent 84.5%)}
+#grate .screw{position:absolute;width:16px;height:16px;border-radius:50%;
+ background:radial-gradient(circle at 35% 35%,#f4f1ea,#9c9483 60%,#5d5546);box-shadow:0 1px 1px rgba(0,0,0,.4)}
+#grate .screw::after{content:"";position:absolute;left:3px;right:3px;top:7px;height:2px;background:#4a4337;transform:rotate(35deg)}
+#grate .rust{position:absolute;width:46px;height:60px;border-radius:50%;mix-blend-mode:multiply;
+ background:radial-gradient(ellipse at 50% 30%,rgba(140,70,20,.55),rgba(150,90,40,.25) 40%,transparent 70%)}
+#grate .chips{position:absolute;inset:0;mix-blend-mode:multiply;opacity:.6;
+ background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='520' height='300'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.02 .06' numOctaves='4' seed='9'/><feColorMatrix values='0 0 0 0 .45  0 0 0 0 .38  0 0 0 0 .28  0 0 0 9 -6.3'/></filter><rect width='520' height='300' filter='url(%23n)'/></svg>");
+ -webkit-mask:linear-gradient(#000,#000) top/100% 30px no-repeat,linear-gradient(#000,#000) bottom/100% 30px no-repeat,linear-gradient(#000,#000) left/34px 100% no-repeat,linear-gradient(#000,#000) right/34px 100% no-repeat;
+ mask:linear-gradient(#000,#000) top/100% 30px no-repeat,linear-gradient(#000,#000) bottom/100% 30px no-repeat,linear-gradient(#000,#000) left/34px 100% no-repeat,linear-gradient(#000,#000) right/34px 100% no-repeat}
+#grate .yellow{position:absolute;inset:0;border-radius:6px;mix-blend-mode:multiply;background:radial-gradient(ellipse at 50% 40%,rgba(255,250,235,0),rgba(170,140,80,.25))}
+
+/* ---- Framed gold record ---- */
+#gold{position:relative;width:420px;height:540px;border-radius:3px;
+ background:linear-gradient(135deg,#3a3a3d,#141416 40%,#2b2b2e 60%,#0d0d0e);
+ box-shadow:inset 0 0 0 3px #4a4a4e,inset 0 0 0 5px #0a0a0b}
+#gold .mat{position:absolute;inset:22px;background:#151517;box-shadow:inset 0 0 0 1px #2c2c30,inset 0 6px 14px rgba(0,0,0,.7)}
+#gold .disc{position:absolute;left:50%;top:44px;width:300px;height:300px;margin-left:-150px;border-radius:50%;
+ background:
+  radial-gradient(circle,#0f0f10 0 3%,transparent 3.2%),
+  radial-gradient(circle,transparent 0 17%,#a8812c 17.2% 18%,transparent 18.4%),
+  radial-gradient(circle,#efd27a 0 17%,transparent 17.2%),
+  conic-gradient(from 20deg,rgba(255,250,220,.0),rgba(255,250,220,.55) 8%,rgba(255,250,220,0) 18%,rgba(90,60,10,.25) 30%,rgba(255,250,220,0) 45%,rgba(255,250,220,.45) 58%,rgba(255,250,220,0) 68%,rgba(90,60,10,.25) 82%,rgba(255,250,220,0)),
+  repeating-radial-gradient(circle,#d7ae4a 0 1px,#b78c2c 1px 2px,#caa040 2px 3px),
+  #c89b38;
+ box-shadow:0 4px 10px rgba(0,0,0,.7),inset 0 0 0 2px #8a6a20}
+#gold .label{position:absolute;left:50%;top:44px;width:300px;height:300px;margin-left:-150px;border-radius:50%;
+ background:radial-gradient(circle,transparent 0 6%,rgba(120,84,20,.35) 6.2% 6.6%,transparent 7%)}
+#gold .plate{position:absolute;left:70px;right:70px;top:378px;height:112px;border-radius:2px;
+ background:linear-gradient(135deg,#f1d88a,#c99c3c 45%,#f4de98 55%,#b88a2e);box-shadow:0 2px 4px rgba(0,0,0,.6),inset 0 0 0 2px rgba(120,84,20,.6)}
+#gold .plate i{position:absolute;left:28px;right:28px;height:5px;border-radius:2px;background:rgba(90,62,14,.55)}
+#gold .glare{position:absolute;inset:6px;pointer-events:none;background:
+  linear-gradient(118deg,transparent 28%,rgba(255,255,255,.16) 31%,rgba(255,255,255,.04) 37%,transparent 39%,transparent 52%,rgba(255,255,255,.08) 54%,transparent 57%)}
+#gold .dust{position:absolute;inset:6px;pointer-events:none;mix-blend-mode:screen;opacity:.35;
+ background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='420' height='540'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2' seed='4'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 18 -16.4'/></filter><rect width='420' height='540' filter='url(%23n)'/></svg>")}
+
+/* ---- Wall lamp: fabric shade lit from inside, brass arm ---- */
+#lamp{position:relative;width:160px;height:240px}
+#lamp .plate{position:absolute;left:66px;top:118px;width:28px;height:58px;border-radius:14px;background:linear-gradient(90deg,#7a5a24,#d9b25e 40%,#8a6626)}
+#lamp .arm{position:absolute;left:76px;top:96px;width:8px;height:40px;background:linear-gradient(90deg,#7a5a24,#e0bd6a,#7a5a24)}
+#lamp .shade{position:absolute;left:20px;top:6px;width:120px;height:100px;
+ clip-path:polygon(24% 0,76% 0,100% 100%,0 100%);
+ background:
+  repeating-linear-gradient(90deg,rgba(150,110,60,.08) 0 2px,transparent 2px 5px),
+  radial-gradient(ellipse 70% 90% at 50% 110%,#fff6dc,#f6dca4 40%,#e8c27c 70%,#c99a58)}
+#lamp .rim{position:absolute;left:20px;top:100px;width:120px;height:8px;border-radius:50%;background:radial-gradient(ellipse,#fffdf3,#ffe9b0 60%,rgba(255,220,150,0) 75%)}
+#lamp .top{position:absolute;left:49px;top:2px;width:62px;height:6px;border-radius:50%;background:#fff3cf;box-shadow:0 0 10px 4px rgba(255,236,180,.8)}
+</style></head><body>
+<div id="grate">
+ <div class="opening"><div class="louvers"></div><div class="dust"></div></div>
+ <div class="streak"></div><div class="chips"></div>
+ <div class="rust" style="left:-4px;top:-8px"></div><div class="rust" style="right:-6px;top:-10px"></div><div class="rust" style="left:-2px;bottom:-30px"></div>
+ <div class="screw" style="left:9px;top:9px"></div><div class="screw" style="right:9px;top:9px"></div><div class="screw" style="left:9px;bottom:9px"></div><div class="screw" style="right:9px;bottom:9px"></div>
+ <div class="yellow"></div>
+</div>
+<div id="gold">
+ <div class="mat"></div><div class="disc"></div><div class="label"></div>
+ <div class="plate"><i style="top:24px"></i><i style="top:44px;right:60px"></i><i style="top:64px;left:60px"></i><i style="top:84px;left:90px;right:90px"></i></div>
+ <div class="glare"></div><div class="dust"></div>
+</div>
+<div id="lamp"><div class="arm"></div><div class="plate"></div><div class="shade"></div><div class="rim"></div><div class="top"></div></div>
+</body></html>

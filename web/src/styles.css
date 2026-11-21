@@ -2375,7 +2375,7 @@ dd {
   top: 0;
   left: var(--nav, 0px);
   right: 0;
-  height: 60em;
+  height: 82em;
   font-size: 1.45rem;
   transform: translateY(var(--room-shift, 0px));
 }
@@ -2383,177 +2383,75 @@ dd {
   position: absolute;
 }
 
-/* Air conditioner, top right, like the grille in the room's photos. */
+/* Air conditioner grille, top right, like the one in the room's photos. */
 .room-ac {
   right: 2%;
-  top: 0.6em;
-  width: 7.5em;
-  height: 4em;
-  padding: 0.45em;
-  background: linear-gradient(180deg, #e3e0d6, #c9c5b8);
-  border-radius: 3px;
-  box-shadow: 0 2px 2px rgba(20, 8, 2, 0.6);
-}
-.room-ac span {
-  display: block;
-  height: 100%;
-  border: 1px solid #a29d8f;
-  background: repeating-linear-gradient(
-    180deg,
-    #f4f2ec 0 3px,
-    #8f8a7d 3px 5px
-  );
+  top: 0.5em;
+  width: 8em;
+  height: 4.62em;
+  filter: drop-shadow(0 2px 2px rgba(20, 8, 2, 0.55));
 }
 
-/* Wall lamp with its warm pool of light. */
+/* Wall lamp: a lit fabric shade on a brass arm. */
 .room-lamp {
   left: 42%;
-  top: 1.2em;
-  width: 1.6em;
-  height: 2.6em;
+  top: 0.6em;
+  width: 2.8em;
+  height: 4.2em;
+  z-index: 2;
 }
-.room-lamp::before {
-  content: "";
+/* Its light: a broad warm glow plus the brighter washes that leave the open
+   top and bottom of the shade, falling on the paneling and nearby frames. */
+.room-light {
   position: absolute;
-  inset: 0;
-  z-index: 1;
-  background: linear-gradient(180deg, #f3dfb4, #c9a76a);
-  clip-path: polygon(22% 0, 78% 0, 100% 100%, 0 100%);
-}
-.room-lamp::after {
-  content: "";
-  position: absolute;
-  z-index: 0;
-  left: 50%;
-  top: 30%;
-  width: 22em;
-  height: 16em;
-  transform: translate(-50%, -35%);
-  background: radial-gradient(
-    closest-side,
-    rgba(255, 226, 170, 0.75),
-    rgba(255, 196, 120, 0.32) 45%,
-    rgba(255, 170, 90, 0.08) 75%,
-    transparent
-  );
+  font-size: 1.45rem;
+  left: calc(var(--nav, 0px) + (100% - var(--nav, 0px)) * 0.42 + 1.4em);
+  top: 1.4em;
+  width: 26em;
+  height: 30em;
+  translate: -50% -38%;
+  transform: translateY(var(--room-shift, 0px));
+  pointer-events: none;
+  mix-blend-mode: screen;
+  background:
+    radial-gradient(ellipse 9% 20% at 50% 26%, rgba(255, 244, 214, 0.9), transparent 80%),
+    radial-gradient(ellipse 12% 24% at 50% 54%, rgba(255, 232, 186, 0.8), transparent 80%),
+    radial-gradient(ellipse 24% 30% at 50% 40%, rgba(255, 206, 140, 0.55), transparent 72%),
+    radial-gradient(ellipse 48% 46% at 50% 42%, rgba(255, 176, 96, 0.22), transparent 72%);
 }
 
-/* Original promo posters naming artists Screw mixed (brand.ts roomPosters). */
+/* Promo posters for records by artists Screw mixed (brand.ts roomPosters).
+   Weathered raster art with transparent torn edges; the shadow follows the
+   paper's outline. */
 .room-poster {
-  width: 7.25em;
-  height: 10.25em;
-  padding: 0.45em;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  overflow: hidden;
-  text-transform: uppercase;
-  font-family: var(--font-sans);
-  line-height: 0.95;
-  box-shadow: 0 2px 2px rgba(20, 8, 2, 0.6);
-  transform-origin: top left;
+  display: block;
+  width: 7.5em;
+  height: 10em;
+  filter: drop-shadow(0 2px 2px rgba(20, 8, 2, 0.6));
 }
-.room-poster strong {
-  font-weight: 900;
-  font-style: italic;
-  font-size: 2.1em;
-  letter-spacing: -0.03em;
+.room-poster.tall {
+  height: 11.25em;
 }
-.room-poster em {
-  font-style: normal;
-  font-weight: 800;
-  font-size: 0.68em;
-  letter-spacing: 0.04em;
+.room-poster.wide {
+  width: 12em;
+  height: 8em;
 }
-.room-poster-top,
-.room-poster-foot {
-  font-size: 0.45em;
-  letter-spacing: 0.2em;
-  font-weight: 700;
-}
-.room-poster.chrome {
-    background:
-    radial-gradient(120% 60% at 50% 100%, #1d3557, transparent 70%), #0b0b0e;
-  color: #e3b341;
-}
-.room-poster.chrome strong {
-  background: linear-gradient(
-    180deg,
-    #ffffff 0%,
-    #b9c0c9 42%,
-    #3b4048 50%,
-    #e9ecef 72%,
-    #8d939b 100%
-  );
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-.room-poster.flame {
-    background: linear-gradient(180deg, #c0182e, #3a0609 85%);
-  color: #ffd23f;
-}
-.room-poster.flame strong {
-  font-size: 1.85em;
-  text-shadow: 2px 2px 0 #1a0204;
-}
-.room-poster.star {
-    background:
-    linear-gradient(180deg, transparent 84%, #b5162b 84% 89%, transparent 89%),
-    #f1ede4;
-  color: #1d3a7a;
-}
-.room-poster.star strong {
-  font-size: 1.55em;
-}
-.room-poster.star::after {
-  content: "★";
-  position: absolute;
-  right: -0.6em;
-  top: 2.4em;
-  font-size: 4.5em;
-  color: rgba(29, 58, 122, 0.14);
-}
-
-.room-poster.slot-a { left: 2%; top: 1.1em; rotate: -1.5deg; }
-.room-poster.slot-b { left: 52%; top: 0.9em; rotate: 1deg; }
-.room-poster.slot-c { left: 67%; top: 2.2em; rotate: -0.8deg; }
-.room-poster.slot-d { left: 8%; top: 24em; rotate: 1.2deg; }
-.room-poster.slot-e { left: 58%; top: 33em; rotate: -1deg; }
-.room-poster.slot-f { left: 24%; top: 47em; rotate: 0.8deg; }
-.room-poster.slot-e strong { font-size: 1.6em; }
-.room-poster.slot-f strong { font-size: 1.9em; }
+.room-poster.slot-a { left: 2%; top: 1em; rotate: -1.5deg; }
+.room-poster.slot-b { left: 52%; top: 0.8em; rotate: 1deg; }
+.room-poster.slot-c { left: 67%; top: 2em; rotate: -0.8deg; }
+.room-poster.slot-d { left: 6%; top: 23em; rotate: 1.2deg; }
+.room-poster.slot-e { left: 60%; top: 31em; rotate: -1deg; }
+.room-poster.slot-f { left: 22%; top: 44em; rotate: 0.8deg; }
+.room-poster.slot-g { left: 56%; top: 57em; rotate: -0.6deg; }
+.room-poster.slot-h { left: 8%; top: 68em; rotate: 1deg; }
 
 /* Framed gold record and a single on the wall. */
 .room-plaque {
   left: 19%;
-  top: 1.6em;
-  width: 5.5em;
-  height: 7em;
-  background: #111113;
-  border: 0.3em solid #2b2b2e;
-  box-shadow: 0 2px 2px rgba(20, 8, 2, 0.6);
-}
-.room-plaque-disc {
-  position: absolute;
-  left: 50%;
-  top: 0.55em;
-  width: 3.6em;
-  height: 3.6em;
-  translate: -50% 0;
-  border-radius: 50%;
-  background:
-    radial-gradient(circle, #111 0 9%, #f0d27a 10% 22%, transparent 23%),
-    repeating-radial-gradient(circle, #d9b24c 0 1px, #b8902f 1px 2px);
-}
-.room-plaque-card {
-  position: absolute;
-  left: 18%;
-  right: 18%;
-  bottom: 0.5em;
-  height: 1.1em;
-  background: #2a2a2d;
-  border-top: 2px solid #c9a447;
+  top: 1.4em;
+  width: 5.6em;
+  height: 7.2em;
+  filter: drop-shadow(0 2px 2px rgba(20, 8, 2, 0.6));
 }
 .room-vinyl {
   left: 31%;
@@ -2584,7 +2482,8 @@ dd {
   }
   .room-poster.slot-c,
   .room-vinyl,
-  .room-lamp {
+  .room-lamp,
+  .room-light {
     display: none;
   }
 }
@@ -2595,13 +2494,17 @@ dd {
    The glass is opaque enough that every text colour keeps 4.5:1 over the
    darkest thing on the wall (docs/reference/brand.md). */
 :root {
-  --glass: rgba(228, 229, 230, 0.86);
+  --glass: rgba(228, 229, 230, 0.5);
   --glass-edge: rgba(255, 255, 255, 0.55);
+  /* A soft glow of panel colour behind every glyph keeps text readable over
+     whatever the clear glass shows. */
+  --halo: rgba(238, 239, 240, 0.92);
 }
 @media (prefers-color-scheme: dark) {
   :root {
-    --glass: rgba(28, 28, 30, 0.88);
-    --glass-edge: rgba(255, 255, 255, 0.08);
+    --glass: rgba(22, 22, 24, 0.55);
+    --glass-edge: rgba(255, 255, 255, 0.1);
+    --halo: rgba(18, 18, 20, 0.92);
   }
 }
 main {
@@ -2626,8 +2529,8 @@ main > div {
       transparent 1px 3px
     ),
     var(--glass);
-  -webkit-backdrop-filter: blur(18px) saturate(1.15);
-  backdrop-filter: blur(18px) saturate(1.15);
+  -webkit-backdrop-filter: blur(3px) saturate(1.15);
+  backdrop-filter: blur(3px) saturate(1.15);
   border: 1px solid var(--glass-edge);
   border-radius: var(--radius-panel);
   box-shadow: 0 2px 3px rgba(20, 8, 2, 0.5);
@@ -2668,8 +2571,8 @@ main > section.catalog {
       transparent 1px 3px
     ),
     var(--glass);
-  -webkit-backdrop-filter: blur(18px) saturate(1.15);
-  backdrop-filter: blur(18px) saturate(1.15);
+  -webkit-backdrop-filter: blur(3px) saturate(1.15);
+  backdrop-filter: blur(3px) saturate(1.15);
   border-inline: 1px solid var(--glass-edge);
 }
 .catalog > :not(.tape-list) {
@@ -2713,6 +2616,35 @@ main > section.catalog {
 }
 .tape-list > button.tape:nth-of-type(10n + 1):not(:first-of-type) {
   padding-top: 0.35rem;
+}
+
+main > :is(section, details, footer, form, div),
+.catalog > :not(.tape-list),
+.tape-list > * {
+  font-weight: 500;
+  text-shadow:
+    0 0 1px var(--halo),
+    0 0 2px var(--halo),
+    0 0 4px var(--halo),
+    0 0 10px var(--halo),
+    0 0 16px var(--halo);
+}
+
+/* Browse by year has its own raised background; on the wall it is glass too. */
+main > details.browse-directory {
+  background:
+    repeating-linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.07) 0 1px,
+      transparent 1px 3px
+    ),
+    var(--glass);
+  border: 1px solid var(--glass-edge);
+  border-radius: var(--radius-panel);
+  padding: 0 clamp(0.9rem, 2.2vw, 1.5rem);
+}
+main > details.browse-directory[open] {
+  padding-bottom: clamp(0.9rem, 2.2vw, 1.5rem);
 }
 
 /* A page title that sits on the wall gets a rack plate behind it. */
@@ -2804,6 +2736,9 @@ h2 {
   /* The masthead runs across the top here, so the wall starts below it. */
   .room-props {
     top: 3rem;
+  }
+  .room-light {
+    top: calc(3rem + 2.03rem);
   }
   .primary-nav a[aria-current="page"] {
     box-shadow: inset 0 3px 0 var(--color-strobe);
