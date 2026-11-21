@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" role="img" aria-label="Woodroom" shape-rendering="crispEdges">
+  <title>Woodroom mark: a pitch fader pushed all the way down</title>
+  <rect width="16" height="16" rx="2" fill="#1c1c1e"/>
+  <rect x="7" y="2" width="2" height="12" fill="#55565a"/>
+  <rect x="4" y="11" width="8" height="3" fill="#e4e5e6"/>
+  <rect x="2" y="2" width="2" height="2" fill="#ff5a33"/>
+  <rect x="12" y="2" width="2" height="2" fill="#39c46a"/>
+</svg>

@@ -4,7 +4,7 @@ Status: open. Recorded 2026-11-21.
 
 ## What we know
 
-- Every tape year in Grey Tapes comes from the Internet Archive upload. The
+- Every tape year in Woodroom comes from the Internet Archive upload. The
   uploader wrote it into the title, for example "(1996)", and Internet Archive
   stores it as January 1 of that year. All 343 numbered chapters in the collection agree between
   title and date field, so the app shows what the uploader recorded.

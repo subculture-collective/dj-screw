@@ -2,7 +2,7 @@
 
 ## Supported scope
 
-This policy covers the Grey Tapes web app and the deployment configuration in this repository. The catalog and search API come from SUBCULT's shared archive engine.
+This policy covers the Woodroom web app and the deployment configuration in this repository. The catalog and search API come from SUBCULT's shared archive engine.
 
 ## Reporting a vulnerability
 

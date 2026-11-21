@@ -1,57 +1,72 @@
 @import "tailwindcss";
 
 /*
-  Grey Tapes · J-Card design system, retuned to a grey cassette shell
-  Reference: docs/reference/brand.md. Tokens live in @theme so Tailwind
-  utilities and these component rules share one source. The dark scheme
-  overrides the same custom properties under prefers-color-scheme.
+  Woodroom · Two decks in the wood room
+  Reference: docs/reference/brand.md. Content sits on brushed-aluminium panels
+  and a black equipment rack in front of the room's wood paneling (Room.tsx).
+  Tokens live in @theme so Tailwind utilities and these component rules share
+  one source. The dark scheme swaps the aluminium for platter rubber.
 */
 @theme static {
-  --color-paper: #e9e8e4;
-  --color-paper-deep: #dcdad4;
-  --color-paper-raised: #f5f4f1;
-  --color-ink: #18171a;
-  --color-ink-soft: #57545c;
-  --color-ink-faint: #77737d;
-  --color-rule: #c7c4cc;
-  --color-rule-strong: #8a8690;
-  --color-marker: #6b3fa0;
-  --color-marker-deep: #52307d;
-  --color-on-marker: #f5f4f1;
-  --color-stripe-red: #6b3fa0;
-  --color-stripe-mustard: #c2364f;
-  --color-stripe-teal: #8f9aa6;
-  --color-focus: #6b3fa0;
-  --color-scrim: rgba(28, 25, 21, 0.55);
+  --color-paper: #e2e3e4;
+  --color-paper-deep: #cfd1d3;
+  --color-paper-raised: #eeeeef;
+  --color-ink: #121214;
+  --color-ink-soft: #45474b;
+  --color-ink-faint: #4a4c50;
+  --color-rule: #b5b8bc;
+  --color-rule-strong: #80848a;
+  /* Strobe orange, dark enough for text on the glass modules (5.2:1 at
+     worst, 6.9:1 on solid aluminium). */
+  --color-marker: #8c240e;
+  --color-marker-deep: #6e1c0b;
+  --color-on-marker: #ffffff;
+  --color-stripe-red: #1c1c1e;
+  --color-stripe-mustard: #c2361a;
+  --color-stripe-teal: #8a8d91;
+  --color-focus: #8c240e;
+  --color-scrim: rgba(12, 8, 4, 0.6);
+
+  /* The rack keeps its colours in both schemes. */
+  --color-rack: #161618;
+  --color-rack-raised: #232326;
+  --color-rack-ink: #f2f2f0;
+  --color-rack-soft: #a9abaf;
+  --color-strobe: #ff5a33;
+  --color-lock: #39c46a;
 
   --font-sans:
-    "Helvetica Neue", Helvetica, Arial, "Liberation Sans", sans-serif;
+    "Figtree Variable", "Figtree", "Helvetica Neue", Arial, "Liberation Sans",
+    sans-serif;
   --font-mono:
-    "IBM Plex Mono", "SFMono-Regular", "Cascadia Mono", Menlo, Consolas,
+    "Martian Mono", "SFMono-Regular", "Cascadia Mono", Menlo, Consolas,
     "Liberation Mono", monospace;
+  --font-display: "Michroma", "Figtree Variable", "Helvetica Neue", sans-serif;
 
-  --radius-label: 2px;
+  --radius-label: 3px;
+  --radius-panel: 6px;
   --spacing-gutter: clamp(0.75rem, 3vw, 2rem);
   --shadow-card:
-    0 1px 0 rgba(28, 25, 21, 0.08), 0 12px 32px rgba(28, 25, 21, 0.1);
+    0 1px 0 rgba(255, 255, 255, 0.6) inset, 0 14px 34px rgba(30, 14, 4, 0.45);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --color-paper: #141317;
-    --color-paper-deep: #1d1b21;
-    --color-paper-raised: #25232a;
-    --color-ink: #ece9f0;
-    --color-ink-soft: #b2adb9;
-    --color-ink-faint: #8d8894;
-    --color-rule: #34313a;
-    --color-rule-strong: #615c69;
-    --color-marker: #a67fe0;
-    --color-marker-deep: #7f58bf;
-    --color-on-marker: #141317;
-    --color-focus: #b99cf0;
+    --color-paper: #1c1c1e;
+    --color-paper-deep: #141415;
+    --color-paper-raised: #262628;
+    --color-ink: #f2f2f0;
+    --color-ink-soft: #b9babd;
+    --color-ink-faint: #94969b;
+    --color-rule: #333336;
+    --color-rule-strong: #6a6d73;
+    --color-marker: #ff5a33;
+    --color-marker-deep: #e2401c;
+    --color-on-marker: #121214;
+    --color-focus: #ff7a59;
     --color-scrim: rgba(0, 0, 0, 0.7);
-    --shadow-card: 0 1px 0 rgba(0, 0, 0, 0.4), 0 12px 32px rgba(0, 0, 0, 0.5);
+    --shadow-card:
+      0 1px 0 rgba(255, 255, 255, 0.06) inset, 0 14px 34px rgba(0, 0, 0, 0.6);
     color-scheme: dark;
   }
 }
@@ -1555,12 +1570,14 @@ dd {
     var(--color-stripe-teal) 66.6%
   );
 }
-.jcard-cover[data-tone="0"] { --cover-bg: #6b3fa0; --cover-fg: #f5f4f1; }
-.jcard-cover[data-tone="1"] { --cover-bg: #8f8c95; --cover-fg: #18171a; }
-.jcard-cover[data-tone="2"] { --cover-bg: #52307d; --cover-fg: #f5f4f1; }
-.jcard-cover[data-tone="3"] { --cover-bg: #18171a; --cover-fg: #e9e8e4; }
-.jcard-cover[data-tone="4"] { --cover-bg: #c7c4cc; --cover-fg: #18171a; }
-.jcard-cover[data-tone="5"] { --cover-bg: #c2364f; --cover-fg: #f5f4f1; }
+/* Placeholder covers when a tape has no scan: grey shells, rubber, strobe,
+   aluminium and gold label stock. */
+.jcard-cover[data-tone="0"] { --cover-bg: #5e6166; --cover-fg: #f2f2f0; }
+.jcard-cover[data-tone="1"] { --cover-bg: #c8cacc; --cover-fg: #121214; }
+.jcard-cover[data-tone="2"] { --cover-bg: #2a2b2e; --cover-fg: #f2f2f0; }
+.jcard-cover[data-tone="3"] { --cover-bg: #121214; --cover-fg: #f2f2f0; }
+.jcard-cover[data-tone="4"] { --cover-bg: #d9b24c; --cover-fg: #121214; }
+.jcard-cover[data-tone="5"] { --cover-bg: #a82c10; --cover-fg: #ffffff; }
 .jcard-date {
   font-family: var(--font-mono);
   font-size: 7.5cqi;
@@ -2290,4 +2307,512 @@ dd {
   font-weight: 400;
   font-size: 0.85em;
   color: var(--color-ink-soft);
+}
+
+/* ---- Wood room ----------------------------------------------------------- */
+/* The room is a fixed layer behind the page (Room.tsx). Content panels sit in
+   front of it; the wall shows above the content (the wall band) and in the
+   margins, and moves at a fraction of the scroll speed. Room colours are
+   artwork, not text, and stay the same in both schemes. */
+:root {
+  background: #5a3418;
+  --panel-surface:
+    repeating-linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.16) 0 1px,
+      transparent 1px 3px
+    ),
+    linear-gradient(180deg, #ebeced, #dcdddf 60%, #d4d6d8);
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --panel-surface:
+      repeating-linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0.025) 0 1px,
+        transparent 1px 3px
+      ),
+      linear-gradient(180deg, #212123, #1a1a1c);
+  }
+}
+.app-shell {
+  --wall-band: clamp(11rem, 30vh, 17rem);
+  position: relative;
+  isolation: isolate;
+}
+.room {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+.room-wall {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(
+      to bottom,
+      rgba(20, 8, 2, 0.25),
+      transparent 28%,
+      transparent 70%,
+      rgba(20, 8, 2, 0.4)
+    ),
+    url("/brand/woodroom/paneling.webp") 0 var(--room-shift, 0px) / 512px 512px
+      repeat,
+    #6b3d1d;
+}
+@media (prefers-color-scheme: dark) {
+  .room-wall {
+    filter: brightness(0.62) saturate(0.9);
+  }
+  .room-props {
+    filter: brightness(0.75);
+  }
+}
+.room-props {
+  position: absolute;
+  top: 0;
+  left: var(--nav, 0px);
+  right: 0;
+  height: 60em;
+  font-size: 1.45rem;
+  transform: translateY(var(--room-shift, 0px));
+}
+.room-props > * {
+  position: absolute;
+}
+
+/* Air conditioner, top right, like the grille in the room's photos. */
+.room-ac {
+  right: 2%;
+  top: 0.6em;
+  width: 7.5em;
+  height: 4em;
+  padding: 0.45em;
+  background: linear-gradient(180deg, #e3e0d6, #c9c5b8);
+  border-radius: 3px;
+  box-shadow: 0 2px 2px rgba(20, 8, 2, 0.6);
+}
+.room-ac span {
+  display: block;
+  height: 100%;
+  border: 1px solid #a29d8f;
+  background: repeating-linear-gradient(
+    180deg,
+    #f4f2ec 0 3px,
+    #8f8a7d 3px 5px
+  );
+}
+
+/* Wall lamp with its warm pool of light. */
+.room-lamp {
+  left: 42%;
+  top: 1.2em;
+  width: 1.6em;
+  height: 2.6em;
+}
+.room-lamp::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(180deg, #f3dfb4, #c9a76a);
+  clip-path: polygon(22% 0, 78% 0, 100% 100%, 0 100%);
+}
+.room-lamp::after {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  left: 50%;
+  top: 30%;
+  width: 22em;
+  height: 16em;
+  transform: translate(-50%, -35%);
+  background: radial-gradient(
+    closest-side,
+    rgba(255, 226, 170, 0.75),
+    rgba(255, 196, 120, 0.32) 45%,
+    rgba(255, 170, 90, 0.08) 75%,
+    transparent
+  );
+}
+
+/* Original promo posters naming artists Screw mixed (brand.ts roomPosters). */
+.room-poster {
+  width: 7.25em;
+  height: 10.25em;
+  padding: 0.45em;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+  text-transform: uppercase;
+  font-family: var(--font-sans);
+  line-height: 0.95;
+  box-shadow: 0 2px 2px rgba(20, 8, 2, 0.6);
+  transform-origin: top left;
+}
+.room-poster strong {
+  font-weight: 900;
+  font-style: italic;
+  font-size: 2.1em;
+  letter-spacing: -0.03em;
+}
+.room-poster em {
+  font-style: normal;
+  font-weight: 800;
+  font-size: 0.68em;
+  letter-spacing: 0.04em;
+}
+.room-poster-top,
+.room-poster-foot {
+  font-size: 0.45em;
+  letter-spacing: 0.2em;
+  font-weight: 700;
+}
+.room-poster.chrome {
+    background:
+    radial-gradient(120% 60% at 50% 100%, #1d3557, transparent 70%), #0b0b0e;
+  color: #e3b341;
+}
+.room-poster.chrome strong {
+  background: linear-gradient(
+    180deg,
+    #ffffff 0%,
+    #b9c0c9 42%,
+    #3b4048 50%,
+    #e9ecef 72%,
+    #8d939b 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.room-poster.flame {
+    background: linear-gradient(180deg, #c0182e, #3a0609 85%);
+  color: #ffd23f;
+}
+.room-poster.flame strong {
+  font-size: 1.85em;
+  text-shadow: 2px 2px 0 #1a0204;
+}
+.room-poster.star {
+    background:
+    linear-gradient(180deg, transparent 84%, #b5162b 84% 89%, transparent 89%),
+    #f1ede4;
+  color: #1d3a7a;
+}
+.room-poster.star strong {
+  font-size: 1.55em;
+}
+.room-poster.star::after {
+  content: "★";
+  position: absolute;
+  right: -0.6em;
+  top: 2.4em;
+  font-size: 4.5em;
+  color: rgba(29, 58, 122, 0.14);
+}
+
+.room-poster.slot-a { left: 2%; top: 1.1em; rotate: -1.5deg; }
+.room-poster.slot-b { left: 52%; top: 0.9em; rotate: 1deg; }
+.room-poster.slot-c { left: 67%; top: 2.2em; rotate: -0.8deg; }
+.room-poster.slot-d { left: 8%; top: 24em; rotate: 1.2deg; }
+.room-poster.slot-e { left: 58%; top: 33em; rotate: -1deg; }
+.room-poster.slot-f { left: 24%; top: 47em; rotate: 0.8deg; }
+.room-poster.slot-e strong { font-size: 1.6em; }
+.room-poster.slot-f strong { font-size: 1.9em; }
+
+/* Framed gold record and a single on the wall. */
+.room-plaque {
+  left: 19%;
+  top: 1.6em;
+  width: 5.5em;
+  height: 7em;
+  background: #111113;
+  border: 0.3em solid #2b2b2e;
+  box-shadow: 0 2px 2px rgba(20, 8, 2, 0.6);
+}
+.room-plaque-disc {
+  position: absolute;
+  left: 50%;
+  top: 0.55em;
+  width: 3.6em;
+  height: 3.6em;
+  translate: -50% 0;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle, #111 0 9%, #f0d27a 10% 22%, transparent 23%),
+    repeating-radial-gradient(circle, #d9b24c 0 1px, #b8902f 1px 2px);
+}
+.room-plaque-card {
+  position: absolute;
+  left: 18%;
+  right: 18%;
+  bottom: 0.5em;
+  height: 1.1em;
+  background: #2a2a2d;
+  border-top: 2px solid #c9a447;
+}
+.room-vinyl {
+  left: 31%;
+  top: 2.4em;
+  width: 4.4em;
+  height: 4.4em;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle, #2a2a2a 0 4%, #f2efe7 5% 30%, transparent 31%),
+    repeating-radial-gradient(circle, #121212 0 1px, #262626 1px 2px);
+  box-shadow: 0 2px 2px rgba(20, 8, 2, 0.6);
+}
+@media (max-width: 650px) {
+  .app-shell {
+    --wall-band: 8.5rem;
+  }
+  .room-props {
+    font-size: 0.78rem;
+  }
+  .room-poster.slot-a {
+    left: 3%;
+  }
+  .room-plaque {
+    left: 30%;
+  }
+  .room-poster.slot-b {
+    left: 53%;
+  }
+  .room-poster.slot-c,
+  .room-vinyl,
+  .room-lamp {
+    display: none;
+  }
+}
+
+/* ---- Floating modules --------------------------------------------------- */
+/* Each section of a page is its own frosted aluminium module, with the room
+   showing between modules and, blurred, through them as the wall moves behind.
+   The glass is opaque enough that every text colour keeps 4.5:1 over the
+   darkest thing on the wall (docs/reference/brand.md). */
+:root {
+  --glass: rgba(228, 229, 230, 0.86);
+  --glass-edge: rgba(255, 255, 255, 0.55);
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --glass: rgba(28, 28, 30, 0.88);
+    --glass-edge: rgba(255, 255, 255, 0.08);
+  }
+}
+main {
+  margin-top: var(--wall-band);
+  padding-top: 0;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1rem, 3vw, 2.25rem);
+}
+main > section,
+main > details,
+main > footer,
+main > form,
+main > div {
+  position: relative;
+  margin: 0;
+  padding: clamp(0.9rem, 2.2vw, 1.5rem);
+  background:
+    repeating-linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.07) 0 1px,
+      transparent 1px 3px
+    ),
+    var(--glass);
+  -webkit-backdrop-filter: blur(18px) saturate(1.15);
+  backdrop-filter: blur(18px) saturate(1.15);
+  border: 1px solid var(--glass-edge);
+  border-radius: var(--radius-panel);
+  box-shadow: 0 2px 3px rgba(20, 8, 2, 0.5);
+}
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  main > section,
+  main > details,
+  main > footer,
+  main > form,
+  main > div {
+    background: var(--panel-surface);
+  }
+}
+/* The shelf breaks into rack units of ten tapes with the wall between them.
+   The catalog's other parts (heading, tools, notes, pagination) form their own
+   modules before and after the list. */
+main > section.catalog {
+  padding: 0;
+  background: none;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  border: 0;
+  box-shadow: none;
+  display: flex;
+  flex-direction: column;
+}
+.catalog > *,
+.tape-list > * {
+  --glass-pad: clamp(0.9rem, 2.2vw, 1.5rem);
+}
+.catalog > :not(.tape-list),
+.tape-list > * {
+  margin: 0;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.07) 0 1px,
+      transparent 1px 3px
+    ),
+    var(--glass);
+  -webkit-backdrop-filter: blur(18px) saturate(1.15);
+  backdrop-filter: blur(18px) saturate(1.15);
+  border-inline: 1px solid var(--glass-edge);
+}
+.catalog > :not(.tape-list) {
+  padding-inline: var(--glass-pad);
+}
+.catalog > :first-child,
+.catalog > .tape-list + *,
+.tape-list > :first-child,
+.tape-list > button.tape:nth-of-type(10n + 1) {
+  border-top: 1px solid var(--glass-edge);
+  border-top-left-radius: var(--radius-panel);
+  border-top-right-radius: var(--radius-panel);
+}
+.catalog > :first-child,
+.catalog > .tape-list + * {
+  padding-top: var(--glass-pad);
+}
+.catalog > .tape-list + * {
+  margin-top: clamp(1rem, 3vw, 2.25rem);
+}
+.catalog > :has(+ .tape-list),
+.catalog > :last-child:not(.tape-list),
+.tape-list > button.tape:nth-of-type(10n),
+.tape-list > button.tape:last-child {
+  border-bottom-left-radius: var(--radius-panel);
+  border-bottom-right-radius: var(--radius-panel);
+  box-shadow: 0 2px 3px rgba(20, 8, 2, 0.5);
+}
+.catalog > :has(+ .tape-list),
+.catalog > :last-child:not(.tape-list) {
+  padding-bottom: var(--glass-pad);
+}
+.tape-list {
+  margin-top: clamp(1rem, 3vw, 2.25rem);
+}
+.tape-list > * {
+  padding-inline: var(--glass-pad);
+}
+.tape-list > button.tape:nth-of-type(10n):not(:last-child) {
+  margin-bottom: clamp(0.85rem, 2.4vw, 1.75rem);
+}
+.tape-list > button.tape:nth-of-type(10n + 1):not(:first-of-type) {
+  padding-top: 0.35rem;
+}
+
+/* A page title that sits on the wall gets a rack plate behind it. */
+main > h1:not(.visually-hidden) {
+  align-self: flex-start;
+  margin: 0;
+  padding: 0.45rem 0.9rem;
+  background: var(--color-rack);
+  color: var(--color-rack-ink);
+  border-radius: var(--radius-label);
+  box-shadow: 0 2px 3px rgba(20, 8, 2, 0.5);
+}
+
+/* ---- Rack: masthead and player ------------------------------------------ */
+/* The navigation and the player are black rack units in both schemes. */
+header.masthead,
+.player {
+  --color-paper: var(--color-rack);
+  --color-paper-deep: var(--color-rack-raised);
+  --color-paper-raised: #2c2c30;
+  --color-ink: var(--color-rack-ink);
+  --color-ink-soft: var(--color-rack-soft);
+  --color-ink-faint: #8f9196;
+  --color-rule: #2e2e32;
+  --color-rule-strong: #55585e;
+  --color-marker: var(--color-strobe);
+  --color-marker-deep: #e2401c;
+  --color-on-marker: #121214;
+  --color-focus: var(--color-strobe);
+  --color-stripe-red: var(--color-strobe);
+  --color-stripe-mustard: #c2361a;
+  --color-stripe-teal: #8a8d91;
+  color-scheme: dark;
+  background: var(--color-rack);
+  color: var(--color-rack-ink);
+}
+header.masthead {
+  border-color: #000;
+}
+.player {
+  color: var(--color-rack-ink);
+}
+.wordmark {
+  font-family: var(--font-display);
+  letter-spacing: 0.16em;
+}
+.wordmark strong {
+  font-weight: 400;
+}
+.wordmark strong::before {
+  content: "";
+  display: inline-block;
+  width: 0.45rem;
+  height: 0.45rem;
+  margin-right: 0.55rem;
+  border-radius: 50%;
+  background: var(--color-lock);
+  box-shadow: 0 0 6px var(--color-lock);
+  vertical-align: 0.15em;
+}
+.wordmark span {
+  font-family: var(--font-sans);
+}
+.primary-nav a[aria-current="page"] {
+  color: var(--color-rack-ink);
+  background: var(--color-rack-raised);
+  box-shadow: inset 3px 0 0 var(--color-strobe);
+}
+.stripes {
+  height: 6px;
+  background:
+    radial-gradient(circle, var(--color-strobe) 1.3px, transparent 1.8px) 0 50% /
+      9px 6px,
+    var(--color-rack);
+}
+.eyebrow {
+  font-family: var(--font-display);
+  font-size: 0.62rem;
+  letter-spacing: 0.16em;
+}
+.eyebrow::before {
+  border-radius: 50%;
+}
+h1,
+h2 {
+  letter-spacing: -0.01em;
+}
+@media (max-width: 1023px) {
+  /* The masthead runs across the top here, so the wall starts below it. */
+  .room-props {
+    top: 3rem;
+  }
+  .primary-nav a[aria-current="page"] {
+    box-shadow: inset 0 3px 0 var(--color-strobe);
+  }
+}
+@media (max-width: 480px) {
+  .source-link {
+    font-size: 0.72rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 }

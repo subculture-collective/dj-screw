@@ -1,7 +1,7 @@
 export const placements = ["bottom", "top", "mini", "left", "right"] as const;
 export type Placement = (typeof placements)[number];
 
-const storageKey = "grey-tapes.player.placement";
+const storageKey = "woodroom.player.placement";
 
 // Storage can be missing or refused. Bottom is the default in either case, and
 // only this validated preference is persisted.
@@ -28,7 +28,7 @@ export const isRail = (placement: Placement) => rails.includes(placement);
 // Rails apply from this width; keep in step with the media query in styles.css.
 export const railQuery = "(min-width: 1024px)";
 
-const railKey = "grey-tapes.player.rail";
+const railKey = "woodroom.player.rail";
 export const railDefault = 340;
 export const railMin = 260;
 // A rail never takes more than half the window, so the page keeps its column.

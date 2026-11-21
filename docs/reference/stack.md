@@ -1,6 +1,6 @@
 # Stack
 
-Grey Tapes (repository `dj-screw`) is a React/TypeScript consumer of the shared
+Woodroom (repository `dj-screw`) is a React/TypeScript consumer of the shared
 Arkhiv Go engine. The engine runs as a pinned container image
 (`deploy/archive-core.env`) with PostgreSQL 17 and imports the Internet Archive
 collection `dj-screw-discography`.

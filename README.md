@@ -1,4 +1,4 @@
-# Grey Tapes
+# Woodroom
 
 Browse and play DJ Screw's tapes from Internet Archive. Find a chapter by number,
 name or year, see side A and side B with the artist on each track, and play it
@@ -13,7 +13,7 @@ container image. This repository holds the web app and its Compose setup. It was
 built from [Lineage](https://github.com/subculture-collective/lineage); see
 [ADR 0002](docs/adr/0002-grey-tapes-from-lineage.md).
 
-Grey Tapes is an independent project. It is not affiliated with or endorsed by
+Woodroom is an independent project. It is not affiliated with or endorsed by
 Screwed Up Records & Tapes or the estate of DJ Screw. The tapes keep their own
 rights; this app stores metadata and streams audio from Internet Archive.
 
@@ -115,8 +115,9 @@ discovery.
 Not deployed yet. The web app builds into a static nginx image from
 [`web/Dockerfile`](web/Dockerfile). Run it beside the pinned engine image and
 PostgreSQL, as in [`docker-compose.yml`](docker-compose.yml), and put HTTPS in
-front of the web service. Public deployment needs an owner decision, a host and a
-domain.
+front of the web service. The planned address is `woodroom.subcult.tv`
+([ADR 0003](docs/adr/0003-name-woodroom.md)); deployment still needs a host and
+the owner's approval.
 
 ## Project layout
 

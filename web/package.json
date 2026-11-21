@@ -1,5 +1,5 @@
 {
-  "name": "@subcult/grey-tapes-web",
+  "name": "@subcult/woodroom-web",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -13,6 +13,9 @@
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {
+    "@fontsource-variable/figtree": "^5.3.0",
+    "@fontsource/martian-mono": "^5.3.0",
+    "@fontsource/michroma": "^5.3.0",
     "@subcult/archive-viewer": "0.4.13",
     "react": "^19.3.1",
     "react-dom": "^19.3.1"

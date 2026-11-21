@@ -22,9 +22,9 @@ describe("Live Music Archive", () => {
     expect(html).toContain("Search the catalog");
     expect(html).toContain("Loading tapes from the catalog");
   });
-  it("renders the Grey Tapes brand and design-system shell", () => {
+  it("renders the Woodroom brand and design-system shell", () => {
     const html = renderToString(<App />);
-    expect(html).toContain(">Grey Tapes<");
+    expect(html).toContain(">Woodroom<");
     expect(html).toContain(brand.tagline);
     expect(html).toContain('class="stripes"');
     expect(html).toContain('class="masthead"');
