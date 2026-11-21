@@ -2269,6 +2269,13 @@ dd {
   }
 }
 
+/* The caveat about chapter order and uploaded years, under the shelf tools. */
+.shelf-note {
+  margin: 0.25rem 0 0.5rem;
+  font-size: 0.85rem;
+  color: var(--color-ink-soft);
+}
+
 /* Tape sides and the performer under each song title. */
 .tape-side {
   margin: 1rem 0 0.25rem;

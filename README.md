@@ -20,7 +20,7 @@ rights; this app stores metadata and streams audio from Internet Archive.
 ## Features
 
 - Search tape titles, chapter numbers, track titles and the artists in them.
-- A shelf of tapes with chapter, name and year, sortable and filterable on the page.
+- A shelf of tapes in chapter order, with name and year, sortable and filterable on the page.
 - Browse by year and by decade.
 - Tape pages with the cover from the item's own files, side A and side B track
   lists, the performer on each track, and source metadata and corrections.
@@ -28,7 +28,7 @@ rights; this app stores metadata and streams audio from Internet Archive.
   bar, a full-screen player and lock-screen controls.
 
 Limits: only files that pass the engine's playback review can be played.
-Chapter years come from the uploads and are often approximate. Ten DJ Screw
+Chapter numbers are not chronological, and chapter years come from the uploads, so they are approximate; see [chapter dates](docs/research/chapter-dates.md). Ten DJ Screw
 items on Internet Archive sit outside the collection (mostly FLAC copies) and are
 not imported automatically; see [Operator commands](#operator-commands).
 

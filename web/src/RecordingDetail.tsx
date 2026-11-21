@@ -112,7 +112,11 @@ export default function RecordingDetail({
     <div className="recording-body">
       {heading?.(creator || "Unknown artist")}
       <p className="detail-title">
-        {[tape.series || tapeCopy.release, tape.year, tape.format]
+        {[
+          tape.series || tapeCopy.release,
+          tape.year && tapeCopy.yearAsUploaded(tape.year),
+          tape.format,
+        ]
           .filter(Boolean)
           .join(" · ")}
       </p>
