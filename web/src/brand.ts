@@ -1,0 +1,142 @@
+// Brand constants for Grey Tapes. Keep copy and names consistent across the app
+// and metadata. See docs/reference/brand.md for voice, tokens and usage.
+export const brand = {
+  name: "Grey Tapes",
+  descriptor: "DJ Screw chapters",
+  tagline: "Every chapter, slowed down and on the shelf.",
+  description:
+    "Browse and play DJ Screw’s tapes from the Internet Archive’s DJ Screw Discography: every chapter by number and year, with side A and side B track lists and the artists on each tape.",
+  collectionName: "DJ Screw Discography",
+  // The Internet Archive collection identifier the engine imports.
+  collection: "dj-screw-discography",
+  collectionURL: "https://archive.org/details/dj-screw-discography",
+} as const;
+
+export const discoveryCopy = {
+  browse: "Browse the shelf",
+  browseShort: "Browse",
+  search: "Search tapes",
+  searchShort: "Search",
+  explore: "Browse by year",
+  exploreShort: "Years",
+  calendarShort: "Calendar",
+  topArtists: "Top artists",
+  seeAll: "See all",
+  recording: "Tape",
+  invalidRecording: "Choose a valid tape identifier.",
+  recordingMissing:
+    "This tape is not in the catalog. It may have been excluded or removed.",
+  openRecording: "Open tape page",
+  backToRecordings: "Back to the shelf",
+  calendar: "Concert calendar",
+  onThisDay: "On this day",
+  artist: "Artist page",
+  yearMode: "Years to include",
+  singleYear: "Single year",
+  yearRange: "Range of years",
+  allYears: "All years",
+  applyYears: "Apply years",
+  calendarHelp:
+    "Choose a month and years. Each count is a recording; different tapes can document the same concert.",
+  crossYearHelp:
+    "Dates are grouped by day of the month across the selected years.",
+  todayHelp:
+    "Recordings made on this month and day, across the selected years.",
+  updateRequired:
+    "This catalog service needs an update before date and artist discovery can load.",
+  publicEngine:
+    "This engine serves the public catalog only; source browsing and discovery need the private engine.",
+  noBiography: "A sourced biography is not available for this artist yet.",
+  noPhoto: "Artist photograph not available",
+  sourceFacts: "Artist information from MusicBrainz",
+  biographyCredit: "Wikipedia contributors · CC BY-SA 4.0",
+  collectionBiographyCredit:
+    "Text from the artist's Internet Archive collection page",
+  readCollection: "View the collection",
+  sourceCollection: "Artist collection on Internet Archive",
+  unknown: "Not recorded",
+  loadingArtist: "Loading artist information…",
+  artistError:
+    "Artist information could not load. Recordings remain available below.",
+  retryArtist: "Retry artist information",
+  artistType: "Artist type",
+  origin: "Origin",
+  country: "Country",
+  activeFrom: "Active from",
+  activeUntil: "Active until",
+  readBiography: "Read the biography",
+  year: "Year",
+  fromYear: "From year",
+  toYear: "To year",
+  yearError: "Choose an ordered year range from 1900 through 2099.",
+  month: "Month",
+  day: "Day",
+  loadingCalendar: "Loading the concert calendar…",
+  calendarError: "The calendar could not load.",
+  retryCalendar: "Retry calendar",
+  emptyCalendar:
+    "No recordings with complete dates match this month and these years.",
+  wholeMonth: "Show the whole month",
+  dateRecordings: "Recordings by date",
+  weekdays: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+} as const;
+
+export const recordingCopy = {
+  lineageMissing: "Not recorded",
+  sourceMissing: "Source not recorded",
+  setlist: "Track list",
+  notes: "Notes",
+  readFullNotes: "Read the full notes",
+} as const;
+
+export const playerCopy = {
+  placement: "Player position",
+  openRecording: "Open tape page",
+  showDetails: "Details",
+  hideDetails: "Hide details",
+  details: "Playing tape details",
+  resize: "Resize player sidebar",
+  play: "Play",
+  pause: "Pause",
+  previous: "Previous track",
+  restart: "Restart track",
+  next: "Next track",
+  seek: "Playback position",
+  loading: "Loading",
+  mute: "Mute",
+  volume: "Volume",
+  openPlayer: "Open player",
+  closePlayer: "Close player",
+  bottom: "Bottom bar",
+  top: "Top bar",
+  mini: "Floating mini",
+  left: "Left sidebar",
+  right: "Right sidebar",
+} as const;
+
+export const shelfCopy = {
+  filterLabel: "Filter the tapes on this page",
+  filterPlaceholder: "Filter this page",
+  order: "Order",
+  catalogOrder: "Catalog order",
+  newestFirst: "Newest first",
+  columns: { chapter: "Chapter", title: "Tape", date: "Year" },
+  ascending: "ascending",
+  descending: "descending",
+  sortBy: (column: string, direction: string) =>
+    direction
+      ? `Sort this page by ${column}, ${direction}`
+      : `Sort this page by ${column}`,
+  shown: (shown: number, total: number) =>
+    `${shown} of ${total} on this page`,
+  noMatch: (filter: string) =>
+    `No tapes on this page match “${filter}”.`,
+  clearFilter: "Clear filter",
+} as const;
+
+export const tapeCopy = {
+  release: "Release",
+  side: (side: string) => `Side ${side}`,
+  disclaimer:
+    "Grey Tapes is an independent project. It is not affiliated with or endorsed by Screwed Up Records & Tapes or the estate of DJ Screw.",
+} as const;

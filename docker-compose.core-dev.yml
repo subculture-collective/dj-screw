@@ -1,0 +1,19 @@
+# Builds the actual shared backend; no backend source is copied into this app.
+x-development-core: &development-core
+  image: grey-tapes-core:development
+
+services:
+  api:
+    <<: *development-core
+    build:
+      context: ${ARKHIV_CORE_SOURCE:?Set the Arkhiv checkout containing source_catalog module 1}
+      dockerfile: Dockerfile
+      target: core
+  initialize:
+    <<: *development-core
+  metadata-worker:
+    <<: *development-core
+  playback-reviewer:
+    <<: *development-core
+  operator:
+    <<: *development-core
