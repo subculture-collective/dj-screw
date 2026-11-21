@@ -1,7 +1,7 @@
-// Brand constants for Grey Tapes. Keep copy and names consistent across the app
+// Brand constants for Woodroom. Keep copy and names consistent across the app
 // and metadata. See docs/reference/brand.md for voice, tokens and usage.
 export const brand = {
-  name: "Grey Tapes",
+  name: "Woodroom",
   descriptor: "DJ Screw chapters",
   tagline: "Every chapter, slowed down and on the shelf.",
   description:
@@ -141,5 +141,5 @@ export const tapeCopy = {
   pageOrder: "chapters in number order",
   side: (side: string) => `Side ${side}`,
   disclaimer:
-    "Grey Tapes is an independent project. It is not affiliated with or endorsed by Screwed Up Records & Tapes or the estate of DJ Screw.",
+    "Woodroom is an independent project. It is not affiliated with or endorsed by Screwed Up Records & Tapes or the estate of DJ Screw.",
 } as const;

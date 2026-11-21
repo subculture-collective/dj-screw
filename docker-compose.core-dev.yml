@@ -1,6 +1,6 @@
 # Builds the actual shared backend; no backend source is copied into this app.
 x-development-core: &development-core
-  image: grey-tapes-core:development
+  image: woodroom-core:development
 
 services:
   api:

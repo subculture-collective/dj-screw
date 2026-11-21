@@ -1,6 +1,6 @@
 # Contributing
 
-Grey Tapes is a React/TypeScript frontend on SUBCULT's shared archive engine. Keep changes small and reviewable. Backend changes belong in the engine's repository; see [AGENTS.md](AGENTS.md).
+Woodroom is a React/TypeScript frontend on SUBCULT's shared archive engine. Keep changes small and reviewable. Backend changes belong in the engine's repository; see [AGENTS.md](AGENTS.md).
 
 ## Development flow
 

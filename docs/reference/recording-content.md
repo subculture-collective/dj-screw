@@ -40,7 +40,7 @@ link or from another recording page returns to the home page instead. Opening or
 another recording never changes what is playing, because the player stays outside
 the page content.
 
-## Grey Tapes changes
+## Woodroom changes
 
 Discography uploads repeat the title as the description, so a description that
 matches the title is not shown. Source and lineage rows appear only when the

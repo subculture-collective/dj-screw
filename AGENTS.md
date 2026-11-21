@@ -1,6 +1,6 @@
 # Agent Instructions
 
-This repository is Grey Tapes, a DJ Screw tape browser for the Internet Archive
+This repository is Woodroom, a DJ Screw tape browser for the Internet Archive
 collection `dj-screw-discography`. It is an Arkhiv consumer with a React/TypeScript frontend, the
 published `@subcult/archive-viewer` kit, a shared Arkhiv Go engine image and
 PostgreSQL. It contains no independent Go backend, catalog schema or metadata worker.
@@ -26,7 +26,7 @@ normal development. `docker-compose.core-dev.yml` optionally builds the actual
 core from a canonical Arkhiv checkout for shared-engine changes. The frontend
 and dependency checks require compatible module versions.
 
-The frontend owns its composition and design. The product is Grey Tapes; its
+The frontend owns its composition and design. The product is Woodroom; its
 J-Card tokens and voice are in `docs/reference/brand.md` and its origin in ADR 0002. Use
 its tokens in `web/src/styles.css` and copy constants in `web/src/brand.ts`
 rather than literal colors or strings. Use the kit for shared behavior rather
@@ -67,5 +67,6 @@ date/artist views must honor source-catalog exclusions.
 ## Delivery
 
 `PR CI` verifies pull requests on GitHub. There is no deploy workflow yet;
-public deployment needs an owner decision, a host profile and a domain.
+the planned domain is `woodroom.subcult.tv` (ADR 0003). Public deployment still
+needs an owner decision and a host profile.
 Metadata workers, media review and acquisition remain separate operator workflows.

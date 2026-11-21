@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 /*
-  Grey Tapes · J-Card design system, retuned to a grey cassette shell
+  Woodroom · J-Card design system, retuned to a grey cassette shell
   Reference: docs/reference/brand.md. Tokens live in @theme so Tailwind
   utilities and these component rules share one source. The dark scheme
   overrides the same custom properties under prefers-color-scheme.

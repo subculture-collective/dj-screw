@@ -1,6 +1,6 @@
-# Grey Tapes brand
+# Woodroom brand
 
-Grey Tapes is a browser for DJ Screw's tapes on Internet Archive. It keeps the
+Woodroom is a browser for DJ Screw's tapes on Internet Archive. It keeps the
 J-Card component system inherited from Lineage and changes its tokens.
 
 ## Voice
@@ -27,5 +27,5 @@ Copy and names live in `web/src/brand.ts`. Use them instead of literal strings.
 
 ## Assets
 
-`web/public/brand/grey-tapes/mark.svg` is a drawn cassette; `web/public/favicon.svg`
+`web/public/brand/woodroom/mark.svg` is a drawn cassette; `web/public/favicon.svg`
 is the same file. There is no social preview image yet.
