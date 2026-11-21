@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { tapeLabel, trackCredit, trackLength } from "./tape";
+import { chapterNumber, shelfChapter, tapeLabel, trackCredit, trackLength } from "./tape";
 import { trackDisplayTitle } from "./track-title";
 
 describe("tape labels", () => {
@@ -93,5 +93,15 @@ describe("track lengths", () => {
     expect(trackLength("3725")).toBe("1:02:05");
     expect(trackLength("05:12")).toBe("05:12");
     expect(trackLength(undefined)).toBe("");
+  });
+});
+
+describe("chapter series", () => {
+  it("numbers chapters, maps verified reissues and gives other releases 0", () => {
+    expect(shelfChapter("x", "DJ Screw - Chapter 042. Popped Up Smoked Up (1996)")).toEqual({ number: 42, reissue: false });
+    expect(shelfChapter("20200531_20200531_0159", "DJ Screw - Next Episode (2004)")).toEqual({ number: 15, reissue: true });
+    expect(shelfChapter("y", "DJ Screw - The Legend (2001)")).toEqual({ number: 0, reissue: false });
+    expect(chapterNumber(0)).toBe("000");
+    expect(chapterNumber(7)).toBe("007");
   });
 });

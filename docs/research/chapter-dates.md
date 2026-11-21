@@ -20,6 +20,34 @@ The app now labels years "as uploaded", notes that chapter numbers are not
 chronological, and orders the shelf by chapter instead of offering a
 newest-first sort.
 
+## Releases without a chapter number (checked 2026-11-21)
+
+The collection holds 380 items: Chapters 001 to 343 with no gaps, and 37
+releases whose titles carry no chapter number. Before listing those as "no
+series" (000), each was checked for being a chapter whose number is missing
+from the metadata:
+
+- Every release title was matched against all 343 chapter titles, and each
+  close pair was compared by track list and running time from the Internet
+  Archive files.
+- Wikipedia's DJ Screw discography lists Chapters 344 to 364. None of their
+  titles matches a release in the collection. MusicBrainz's series lists only
+  18 chapters, so it could not settle this.
+
+Results:
+
+| Release | Finding | Shelf |
+| --- | --- | --- |
+| Next Episode (2004), `20200531_20200531_0159` | Chapter 015's 13 songs in the same order, 103.2 min each | Chapter 015 reissue |
+| N 2 Deep (2004), `20200531_20200531_0144` | Chapter 019 split into fewer tracks; 101.8 vs 102.0 min, 7 of 11 titles match | Chapter 019 reissue |
+| The Final Chapter (2004) | Contains all 13 songs of Chapter 071 plus 18 more tracks | No series |
+| Stressed Out (2019) | Shares 7 songs with Chapter 251; 94.9 vs 73.3 min | No series |
+| 3 'N the Mornin' Part One, Part Two Blue and Red | Share a few songs with Chapters 108 and 180 | No series |
+| All other look-alikes (All Work No Play, June 27, Forever, Playaz Nite, 11.16.00 and others) | No shared songs with the similarly named chapter | No series |
+
+The two reissues are mapped in `chapterReissues` in `web/src/tape.ts`; source
+titles and identifiers are unchanged. The other 35 releases show as 000.
+
 ## To do later
 
 1. Compare the uploaded years with the

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { arrangeShelf, nextSort } from "./shelf-order";
+import { arrangeShelf, chapterOrder, nextSort } from "./shelf-order";
 import type { Recording } from "./archive";
 
 const items: Recording[] = [
@@ -25,7 +25,8 @@ describe("arranging the loaded page of tapes", () => {
   });
 
   it("sorts by a column with missing values last in either direction", () => {
-    expect(ids(arrangeShelf(items, "", { column: "chapter", descending: false }))).toEqual(["b", "a", "c", "d"]);
+    // A tape without a chapter is 000, so it leads ascending and trails descending.
+    expect(ids(arrangeShelf(items, "", { column: "chapter", descending: false }))).toEqual(["d", "b", "a", "c"]);
     expect(ids(arrangeShelf(items, "", { column: "chapter", descending: true }))).toEqual(["c", "a", "b", "d"]);
     expect(ids(arrangeShelf(items, "", { column: "date", descending: true }))).toEqual(["b", "c", "a", "d"]);
     expect(ids(arrangeShelf(items, "", { column: "title", descending: false }))).toEqual(["d", "a", "c", "b"]);
@@ -33,7 +34,7 @@ describe("arranging the loaded page of tapes", () => {
 
   it("keeps each row's catalog position for numbering", () => {
     const rows = arrangeShelf(items, "", { column: "chapter", descending: false });
-    expect(rows.map((row) => row.index)).toEqual([1, 0, 2, 3]);
+    expect(rows.map((row) => row.index)).toEqual([3, 1, 0, 2]);
   });
 
   it("cycles a column through ascending, reversed and off", () => {
@@ -43,5 +44,44 @@ describe("arranging the loaded page of tapes", () => {
     expect(nextSort(undefined, "date")).toEqual({ column: "date", descending: true });
     expect(nextSort({ column: "date", descending: true }, "date")).toEqual({ column: "date", descending: false });
     expect(nextSort({ column: "date", descending: false }, "title")).toEqual({ column: "title", descending: false });
+  });
+});
+
+const shelf: Recording[] = [
+  { identifier: "DJScrewChapter019N2Deep1999", title: "DJ Screw - Chapter 019. `N 2 Deep (1999)", date: "1999" },
+  { identifier: "20200531_20200531_0144", title: "DJ Screw - N 2 Deep (2004)", date: "2004" },
+  { identifier: "20200530_20200530_1520", title: "DJ Screw - 3 `N The Mornin`, Part One (1995)", date: "1995" },
+  { identifier: "DJScrewChapter001DonDeal1997", title: "DJ Screw - Chapter 001. Don Deal (1997)", date: "1997" },
+  { identifier: "DJ_Screw_-_The_Greatest_Hits_2005", title: "DJ Screw - The Greatest Hits (2005)", date: "2005" },
+];
+
+describe("the whole shelf in chapter order", () => {
+  it("puts releases without a chapter first, then chapters with reissues after them", () => {
+    expect(chapterOrder(shelf).map((item) => item.identifier)).toEqual([
+      "20200530_20200530_1520",
+      "DJ_Screw_-_The_Greatest_Hits_2005",
+      "DJScrewChapter001DonDeal1997",
+      "DJScrewChapter019N2Deep1999",
+      "20200531_20200531_0144",
+    ]);
+  });
+
+  it("filters by chapter series or no series", () => {
+    expect(ids(arrangeShelf(shelf, "", undefined, "chapters"))).toEqual([
+      "DJScrewChapter019N2Deep1999",
+      "20200531_20200531_0144",
+      "DJScrewChapter001DonDeal1997",
+    ]);
+    expect(ids(arrangeShelf(shelf, "", undefined, "none"))).toEqual([
+      "20200530_20200530_1520",
+      "DJ_Screw_-_The_Greatest_Hits_2005",
+    ]);
+  });
+
+  it("finds a reissue by its chapter number", () => {
+    expect(ids(arrangeShelf(shelf, "019"))).toEqual([
+      "DJScrewChapter019N2Deep1999",
+      "20200531_20200531_0144",
+    ]);
   });
 });

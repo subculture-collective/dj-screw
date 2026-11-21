@@ -2558,11 +2558,11 @@ main > section.catalog {
   flex-direction: column;
 }
 .catalog > *,
-.tape-list > * {
+.rack-unit {
   --glass-pad: clamp(0.9rem, 2.2vw, 1.5rem);
 }
 .catalog > :not(.tape-list),
-.tape-list > * {
+.rack-unit {
   margin: 0;
   background:
     repeating-linear-gradient(
@@ -2579,55 +2579,45 @@ main > section.catalog {
   padding-inline: var(--glass-pad);
 }
 .catalog > :first-child,
-.catalog > .tape-list + *,
-.tape-list > :first-child,
-.tape-list > button.tape:nth-of-type(10n + 1) {
+.catalog > .tape-list + * {
   border-top: 1px solid var(--glass-edge);
   border-top-left-radius: var(--radius-panel);
   border-top-right-radius: var(--radius-panel);
-}
-.catalog > :first-child,
-.catalog > .tape-list + * {
   padding-top: var(--glass-pad);
 }
 .catalog > .tape-list + * {
   margin-top: clamp(1rem, 3vw, 2.25rem);
 }
 .catalog > :has(+ .tape-list),
-.catalog > :last-child:not(.tape-list),
-.tape-list > button.tape:nth-of-type(10n),
-.tape-list > button.tape:last-child {
+.catalog > :last-child:not(.tape-list) {
   border-bottom-left-radius: var(--radius-panel);
   border-bottom-right-radius: var(--radius-panel);
   box-shadow: 0 2px 3px rgba(20, 8, 2, 0.5);
-}
-.catalog > :has(+ .tape-list),
-.catalog > :last-child:not(.tape-list) {
   padding-bottom: var(--glass-pad);
 }
 .tape-list {
   margin-top: clamp(1rem, 3vw, 2.25rem);
+  display: flex;
+  flex-direction: column;
+  gap: clamp(0.85rem, 2.4vw, 1.75rem);
 }
-.tape-list > * {
-  padding-inline: var(--glass-pad);
+.rack-unit {
+  padding: 0.35rem var(--glass-pad);
+  border: 1px solid var(--glass-edge);
+  border-radius: var(--radius-panel);
+  box-shadow: 0 2px 3px rgba(20, 8, 2, 0.5);
 }
-.tape-list > button.tape:nth-of-type(10n):not(:last-child) {
-  margin-bottom: clamp(0.85rem, 2.4vw, 1.75rem);
+.shelf-tools .shelf-series {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5rem;
 }
-.tape-list > button.tape:nth-of-type(10n + 1):not(:first-of-type) {
-  padding-top: 0.35rem;
-}
-
-main > :is(section, details, footer, form, div),
-.catalog > :not(.tape-list),
-.tape-list > * {
-  font-weight: 500;
-  text-shadow:
-    0 0 1px var(--halo),
-    0 0 2px var(--halo),
-    0 0 4px var(--halo),
-    0 0 10px var(--halo),
-    0 0 16px var(--halo);
+.shelf-series span {
+  font-family: var(--font-display);
+  font-size: 0.62rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
 }
 
 /* Browse by year has its own raised background; on the wall it is glass too. */
