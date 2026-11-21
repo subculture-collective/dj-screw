@@ -35,5 +35,5 @@ storage keys and paths.
   `woodroom.player.*`. The app was never deployed, so no saved settings are lost.
 - The domain is chosen, but deployment still needs a host profile and its own
   owner approval.
-- The cassette mark and J-Card styles are unchanged here. A Woodroom design
-  system replaces them in a later change.
+- The rename left the cassette mark and J-Card styles in place. The Woodroom
+  design (`docs/reference/brand.md`) replaced them.

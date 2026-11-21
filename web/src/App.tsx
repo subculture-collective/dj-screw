@@ -52,6 +52,7 @@ import {
 import type { Placement } from "./player-placement";
 import { arrangeShelf, nextSort, shelfColumns } from "./shelf-order";
 import type { ShelfColumn, ShelfSort } from "./shelf-order";
+import { Room } from "./Room";
 
 type Catalog = {
   items: Recording[];
@@ -705,6 +706,7 @@ export default function App() {
       className={`app-shell${playing ? ` has-player player-${placement}` : ""}`}
       style={{ "--rail-width": `${railWidth}px` } as CSSProperties}
     >
+      <Room />
       <div className="stripes" aria-hidden="true" />
       <header className="masthead" inert={fullScreen}>
         <div className="masthead-inner">

@@ -143,3 +143,12 @@ export const tapeCopy = {
   disclaimer:
     "Woodroom is an independent project. It is not affiliated with or endorsed by Screwed Up Records & Tapes or the estate of DJ Screw.",
 } as const;
+
+// Set dressing for the wood room (src/Room.tsx). Original poster designs that
+// name artists Screw mixed and their records of the time; no real poster
+// artwork, photos or label logos are reproduced.
+export const roomPosters = [
+  { artist: "E.S.G.", title: "Sailin' Da South", kicker: "Southside", tone: "chrome" },
+  { artist: "Fat Pat", title: "Ghetto Dreams", kicker: "S.U.C.", tone: "flame" },
+  { artist: "Lil' Keke", title: "Don't Mess Wit Texas", kicker: "Southside", tone: "star" },
+] as const;
