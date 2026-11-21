@@ -1,0 +1,98 @@
+# Artist pages and historical date browsing
+
+Lineage has artist pages with cached MusicBrainz facts, a sourced Wikipedia
+introduction, an attributed photograph and the artist's recordings. The concert
+calendar supports a single year, an inclusive year range, or all years. A single
+year uses weekday columns. Ranges and all years group dates by day of the month.
+Counts describe recordings; multiple recordings may document one concert.
+
+On this day starts with the visitor's local month and day. Another month/day can
+be selected, including February 29. Results are grouped newest year first with
+keyset pagination. Incomplete or invalid source dates do not enter the calendar
+or anniversary list. Existing recording playback uses the shared resolver.
+
+All views retain their artist, month/day, year range and cursor in URL queries.
+Artist pages reuse the existing artist query, so deployed root routing and
+historical recording links remain compatible. Exclusions apply to artist counts,
+calendar counts and recording results. Selecting a calendar day preserves the
+artist and selected year range.
+
+## Engine and provider ownership
+
+The shared Arkhiv engine owns `source_discovery` module 1, the read APIs, artist
+profiles and exact retained provider responses. Artist identity is an explicitly
+reviewed MusicBrainz ID, the Live Music Archive collection that holds the
+artist's recordings, or both, bound to a source artist name. No provider search or
+metadata fetching runs when a visitor opens a page. An unlinked artist still
+has its recordings and a clear missing-biography state.
+
+MusicBrainz provides identity and structured facts. Verified MusicBrainz links
+lead to Wikidata and the corresponding English Wikipedia page. Wikimedia Commons
+image metadata supplies credits and a license. A photo without attribution is
+omitted. Existing curated photographs remain independent in `artist-images.ts`.
+
+When the engine reports `source_artist_photos` module 1, the frontend loads its
+artist photograph list once. The collection directory, recording rows, recording
+detail and player then show those photographs with their credit and license.
+
+With `source_artist_media` module 1 the engine stores each photograph itself: a
+display image up to 1280 pixels wide and a 330-pixel thumbnail, re-encoded so
+embedded camera metadata is dropped. Pages load them from
+`/api/source-catalog/v1/artist-media/{sha256}` and make no request to Wikimedia
+or the Internet Archive. A stored image comes first, then a curated photograph,
+then a Commons photograph without a stored copy, then a curated logo. Older
+engines or a failed request leave the curated images alone.
+
+Where Wikipedia and Commons have nothing, a collection-bound profile can use
+the Live Music Archive collection's own item image and page text. They are
+credited to the collection page and are not described as licensed material.
+Generated download notices and taping or permission notes are removed. Text
+shorter than 25 words is dropped, and so is an image shared by three or more
+collections, which is a placeholder.
+
+The operator helper caches metadata for seven days, serializes outbound requests,
+uses an identifying User-Agent, and preserves provider cooldowns. It retains raw
+JSON bytes with timestamps. It never fetches recording audio. It downloads only
+the selected photograph, for the engine to store.
+Enrichment does not overwrite source recording metadata or editorial corrections.
+
+## Compatibility and review
+
+The consumer adopts published core 0.4.4 and retains viewer 0.4.4. The new views check
+`source_discovery` capability and show an update notice on older cores, instead
+of sending filters an old engine might ignore. Normal browsing remains usable.
+Use the development-core Compose override with the canonical Arkhiv checkout
+to qualify shared changes. Every engine upgrade needs its published immutable
+digest, matching receipt and reviewed consumer adoption before deployment.
+
+Verification: consumer `make verify`; shared-engine `make verify` with a
+disposable PostgreSQL database; provider-helper fixture tests; browser checks of
+artist attribution, year modes, date selection, back navigation and narrow layout.
+Provider response bundles, database state and build artifacts remain outside Git.
+
+Sources: [MusicBrainz API](https://musicbrainz.org/doc/MusicBrainz_API),
+[rate limits](https://musicbrainz.org/doc/MusicBrainz_API/Rate_Limiting),
+[Wikimedia REST API](https://www.mediawiki.org/wiki/Wikimedia_REST_API).
+
+## Scroll behavior
+
+Each state change names what it should reveal. The wordmark goes to the page top,
+view links to their heading, and a search submission or page change to the results
+heading. Calendar selections and filter changes reveal nothing, and the list keeps
+its height while it reloads so the page does not jump.
+
+Every history entry stores its scroll position. Back and Forward restore it after
+that entry's results load. Reveals use `--scroll-offset` for any fixed top element
+and honor reduced motion.
+
+## Request reuse
+
+`web/src/catalog-data.ts` is the frontend's in-memory read boundary. One successful
+`/api/version` read serves the page session; **Try again** after a catalog failure
+rereads it. Item pages, facets, calendar counts, artist profiles and the photo
+directory are shared while in flight and reused for 30 seconds, keyed by the
+answering runtime and the complete normalized query. The cache holds at most 64
+responses, and failures are never retained.
+
+Recording details, playback resolution and status polling bypass the boundary.
+Nothing it holds reaches browser storage.

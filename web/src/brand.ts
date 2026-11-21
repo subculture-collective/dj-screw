@@ -1,0 +1,133 @@
+// Brand constants for Lineage. Keep copy and names consistent across the app
+// and metadata. See docs/reference/brand.md for voice, tokens and usage.
+export const brand = {
+  name: "Lineage",
+  descriptor: "live recordings",
+  tagline: "Live recordings, with their lineage.",
+  description:
+    "Search live shows from the Internet Archive’s Live Music Archive by artist, venue and date. Every recording keeps its source metadata, corrections and taper lineage visible.",
+  collectionName: "Live Music Archive",
+  collectionURL: "https://archive.org/details/etree",
+} as const;
+
+export const discoveryCopy = {
+  browse: "Browse recordings",
+  browseShort: "Browse",
+  search: "Search recordings",
+  searchShort: "Search",
+  explore: "Explore the collection",
+  exploreShort: "Explore",
+  calendarShort: "Calendar",
+  topArtists: "Top artists",
+  seeAll: "See all",
+  recording: "Recording",
+  invalidRecording: "Choose a valid recording identifier.",
+  recordingMissing:
+    "This recording is not in the catalog. It may have been excluded or removed.",
+  openRecording: "Open recording page",
+  backToRecordings: "Back to recordings",
+  calendar: "Concert calendar",
+  onThisDay: "On this day",
+  artist: "Artist page",
+  yearMode: "Years to include",
+  singleYear: "Single year",
+  yearRange: "Range of years",
+  allYears: "All years",
+  applyYears: "Apply years",
+  calendarHelp:
+    "Choose a month and years. Each count is a recording; different tapes can document the same concert.",
+  crossYearHelp:
+    "Dates are grouped by day of the month across the selected years.",
+  todayHelp:
+    "Recordings made on this month and day, across the selected years.",
+  updateRequired:
+    "This catalog service needs an update before date and artist discovery can load.",
+  publicEngine:
+    "This engine serves the public catalog only; source browsing and discovery need the private engine.",
+  noBiography: "A sourced biography is not available for this artist yet.",
+  noPhoto: "Artist photograph not available",
+  sourceFacts: "Artist information from MusicBrainz",
+  biographyCredit: "Wikipedia contributors · CC BY-SA 4.0",
+  collectionBiographyCredit:
+    "Text from the artist's Live Music Archive collection page",
+  readCollection: "View the collection",
+  sourceCollection: "Artist collection on the Live Music Archive",
+  unknown: "Not recorded",
+  loadingArtist: "Loading artist information…",
+  artistError:
+    "Artist information could not load. Recordings remain available below.",
+  retryArtist: "Retry artist information",
+  artistType: "Artist type",
+  origin: "Origin",
+  country: "Country",
+  activeFrom: "Active from",
+  activeUntil: "Active until",
+  readBiography: "Read the biography",
+  year: "Year",
+  fromYear: "From year",
+  toYear: "To year",
+  yearError: "Choose an ordered year range from 1900 through 2099.",
+  month: "Month",
+  day: "Day",
+  loadingCalendar: "Loading the concert calendar…",
+  calendarError: "The calendar could not load.",
+  retryCalendar: "Retry calendar",
+  emptyCalendar:
+    "No recordings with complete dates match this month and these years.",
+  wholeMonth: "Show the whole month",
+  dateRecordings: "Recordings by date",
+  weekdays: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+} as const;
+
+export const recordingCopy = {
+  lineageMissing: "Lineage not recorded",
+  sourceMissing: "Source not recorded",
+  setlist: "Setlist",
+  notes: "Notes",
+  readFullNotes: "Read the full notes",
+} as const;
+
+export const playerCopy = {
+  placement: "Player position",
+  openRecording: "Open recording page",
+  showDetails: "Details",
+  hideDetails: "Hide details",
+  details: "Playing recording details",
+  resize: "Resize player sidebar",
+  play: "Play",
+  pause: "Pause",
+  previous: "Previous track",
+  restart: "Restart track",
+  next: "Next track",
+  seek: "Playback position",
+  loading: "Loading",
+  mute: "Mute",
+  volume: "Volume",
+  openPlayer: "Open player",
+  closePlayer: "Close player",
+  bottom: "Bottom bar",
+  top: "Top bar",
+  mini: "Floating mini",
+  left: "Left sidebar",
+  right: "Right sidebar",
+} as const;
+
+export const shelfCopy = {
+  filterLabel: "Filter the recordings on this page",
+  filterPlaceholder: "Filter this page",
+  order: "Order",
+  catalogOrder: "Catalog order",
+  newestFirst: "Newest first (dated recordings)",
+  columns: { artist: "Artist", title: "Recording", venue: "Venue", date: "Date" },
+  ascending: "ascending",
+  descending: "descending",
+  sortBy: (column: string, direction: string) =>
+    direction
+      ? `Sort this page by ${column}, ${direction}`
+      : `Sort this page by ${column}`,
+  shown: (shown: number, total: number) =>
+    `${shown} of ${total} on this page`,
+  noMatch: (filter: string) =>
+    `No recordings on this page match “${filter}”.`,
+  clearFilter: "Clear filter",
+} as const;
