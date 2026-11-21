@@ -14,21 +14,22 @@ a reference to Screw's life that only close listeners would recognise.
 
 ## Decision
 
-The product is Woodroom, after the wood room where Screw's circle gathered. A
-photo by DJ Screw, courtesy of DeMo Sherman and University of Houston Libraries
-Special Collections, shows Al-D and Big DeMo in the wood room months before the
-June 27th tape was recorded. It is reproduced in Lance Scott Walker's *DJ Screw:
-A Life in Slow Revolution* (University of Texas Press). The planned public
-address is `woodroom.subcult.tv`.
+The product is Woodroom, after the room where Screw kept his turntables. Red
+Bull Music Academy's 2015 feature says he "had his turntables set up in what was
+known as The Wood Room" in his one-story house on Greenstone Street in Golfcrest,
+and that he stood at them "facing a wall full of posters" while a microphone went
+around the room. The owner describes old-fashioned wood paneling, which the cover
+photo of Lance Scott Walker's *DJ Screw: A Life in Slow Revolution* also shows.
+The planned public address is `woodroom.subcult.tv`.
 
 Write the name as one word, `Woodroom`, in prose and `woodroom` in identifiers,
 storage keys and paths.
 
 ## Consequences
 
-- Copy about the room stays within what the sources say. Where the room was,
-  what it looked like and which tapes were made there are unconfirmed; cite
-  Walker's book or another source before stating them.
+- Copy about the room stays within what sources say: the Greenstone house, the
+  turntables, crates of records, a wall of posters and wood paneling. Do not say
+  which tapes were recorded there without a citation.
 - "Grey tapes" stays in copy as the historical term for his tapes.
 - Browser storage keys changed from `grey-tapes.player.*` to
   `woodroom.player.*`. The app was never deployed, so no saved settings are lost.
