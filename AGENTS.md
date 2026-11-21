@@ -67,7 +67,9 @@ date/artist views must honor source-catalog exclusions.
 
 ## Delivery
 
-`PR CI` verifies pull requests on GitHub. There is no deploy workflow yet;
-the planned domain is `woodroom.subcult.tv` (ADR 0003). Public deployment still
-needs an owner decision and a host profile.
+`PR CI` verifies pull requests on GitHub. Woodroom is live at
+`woodroom.subcult.tv` on Almaz (owner-authorized 2026-11-21). There is no deploy
+workflow yet: a merge to main does not deploy. Follow
+`docs/runbooks/deployment.md` to ship a frontend or core change, and verify the
+live site afterwards.
 Metadata workers, media review and acquisition remain separate operator workflows.
