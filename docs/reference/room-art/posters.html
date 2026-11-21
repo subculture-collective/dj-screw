@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Alfa+Slab+One&family=Oswald:wght@500;700&family=IM+Fell+English:ital@0;1&family=IM+Fell+English+SC&family=Josefin+Sans:wght@400;600;700&family=Lobster&family=Bungee&family=Montserrat:wght@600;800&family=Kaushan+Script&family=Rye&family=Overpass:wght@600;800&family=Special+Elite&family=Permanent+Marker&display=block" rel="stylesheet">
+<style>
+body{margin:0;padding:40px;background:transparent;display:flex;flex-wrap:wrap;gap:40px;align-items:flex-start}
+.p{position:relative;width:600px;height:800px;overflow:hidden;box-sizing:border-box}
+.p.wide{width:900px;height:600px}
+/* Fine paper grain only; kept faint so it never sits on the type as blotches. */
+.p::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.07;mix-blend-mode:multiply;
+ background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .3  0 0 0 0 .25  0 0 0 0 .2  0 0 0 1 0'/></filter><rect width='200' height='200' filter='url(%23n)'/></svg>")}
+.fold::before{content:"";position:absolute;inset:0;pointer-events:none;background:
+ linear-gradient(90deg,transparent 49.8%,rgba(0,0,0,.06) 50%,rgba(255,255,255,.18) 50.2%,transparent 50.6%),
+ linear-gradient(180deg,transparent 49.8%,rgba(0,0,0,.06) 50%,rgba(255,255,255,.18) 50.2%,transparent 50.6%)}
+.c{position:absolute;left:0;right:0;text-align:center}
+
+/* 1 Big Pokey: day-glo fight card */
+#pokey{background:linear-gradient(180deg,#f7e45a 0%,#f8b52a 35%,#f57c1f 62%,#ef4a6a 86%,#e83d7a 100%);font-family:Oswald,sans-serif;color:#141414}
+#pokey .top{top:34px;font-weight:700;font-size:25px;letter-spacing:.32em}
+#pokey .rule{position:absolute;left:40px;right:40px;height:5px;background:#141414}
+#pokey .name{top:84px;font:156px/1 Anton,sans-serif;letter-spacing:-.01em;transform:scaleY(1.12);transform-origin:top}
+#pokey .city{position:absolute;left:44px;top:282px;background:#141414;color:#f7e45a;font-weight:700;font-size:26px;letter-spacing:.28em;padding:10px 26px}
+#pokey .seal{position:absolute;right:42px;top:250px;width:112px;height:112px;border-radius:50%;background:#f1efe8;border:5px solid #141414;display:grid;place-items:center;font:28px Anton,sans-serif;transform:rotate(12deg)}
+#pokey .the{top:372px;font:40px "Alfa Slab One",serif}
+#pokey .hp{font:96px/1 "Alfa Slab One",serif;color:#f5f2ea;-webkit-text-stroke:4px #141414;text-shadow:6px 6px 0 #141414}
+#pokey .hp1{top:420px}#pokey .hp2{top:520px}
+#pokey .lit{top:628px;font:50px "Alfa Slab One",serif}
+#pokey .meta{position:absolute;left:44px;right:44px;top:706px;display:flex;justify-content:space-between;font-weight:700;font-size:17px;letter-spacing:.12em;border-top:3px solid #141414;padding-top:8px}
+#pokey .foot{position:absolute;left:0;right:0;bottom:0;height:62px;background:#141414;display:flex;justify-content:space-between;align-items:center;padding:0 40px;box-sizing:border-box;font-weight:700}
+#pokey .foot b{color:#ff3d9a;font:30px Anton,sans-serif}#pokey .foot span{color:#f1efe8;letter-spacing:.2em;font-size:16px}#pokey .foot i{color:#f7e45a;font:32px Anton,sans-serif;font-style:normal}
+
+/* 2 Botany Boyz: botanical plate */
+#botany{background:radial-gradient(120% 90% at 50% 40%,#efe5cf,#e2d4b4);font-family:"IM Fell English",serif;color:#3a2c1e}
+#botany .frame{position:absolute;inset:26px;border:2px solid #3a2c1e;outline:1px solid #3a2c1e;outline-offset:-8px}
+#botany .plate{position:absolute;top:54px;left:58px;font:18px "IM Fell English SC",serif;letter-spacing:.16em}
+#botany .fig{position:absolute;top:54px;right:58px;font:18px "IM Fell English SC",serif;letter-spacing:.16em}
+#botany .t{top:88px;font:68px "IM Fell English SC",serif;letter-spacing:.04em}
+#botany .s{top:172px;font:italic 26px "IM Fell English",serif}
+#botany svg{position:absolute;left:0;top:200px}
+#botany .lat{top:648px;font:italic 30px "IM Fell English",serif}
+#botany .col{top:690px;font-size:17px}
+#botany .mem{top:718px;font:14px "IM Fell English SC",serif;letter-spacing:.14em;border-top:1px solid #3a2c1e;width:470px;white-space:nowrap;margin:0 auto;padding-top:6px}
+#botany .lab{top:744px;font:13px "IM Fell English SC",serif;letter-spacing:.24em}
+
+/* 4 E.S.G.: deco voyage */
+#esg{background:#ece3cf;font-family:"Josefin Sans",sans-serif;color:#1e2f55}
+#esg .band{position:absolute;left:0;right:0;top:0;height:40px;background:#1e2f55;color:#ece3cf;font-size:13px;letter-spacing:.28em;display:grid;place-items:center;font-weight:600}
+#esg .n{top:74px;font:700 116px/1 "Josefin Sans",sans-serif;letter-spacing:.08em;text-shadow:5px 5px 0 #e2a83a}
+#esg .sub{top:206px;font-weight:600;font-size:18px;letter-spacing:.32em;color:#b23a2b}
+#esg svg{position:absolute;left:0;top:240px}
+#esg .sea{position:absolute;left:0;right:0;top:470px;bottom:0;background:repeating-linear-gradient(180deg,#1e2f55 0 12px,#243866 12px 14px)}
+#esg .ribbon{position:absolute;left:24px;right:24px;top:498px;height:80px;background:#b23a2b;border-top:4px solid #e2a83a;border-bottom:4px solid #e2a83a;display:grid;place-items:center;color:#f3ead6;font:700 46px "Josefin Sans",sans-serif;letter-spacing:.06em}
+#esg .tracks{top:608px;color:#ece3cf;font-size:15px;letter-spacing:.2em;line-height:1.9;font-weight:600}
+#esg .city{top:696px;color:#e2a83a;font-weight:700;font-size:24px;letter-spacing:.32em}
+
+/* 5 Fat Pat: airbrush memorial */
+#fatpat{background:linear-gradient(180deg,#3a1460 0%,#6c1f8a 28%,#c2307a 52%,#f08a3c 70%,#f6d9a6 82%,#f3e2c2 100%);font-family:Montserrat,sans-serif}
+#fatpat .rays{position:absolute;left:50%;top:44%;width:1400px;height:1400px;transform:translate(-50%,-50%);background:repeating-conic-gradient(rgba(255,255,255,.12) 0 4deg,transparent 4deg 12deg);-webkit-mask:radial-gradient(circle,#000 12%,transparent 46%);mask:radial-gradient(circle,#000 12%,transparent 46%)}
+#fatpat .pres{top:54px;font-weight:800;font-size:15px;letter-spacing:.3em;color:#f6dfa8}
+#fatpat .ll{top:84px;font:44px Bungee,sans-serif;letter-spacing:.16em;color:#fbf2e0}
+#fatpat svg{position:absolute;left:0;top:250px}
+#fatpat .name{top:250px;font:138px/1 Lobster,cursive;color:#f7cf5a;text-shadow:4px 5px 0 #6c1f5a,0 0 30px rgba(255,220,140,.5);transform:rotate(-4deg)}
+#fatpat .gd{top:424px;font:58px Bungee,sans-serif;letter-spacing:.02em;background:linear-gradient(180deg,#ffffff 0%,#c9d2df 45%,#4a5670 52%,#e5ebf3 70%,#9aa6b8 100%);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-stroke:1px #3a2050}
+#fatpat .yr{position:absolute;left:110px;right:110px;top:530px;height:54px;background:#cf2f7f;border:3px solid #f7cf5a;display:grid;place-items:center;color:#fbf2e0;font:30px Bungee,sans-serif;letter-spacing:.2em}
+#fatpat .ft{top:640px;font-weight:800;font-size:16px;letter-spacing:.26em;color:#4a1a5a}
+#fatpat .suc{top:684px;font:38px "Kaushan Script",cursive;color:#6c1f8a}
+
+/* 6 Lil' Keke: rodeo bill */
+#keke{background:#efe6d2;font-family:"Alfa Slab One",serif;color:#1f2f5c}
+#keke .frame{position:absolute;inset:22px;border:4px solid #1f2f5c;outline:2px solid #1f2f5c;outline-offset:-12px}
+#keke svg.arc{position:absolute;left:0;top:36px}
+#keke svg.star{position:absolute;left:250px;top:150px}
+#keke .name{top:262px;font:76px Rye,serif;letter-spacing:.04em}
+#keke .don{top:358px;font-size:20px;letter-spacing:.3em;color:#b5262b}
+#keke .rule{position:absolute;left:70px;right:70px;height:3px;background:#1f2f5c}
+#keke .dm{top:418px;font-size:64px;color:#b5262b;letter-spacing:.01em}
+#keke .wit{top:506px;font:34px Rye,serif}
+#keke .tx{top:550px;font-size:112px;letter-spacing:.03em;text-shadow:5px 5px 0 #b5262b}
+#keke .row{position:absolute;left:62px;right:62px;top:690px;height:52px;border:3px solid #1f2f5c;display:grid;grid-template-columns:1fr 1fr 1fr;font-size:20px}
+#keke .row span{display:grid;place-items:center}#keke .row span:nth-child(2){background:#1f2f5c;color:#efe6d2}
+#keke .tiny{position:absolute;color:#b5262b;font-size:16px}
+
+/* 8 UGK: I-10 highway sign */
+#ugk{background:linear-gradient(180deg,#3b2a5c 0%,#7a3b6a 34%,#e0723a 62%,#f6b04a 74%,#f6b04a 76%);font-family:Overpass,sans-serif}
+#ugk .sky{position:absolute;left:0;right:0;bottom:0;height:170px}
+#ugk .sign{position:absolute;left:46px;top:72px;width:560px;height:280px;background:#13734b;border:5px solid #f3f3ee;outline:3px solid #13734b;border-radius:16px;color:#f3f3ee}
+#ugk .sign .east{position:absolute;left:120px;top:36px;font-weight:800;font-size:30px;letter-spacing:.04em}
+#ugk .sign .t1{position:absolute;left:36px;top:96px;font-weight:800;font-size:66px;line-height:1}
+#ugk .sign .t2{position:absolute;left:36px;top:178px;font-weight:800;font-size:72px;line-height:1}
+#ugk .sign svg.arrow{position:absolute;right:40px;bottom:30px}
+#ugk .exit{position:absolute;left:446px;top:38px;background:#13734b;border:3px solid #f3f3ee;border-radius:6px;color:#f3f3ee;font-weight:800;font-size:22px;padding:4px 18px}
+#ugk .next{position:absolute;right:46px;top:72px;width:190px;background:#f3f3ee;border:3px solid #1a1a1a;padding:14px 16px;color:#1a1a1a;font-weight:600;font-size:16px;line-height:1.55}
+#ugk .next b{display:block;font-weight:800;letter-spacing:.08em;border-bottom:2px solid #1a1a1a;margin-bottom:6px;font-size:17px}
+#ugk .brown{position:absolute;left:430px;top:388px;width:240px;background:#6b3f1d;border:3px solid #f3f3ee;outline:2px solid #6b3f1d;border-radius:8px;color:#f3f3ee;text-align:center;padding:8px 0}
+#ugk .brown b{display:block;font-weight:800;font-size:22px}#ugk .brown span{font-size:13px;letter-spacing:.14em;font-weight:600}
+#ugk .dist{position:absolute;right:46px;top:372px;width:160px;background:#13734b;border:3px solid #f3f3ee;outline:2px solid #13734b;border-radius:8px;color:#f3f3ee;padding:8px 12px;font-weight:800;font-size:18px;line-height:1.4}
+#ugk .dist div{display:flex;justify-content:space-between}
+#ugk .jive{position:absolute;left:50px;top:386px;color:rgba(243,243,238,.7);font-weight:800;letter-spacing:.3em;font-size:14px}
+
+/* 9 Z-Ro: xerox flyer */
+#zro{background:#e9e6df;font-family:"Special Elite",monospace;color:#161616}
+#zro .halftone{position:absolute;right:-40px;top:300px;width:420px;height:440px;background:radial-gradient(circle,#c8282a 34%,transparent 38%) 0 0/14px 14px;-webkit-mask:radial-gradient(ellipse at 60% 50%,#000 30%,transparent 70%);mask:radial-gradient(ellipse at 60% 50%,#000 30%,transparent 70%);opacity:.85}
+#zro .tag{position:absolute;top:36px;background:#161616;color:#e9e6df;font-size:16px;padding:4px 10px;letter-spacing:.06em}
+#zro .z{position:absolute;left:28px;top:70px;font:290px/1 Anton,sans-serif;letter-spacing:-.01em;color:#161616;text-shadow:10px 8px 0 #c8282a;transform:scaleY(1.05);transform-origin:top}
+#zro .cut{position:absolute;font-size:46px;padding:6px 16px;letter-spacing:.02em}
+#zro .c1{left:40px;top:432px;background:#f6f4ee;transform:rotate(-1.5deg);box-shadow:0 1px 2px rgba(0,0,0,.3)}
+#zro .c2{left:120px;top:512px;background:#161616;color:#f1efe8;transform:rotate(.8deg)}
+#zro .c3{left:58px;top:596px;background:#c8282a;color:#fff;font:64px Anton,sans-serif;padding:4px 18px;transform:rotate(-.6deg)}
+#zro .marker{position:absolute;left:350px;top:556px;font:24px "Permanent Marker",cursive;color:#c8282a;transform:rotate(-12deg);line-height:1.1;text-align:center}
+#zro .foot{position:absolute;left:38px;right:38px;top:730px;border-top:3px solid #161616;padding-top:10px;display:flex;justify-content:space-between;font-size:17px}
+
+/* Weathering like the portrait posters: yellowed stock, burnt edges, creases,
+   scuffed corners. Wear concentrates at the edges and folds, never as blotches over type. */
+.p{clip-path:polygon(0 1.2%,1.5% 0,38% .4%,62% 0,97.6% .6%,100% 2.4%,99.6% 46%,100% 97.2%,98.2% 100%,58% 99.5%,3% 100%,0 98%,.5% 52%)}
+.w1,.w2,.w3,.w4{position:absolute;inset:0;pointer-events:none;z-index:5}
+.w1{mix-blend-mode:multiply;background:
+  radial-gradient(ellipse 72% 68% at 50% 48%,transparent 48%,rgba(80,48,16,.62) 100%),
+  linear-gradient(rgba(196,160,92,.16),rgba(196,160,92,.16))}
+.w2{mix-blend-mode:multiply;background:
+  linear-gradient(90deg,transparent 49.6%,rgba(60,36,14,.28) 50%,transparent 50.5%),
+  linear-gradient(180deg,transparent 49.6%,rgba(60,36,14,.24) 50%,transparent 50.5%),
+  linear-gradient(103deg,transparent 30%,rgba(60,36,14,.12) 30.3%,transparent 30.7%),
+  linear-gradient(78deg,transparent 71%,rgba(60,36,14,.1) 71.3%,transparent 71.7%)}
+.w3{mix-blend-mode:screen;opacity:.55;
+  background:
+   linear-gradient(90deg,transparent 49.5%,rgba(255,250,235,.5) 50.1%,transparent 50.6%),
+   linear-gradient(180deg,transparent 49.5%,rgba(255,250,235,.45) 50.1%,transparent 50.6%)}
+/* Fine scuffs and cracks, masked to the edges and the folds. */
+.w4{mix-blend-mode:screen;opacity:.95;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><filter id='s'><feTurbulence type='fractalNoise' baseFrequency='.045 .9' numOctaves='3' seed='7'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 .97  0 0 0 0 .9  0 0 0 14 -10.2'/></filter><rect width='300' height='300' filter='url(%23s)'/></svg>");
+  -webkit-mask:radial-gradient(ellipse 70% 65% at 50% 50%,transparent 52%,#000 90%),linear-gradient(90deg,transparent 47%,#000 50%,transparent 53%),linear-gradient(180deg,transparent 47%,#000 50%,transparent 53%);
+  mask:radial-gradient(ellipse 70% 65% at 50% 50%,transparent 52%,#000 90%),linear-gradient(90deg,transparent 47%,#000 50%,transparent 53%),linear-gradient(180deg,transparent 47%,#000 50%,transparent 53%)}
+
+/* Crumpled-paper relief: low-frequency lighting, no blotches. */
+.w5{position:absolute;inset:0;pointer-events:none;z-index:5;mix-blend-mode:overlay;opacity:.55;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='600' height='800'><filter id='c'><feTurbulence type='fractalNoise' baseFrequency='.008 .011' numOctaves='4' seed='3'/><feDiffuseLighting surfaceScale='6' lighting-color='%23fff'><feDistantLight azimuth='225' elevation='38'/></feDiffuseLighting></filter><rect width='600' height='800' filter='url(%23c)'/></svg>");background-size:cover}
+.w6{position:absolute;inset:0;pointer-events:none;z-index:5;opacity:.5;mix-blend-mode:screen}
+</style></head><body>
+
+<div class="p" id="pokey"><div class="w1"></div><div class="w2"></div><div class="w3"></div><div class="w4"></div><div class="w5"></div><svg class="w6" viewBox="0 0 600 800" preserveAspectRatio="none" fill="none" stroke="#fffaf0"><path d="M271 373 L246 373 L257 388 L224 378 L191 394" stroke-width="1.4"/><path d="M381 362 L391 380 L356 355 L386 361 L408 352" stroke-width="1.4"/><path d="M505 400 L502 388 L542 414 L569 425" stroke-width="1"/><path d="M455 74 L423 63 L389 38 L404 23 L438 -0 L428 11 L421 14" stroke-width="0.8"/><path d="M467 669 L438 679 L399 677 L398 687" stroke-width="0.8"/><path d="M268 105 L238 101 L215 89 L252 104 L237 124 L214 119 L242 126" stroke-width="0.8"/><path d="M25 8 L52 2 L18 -13 L29 -39 L18 -32 L-12 -28" stroke-width="1.4"/><path d="M81 56 L99 38 L110 41 L125 35 L123 13" stroke-width="0.8"/><path d="M62 191 L43 208 L51 197 L25 208 L-10 194 L-5 212 L4 201" stroke-width="0.8"/></svg>
+ <div class="c top">SCREWED UP CLICK PRESENTS</div>
+ <div class="rule" style="top:74px"></div>
+ <div class="c name">BIG POKEY</div>
+ <div class="city">★ HOUSTON · TEXAS</div>
+ <div class="seal">H-TOWN</div>
+ <div class="c the">THE</div>
+ <div class="c hp hp1">HARDEST</div>
+ <div class="c hp hp2">PIT</div>
+ <div class="c lit">IN THE LITTER</div>
+ <div class="meta"><span>THE SCREWED UP CLICK · S.U.C.</span><span>CHOPPED &amp; SCREWED</span></div>
+ <div class="foot"><b>NEW ALBUM</b><span>ON CD &amp; CASSETTE</span><i>1999</i></div>
+</div>
+
+<div class="p fold" id="botany"><div class="w1"></div><div class="w2"></div><div class="w3"></div><div class="w4"></div><div class="w5"></div><svg class="w6" viewBox="0 0 600 800" preserveAspectRatio="none" fill="none" stroke="#fffaf0"><path d="M449 10 L432 12 L470 -10 L441 -12 L427 -0" stroke-width="1.4"/><path d="M351 661 L388 636 L399 635 L417 626 L457 604 L461 616" stroke-width="1.4"/><path d="M442 19 L474 38 L468 53 L497 57 L507 51 L513 56 L480 64" stroke-width="1"/><path d="M528 588 L523 606 L490 619 L452 624 L451 610 L467 610 L476 632" stroke-width="1"/><path d="M538 489 L558 481 L593 481 L572 476 L552 483" stroke-width="0.8"/><path d="M528 55 L528 73 L556 84 L592 72 L565 70" stroke-width="1"/><path d="M555 416 L573 434 L583 424 L609 413 L618 422 L600 415" stroke-width="1.4"/><path d="M475 3 L454 -16 L418 -9 L413 -2 L426 14 L462 23" stroke-width="0.8"/><path d="M494 604 L469 592 L456 602 L458 608" stroke-width="0.8"/></svg>
+ <div class="frame"></div>
+ <div class="plate">PLATE XCVII.</div><div class="fig">FIG. 1–5</div>
+ <div class="c t">Botany Boyz</div>
+ <div class="c s">or, Thought of Many Ways</div>
+ <svg width="600" height="440" viewBox="0 0 600 440" fill="none" stroke="#3a2c1e" stroke-width="2">
+  <!-- roots -->
+  <g stroke-width="1.2">
+   <path d="M300 420 C 280 432 240 436 200 440"/><path d="M300 420 C 320 432 360 436 410 440"/><path d="M300 420 C 290 436 270 440 250 440"/><path d="M300 420 C 312 434 330 440 352 440"/><path d="M300 420 C 300 432 296 440 292 440"/>
+  </g>
+  <!-- stems -->
+  <path d="M300 420 C 296 330 300 240 300 150"/>
+  <path d="M300 300 C 260 280 220 260 190 220"/>
+  <path d="M302 270 C 340 230 370 180 392 120"/>
+  <!-- main clover -->
+  <g fill="#8da86f" fill-opacity=".9" transform="translate(300 150)"><g><path d="M0 0 C -46 -22 -58 -78 -26 -88 C -10 -92 0 -80 0 -70 C 0 -80 10 -92 26 -88 C 58 -78 46 -22 0 0 Z"/></g><g transform="rotate(-118)"><path d="M0 0 C -46 -22 -58 -78 -26 -88 C -10 -92 0 -80 0 -70 C 0 -80 10 -92 26 -88 C 58 -78 46 -22 0 0 Z"/></g><g transform="rotate(118)"><path d="M0 0 C -46 -22 -58 -78 -26 -88 C -10 -92 0 -80 0 -70 C 0 -80 10 -92 26 -88 C 58 -78 46 -22 0 0 Z"/></g><g fill="none" stroke-width="1" stroke-opacity=".7"><path d="M0 0 L0 -78"/><path d="M0 0 L0 -78" transform="rotate(-118)"/><path d="M0 0 L0 -78" transform="rotate(118)"/></g></g>
+  <!-- small clover -->
+  <g fill="#8da86f" fill-opacity=".9" transform="translate(190 220) scale(.6)"><g><path d="M0 0 C -46 -22 -58 -78 -26 -88 C -10 -92 0 -80 0 -70 C 0 -80 10 -92 26 -88 C 58 -78 46 -22 0 0 Z"/></g><g transform="rotate(-118)"><path d="M0 0 C -46 -22 -58 -78 -26 -88 C -10 -92 0 -80 0 -70 C 0 -80 10 -92 26 -88 C 58 -78 46 -22 0 0 Z"/></g><g transform="rotate(118)"><path d="M0 0 C -46 -22 -58 -78 -26 -88 C -10 -92 0 -80 0 -70 C 0 -80 10 -92 26 -88 C 58 -78 46 -22 0 0 Z"/></g><g fill="none" stroke-width="1" stroke-opacity=".7"><path d="M0 0 L0 -78"/><path d="M0 0 L0 -78" transform="rotate(-118)"/><path d="M0 0 L0 -78" transform="rotate(118)"/></g></g>
+  <!-- flower head -->
+  <g fill="#b45a8c" stroke="#5a2c45" stroke-width="1">
+   <ellipse cx="392" cy="112" rx="9" ry="5" transform="rotate(-30 392 112)"/><ellipse cx="404" cy="104" rx="9" ry="5" transform="rotate(10 404 104)"/>
+   <ellipse cx="398" cy="96" rx="9" ry="5" transform="rotate(-60 398 96)"/><ellipse cx="412" cy="114" rx="9" ry="5" transform="rotate(40 412 114)"/>
+   <ellipse cx="386" cy="100" rx="9" ry="5" transform="rotate(20 386 100)"/><ellipse cx="400" cy="120" rx="9" ry="5" transform="rotate(-10 400 120)"/>
+   <ellipse cx="410" cy="94" rx="8" ry="5" transform="rotate(70 410 94)"/><ellipse cx="392" cy="88" rx="8" ry="5" transform="rotate(-20 392 88)"/>
+  </g>
+  <!-- labels -->
+  <g stroke-width=".8"><path d="M262 30 L292 66"/><path d="M450 70 L414 98"/><path d="M118 196 L160 214"/><path d="M380 432 L360 428"/></g>
+  <g fill="#3a2c1e" stroke="none" font-family="IM Fell English" font-size="15"><text x="250" y="28">1.</text><text x="452" y="70">2.</text><text x="102" y="196">3.</text><text x="384" y="436">4.</text></g>
+  <!-- leaflet enlarged -->
+  <circle cx="100" cy="370" r="50" stroke-width="1.2"/>
+  <path d="M100 400 C 64 380 60 342 84 336 C 94 334 100 342 100 348 C 100 342 106 334 116 336 C 140 342 136 380 100 400 Z" fill="#8da86f"/>
+  <path d="M100 348 L100 400" stroke-width="1"/>
+  <text x="58" y="436" fill="#3a2c1e" stroke="none" font-family="IM Fell English" font-style="italic" font-size="13">5. leaflet, enlarged</text>
+ </svg>
+ <div class="c lat">Trifolium cloverlandensis</div>
+ <div class="c col">Collected in Cloverland — Houston, Texas</div>
+ <div class="c mem">C-Note · D-Red · Will-Lean · B.G. Duke</div>
+ <div class="c lab">Big Shot Records · MCMXCVII</div>
+</div>
+
+<div class="p fold" id="esg"><div class="w1"></div><div class="w2"></div><div class="w3"></div><div class="w4"></div><div class="w5"></div><svg class="w6" viewBox="0 0 600 800" preserveAspectRatio="none" fill="none" stroke="#fffaf0"><path d="M236 70 L207 67 L217 89 L207 92 L237 108 L273 106 L285 90" stroke-width="1.4"/><path d="M520 115 L558 140 L561 155 L547 176 L575 168 L542 165 L546 179" stroke-width="1"/><path d="M552 31 L555 41 L588 40 L628 60 L629 70" stroke-width="1"/><path d="M567 71 L570 60 L588 67 L590 85 L595 75 L585 93 L617 78" stroke-width="0.8"/><path d="M581 161 L581 166 L544 191 L545 185" stroke-width="1.4"/><path d="M73 680 L107 696 L99 682 L99 674 L131 697 L164 698 L133 694" stroke-width="0.8"/><path d="M555 19 L533 28 L519 21 L529 0 L547 -19" stroke-width="1.4"/><path d="M374 103 L385 120 L394 122 L423 124 L401 109 L404 114 L375 135" stroke-width="1.4"/><path d="M486 130 L509 114 L476 134 L447 113 L438 110" stroke-width="1"/></svg>
+ <div class="band">PERRION ENTERTAINMENT · PRIORITY RECORDS</div>
+ <div class="c n">E.S.G.</div>
+ <div class="c sub">EVERYDAY STREET GANGSTA</div>
+ <svg width="600" height="240" viewBox="0 0 600 240">
+  <defs><clipPath id="half"><rect x="0" y="0" width="600" height="230"/></clipPath></defs>
+  <g clip-path="url(#half)">
+   <circle cx="300" cy="230" r="200" fill="#f0c14b" stroke="#e2a83a" stroke-width="6"/>
+   <g fill="#e2a83a">
+    <path d="M300 230 L170 70 L196 56 Z"/><path d="M300 230 L238 40 L266 36 Z"/><path d="M300 230 L320 34 L348 38 Z"/><path d="M300 230 L392 52 L418 66 Z"/><path d="M300 230 L452 100 L470 122 Z"/><path d="M300 230 L118 130 L134 106 Z"/><path d="M300 230 L490 170 L496 196 Z"/><path d="M300 230 L102 196 L108 170 Z"/>
+   </g>
+  </g>
+  <g transform="translate(180 152)">
+   <rect x="98" y="0" width="20" height="26" fill="#b23a2b"/><rect x="98" y="0" width="20" height="6" fill="#1e2f55"/>
+   <path d="M40 26 L190 26 L200 50 L30 50 Z" fill="#f3ead6" stroke="#1e2f55" stroke-width="3"/>
+   <g fill="#1e2f55"><circle cx="66" cy="38" r="4"/><circle cx="88" cy="38" r="4"/><circle cx="110" cy="38" r="4"/><circle cx="132" cy="38" r="4"/><circle cx="154" cy="38" r="4"/></g>
+   <path d="M0 50 L240 50 L222 74 L18 74 Z" fill="#b23a2b" stroke="#1e2f55" stroke-width="3"/>
+  </g>
+ </svg>
+ <div class="sea"></div>
+ <div class="ribbon">SAILIN’ DA SOUTH</div>
+ <div class="c tracks">SWANGIN’ &amp; BANGIN’ · CROOKED STREETS<br>SMOKE ON · 187 SKILLZ · R.I.P.</div>
+ <div class="c city">HOUSTON · MCMXCV</div>
+</div>
+
+<div class="p" id="fatpat"><div class="w1"></div><div class="w2"></div><div class="w3"></div><div class="w4"></div><div class="w5"></div><svg class="w6" viewBox="0 0 600 800" preserveAspectRatio="none" fill="none" stroke="#fffaf0"><path d="M326 101 L302 111 L335 135 L304 136" stroke-width="1"/><path d="M302 99 L265 101 L266 105 L238 89" stroke-width="0.8"/><path d="M103 538 L74 548 L40 527 L32 523" stroke-width="1"/><path d="M258 87 L251 79 L240 101 L249 80 L272 71" stroke-width="0.8"/><path d="M481 780 L481 805 L506 792 L539 805 L561 822" stroke-width="1"/><path d="M80 734 L72 745 L38 737 L36 711 L24 719" stroke-width="1.4"/><path d="M30 39 L35 41 L26 67 L38 77 L59 102 L21 108 L40 96" stroke-width="1"/><path d="M303 749 L285 741 L288 737 L290 755 L258 752 L269 754" stroke-width="1.4"/><path d="M456 790 L484 792 L492 788 L491 777 L483 767" stroke-width="1.4"/></svg>
+ <div class="rays"></div>
+ <div class="c pres">WRECKSHOP RECORDS PRESENTS</div>
+ <div class="c ll">LONG LIVE</div>
+ <svg width="600" height="200" viewBox="0 0 600 200" fill="#f6ead2" stroke="#e2b04a" stroke-width="2">
+  <g transform="translate(300 110)">
+   <path d="M-20 0 C -80 -40 -170 -50 -240 -36 C -170 -20 -100 0 -20 10 Z"/>
+   <path d="M-20 10 C -90 0 -180 4 -230 22 C -160 30 -90 30 -20 20 Z"/>
+   <path d="M-20 20 C -80 30 -150 50 -190 74 C -130 70 -70 50 -20 30 Z"/>
+   <path d="M20 0 C 80 -40 170 -50 240 -36 C 170 -20 100 0 20 10 Z"/>
+   <path d="M20 10 C 90 0 180 4 230 22 C 160 30 90 30 20 20 Z"/>
+   <path d="M20 20 C 80 30 150 50 190 74 C 130 70 70 50 20 30 Z"/>
+  </g>
+ </svg>
+ <div class="c name">Fat Pat</div>
+ <div class="c gd">GHETTO DREAMS</div>
+ <div class="yr">1998</div>
+ <div class="c ft">FEATURING “TOPS DROP”</div>
+ <div class="c suc">Screwed Up Click forever</div>
+</div>
+
+<div class="p fold" id="keke"><div class="w1"></div><div class="w2"></div><div class="w3"></div><div class="w4"></div><div class="w5"></div><svg class="w6" viewBox="0 0 600 800" preserveAspectRatio="none" fill="none" stroke="#fffaf0"><path d="M171 227 L134 241 L140 248 L133 257 L97 248 L89 252" stroke-width="1.4"/><path d="M567 786 L605 773 L606 796 L624 794 L663 811 L671 791" stroke-width="1.4"/><path d="M250 17 L239 -2 L233 4 L244 13" stroke-width="1"/><path d="M467 762 L446 742 L477 757 L487 749 L469 759" stroke-width="1.4"/><path d="M419 27 L450 3 L415 -8 L409 -2 L377 0" stroke-width="0.8"/><path d="M453 679 L452 664 L439 677 L466 655 L436 671 L446 685 L423 681" stroke-width="1"/><path d="M234 669 L217 683 L243 666 L256 670 L253 661 L256 658" stroke-width="1.4"/><path d="M291 99 L268 107 L235 97 L253 107 L235 88 L224 100" stroke-width="1"/><path d="M544 476 L539 492 L523 482 L515 505 L547 492 L536 485" stroke-width="1"/></svg>
+ <div class="frame"></div>
+ <span class="tiny" style="left:44px;top:42px">★</span><span class="tiny" style="right:44px;top:42px">★</span><span class="tiny" style="left:44px;bottom:42px">★</span><span class="tiny" style="right:44px;bottom:42px">★</span>
+ <svg class="arc" width="600" height="140" viewBox="0 0 600 140"><defs><path id="arc" d="M60 138 Q 300 -30 540 138"/></defs>
+  <text font-family="Rye" font-size="30" fill="#1f2f5c" letter-spacing="4"><textPath href="#arc" startOffset="50%" text-anchor="middle">SOUTHSIDE · HOUSTON</textPath></text></svg>
+ <svg class="star" width="100" height="100" viewBox="-50 -50 100 100"><polygon points="0,-46 12,-15 44,-14 18,6 28,38 0,19 -28,38 -18,6 -44,-14 -12,-15" fill="#1f2f5c"/><polygon points="0,-30 8,-10 29,-9 12,4 18,25 0,12 -18,25 -12,4 -29,-9 -8,-10" fill="#b5262b"/><polygon points="0,-16 4,-5 15,-5 6,2 10,13 0,7 -10,13 -6,2 -15,-5 -4,-5" fill="#efe6d2"/></svg>
+ <div class="c name">LIL’ KEKE</div>
+ <div class="c don">★ ★ ★ &nbsp;THE DON&nbsp; ★ ★ ★</div>
+ <div class="rule" style="top:396px"></div>
+ <div class="c dm">DON’T MESS</div>
+ <div class="c wit">— WIT —</div>
+ <div class="c tx">TEXAS</div>
+ <div class="row"><span>1997</span><span>THE ALBUM</span><span>IN STORES</span></div>
+</div>
+
+<div class="p wide" id="ugk"><div class="w1"></div><div class="w2"></div><div class="w3"></div><div class="w4"></div><div class="w5"></div><svg class="w6" viewBox="0 0 900 600" preserveAspectRatio="none" fill="none" stroke="#fffaf0"><path d="M609 578 L613 595 L618 579 L638 598 L621 574 L622 576 L627 600" stroke-width="1.4"/><path d="M758 183 L744 172 L713 162 L675 170" stroke-width="0.8"/><path d="M671 132 L692 127 L679 151 L693 151 L696 162 L713 184" stroke-width="1"/><path d="M681 530 L712 554 L724 555 L740 570" stroke-width="1"/><path d="M831 97 L846 88 L837 90 L819 110 L817 122 L801 104 L835 125" stroke-width="1"/><path d="M15 52 L4 57 L12 55 L13 52 L44 47" stroke-width="1"/><path d="M564 551 L597 543 L601 567 L600 552 L564 576 L588 570 L590 571" stroke-width="1"/><path d="M709 592 L705 579 L699 598 L692 612 L663 633 L688 614" stroke-width="1.4"/><path d="M894 29 L870 50 L842 31 L830 37" stroke-width="1.4"/></svg>
+ <svg class="sky" width="900" height="170" viewBox="0 0 900 170" fill="#251c33">
+  <path d="M0 170 L0 110 L60 110 L60 80 L120 80 L120 120 L190 120 L190 70 L250 70 L250 100 L330 100 L330 60 L380 60 L380 110 L470 110 L470 84 L540 84 L540 120 L620 120 L620 76 L680 76 L680 104 L760 104 L760 66 L820 66 L820 112 L900 112 L900 170 Z"/>
+  <rect x="96" y="20" width="10" height="70"/><rect x="214" y="10" width="10" height="70"/><rect x="352" y="0" width="10" height="70"/><rect x="644" y="16" width="10" height="70"/>
+  <g fill="#ffd36b"><ellipse cx="101" cy="14" rx="5" ry="10"/><ellipse cx="219" cy="4" rx="5" ry="10"/><ellipse cx="649" cy="10" rx="5" ry="10"/></g>
+ </svg>
+ <div class="exit">EXIT 96</div>
+ <div class="sign">
+  <svg width="64" height="70" viewBox="0 0 64 70" style="position:absolute;left:36px;top:22px"><path d="M4 4 Q32 -4 60 4 L60 34 Q60 58 32 68 Q4 58 4 34 Z" fill="#1d4fa3" stroke="#f3f3ee" stroke-width="3"/><path d="M4 4 Q32 -4 60 4 L60 18 L4 18 Z" fill="#c8282a"/><text x="32" y="14" text-anchor="middle" font-family="Overpass" font-weight="800" font-size="8" fill="#fff">INTERSTATE</text><text x="32" y="50" text-anchor="middle" font-family="Overpass" font-weight="800" font-size="28" fill="#fff">10</text></svg>
+  <div class="east">EAST</div>
+  <div class="t1">Ridin’ Dirty</div>
+  <div class="t2">UGK</div>
+  <svg class="arrow" width="70" height="70" viewBox="0 0 70 70"><path d="M10 60 L56 14 M24 12 L58 12 L58 46" stroke="#f3f3ee" stroke-width="9" fill="none" stroke-linecap="square"/></svg>
+ </div>
+ <div class="next"><b>NEXT EXITS</b>One Day<br>Murder<br>Diamonds &amp; Wood<br>Pinky Ring<br>Hi-Life<br>3 in the Mornin’</div>
+ <div class="jive">JIVE RECORDS · 1996</div>
+ <div class="brown"><b>Pimp C · Bun B</b><span>PORT ARTHUR, TEXAS</span></div>
+ <div class="dist"><div><span>Beaumont</span><span>17</span></div><div><span>Houston</span><span>90</span></div></div>
+</div>
+
+<div class="p fold" id="zro"><div class="w1"></div><div class="w2"></div><div class="w3"></div><div class="w4"></div><div class="w5"></div><svg class="w6" viewBox="0 0 600 800" preserveAspectRatio="none" fill="none" stroke="#fffaf0"><path d="M58 764 L20 748 L-5 758 L18 755 L-19 750 L-20 773" stroke-width="1"/><path d="M190 798 L178 808 L147 802 L144 826" stroke-width="0.8"/><path d="M392 2 L397 -0 L358 25 L382 10 L392 -1 L382 1" stroke-width="1"/><path d="M572 109 L563 88 L547 77 L545 84 L541 78" stroke-width="0.8"/><path d="M84 14 L77 31 L84 10 L62 -8 L32 -13" stroke-width="0.8"/><path d="M205 119 L231 113 L217 108 L178 103 L194 128" stroke-width="0.8"/><path d="M396 659 L408 638 L398 639 L421 656 L430 638 L452 659" stroke-width="1.4"/><path d="M140 88 L146 64 L158 78 L129 77 L123 68" stroke-width="0.8"/><path d="M557 99 L537 103 L540 80 L573 63 L593 84" stroke-width="1"/></svg>
+ <div class="halftone"></div>
+ <div class="tag" style="left:38px">MISSOURI CITY, TX</div>
+ <div class="tag" style="right:38px">NO. 001</div>
+ <div class="z">Z-RO</div>
+ <div class="cut c1">LOOK WHAT</div>
+ <div class="cut c2">YOU DID</div>
+ <div class="cut c3">TO ME.</div>
+ <div class="marker">S.U.C.<br>Screwed Up Click</div>
+ <div class="foot"><span>THE DEBUT ALBUM</span><span>★</span><span>IN STORES NOW</span></div>
+</div>
+</body></html>

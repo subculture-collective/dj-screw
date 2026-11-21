@@ -36,24 +36,26 @@ export function Room() {
     <div className="room" aria-hidden="true" ref={room}>
       <div className="room-wall" />
       <div className="room-props">
-        <div className="room-ac">
-          <span />
-        </div>
-        <div className="room-lamp" />
+        <img className="room-ac" src="/brand/woodroom/room/grate.webp" alt="" decoding="async" draggable={false} />
+        <img className="room-lamp" src="/brand/woodroom/room/lamp.webp" alt="" decoding="async" draggable={false} />
         {roomPosters.map((poster) => (
-          <div key={poster.artist} className={`room-poster ${poster.tone} slot-${poster.slot}`}>
-            <span className="room-poster-top">{poster.kicker}</span>
-            <strong>{poster.artist}</strong>
-            <em>{poster.title}</em>
-            <span className="room-poster-foot">In stores now</span>
-          </div>
+          <img
+            key={poster.src}
+            className={`room-poster slot-${poster.slot}${"shape" in poster ? ` ${poster.shape}` : ""}`}
+            src={`/brand/woodroom/posters/${poster.src}.webp`}
+            alt=""
+            // The top band is in view on load; the lower wall can wait.
+            loading={"lower" in poster ? "lazy" : undefined}
+            decoding="async"
+            draggable={false}
+          />
         ))}
-        <div className="room-plaque">
-          <span className="room-plaque-disc" />
-          <span className="room-plaque-card" />
-        </div>
+        <img className="room-plaque" src="/brand/woodroom/room/gold.webp" alt="" decoding="async" draggable={false} />
         <div className="room-vinyl" />
       </div>
+      {/* Outside the moving props layer so its light blends with the paneling,
+          and after it so it also falls on the frames near the lamp. */}
+      <div className="room-light" />
     </div>
   );
 }

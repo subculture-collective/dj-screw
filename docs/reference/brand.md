@@ -27,8 +27,12 @@ were recorded in the wood room (ADR 0003).
   `prefers-reduced-motion: reduce` it stays still. There is no per-page camera
   movement.
 - **Floating modules:** each section of a page (search, browse by year, the
-  tape page, the footer) is its own frosted module: brushed aluminium at 86%
-  opacity (rubber at 88% in the dark scheme) with an 18-pixel backdrop blur. The
+  tape page, the footer) is its own frosted module: brushed aluminium at 50%
+  opacity (rubber at 55% in the dark scheme) with a 3-pixel backdrop blur, so
+  the wall stays recognisable through it.
+  Text inside modules is weight 500 with a layered halo of panel colour
+  (`--halo`, 92% opacity, out to 16 pixels) so it stays readable over whatever
+  the glass shows. The
   shelf breaks into rack units of ten tapes. The wall shows between modules and,
   blurred, through them as it moves. Browsers without backdrop blur get opaque
   panels. A page title that sits on the wall gets a black rack plate.
@@ -40,9 +44,10 @@ were recorded in the wood room (ADR 0003).
 
 ## Tokens
 
-Defined in `web/src/styles.css` under `@theme`. Text contrast is the worst case
-on a glass module: over the black poster in the light scheme, over the gold
-poster lettering in the dark scheme. On solid surfaces it is higher.
+Defined in `web/src/styles.css` under `@theme`. On a glass module, contrast is
+measured against the text halo over the darkest (light scheme) or brightest
+(dark scheme) poster behind it; hints and the accent stay above 5:1 there. The
+figures below are for solid panels.
 
 | Token | Light | Dark | Use |
 | --- | --- | --- | --- |
@@ -73,14 +78,28 @@ Copy and names live in `web/src/brand.ts`, including the room's posters
   (CC0, https://polyhaven.com/a/cherry_veneer), rotated to a vertical grain,
   toned honey-brown, with six boards of uneven width and dark grooves added.
   The owner's paneling references set the tone and groove spacing.
-- The posters are original CSS designs that name artists Screw mixed and their
-  records of the time: E.S.G. (*Sailin' Da South*), Fat Pat (*Ghetto Dreams*),
-  Lil' Keke (*Don't Mess Wit Texas*), UGK (*Ridin' Dirty*), Big Pokey (*Hardest
-  Pit in the Litter*) and Z-Ro (*Look What You Did to Me*). They do not copy real poster artwork,
-  photographs or label logos.
-- The gold record, the single, the wall lamp and the air conditioner are drawn
-  in CSS from details in published photos of the room. The photos themselves
-  belong to their photographers and are not used.
+- The eight posters (`web/public/brand/woodroom/posters/`, WebP, 21–77 KB)
+  are promo posters for records by artists Screw mixed, from designs the owner
+  supplied on 2026-11-21: E.S.G. *Sailin' Da South*, Fat Pat *Ghetto Dreams*,
+  Lil' Keke *Don't Mess Wit Texas*, Big Pokey *Hardest Pit in the Litter* (two),
+  Botany Boyz *Thought of Many Ways*, Z-Ro *Look What You Did to Me* and UGK
+  *Ridin' Dirty*. Seven were redrawn in HTML from the owner's layouts, because
+  the supplied files had a speckle texture over their type, and then weathered
+  (yellowing, burnt edges, creases, crumple shading, fine cracks). The Big Pokey
+  photo poster is the owner's image with its Parental Advisory label covered.
+  Printed facts were checked against Wikipedia and AllMusic on 2026-11-21; the
+  Botany Lane detail was dropped as unconfirmed. Photo posters of E.S.G. (shown
+  as a group, with a Rap-A-Lot logo) and UGK (in front of the Dallas skyline)
+  were left out as inaccurate.
+- The air-conditioner grille, the framed gold record and the wall lamp
+  (`web/public/brand/woodroom/room/`, WebP, 3–8 KB) were drawn in HTML from
+  details in published photos of the room, then weathered: grime on the
+  louvers, rust at the screws, chipped paint, glare and dust on the frame
+  glass. The plaque's engraving is blank lines; it names no award. The single
+  on the wall is CSS. The lamp's light is a CSS layer on the paneling (outside
+  the moving props layer, so it blends with the wood): a broad warm glow and
+  brighter washes above and below the shade. The photos themselves belong to
+  their photographers and are not used.
 
 ## Assets
 
@@ -88,3 +107,9 @@ Copy and names live in `web/src/brand.ts`, including the room's posters
 its slot, with a strobe dot and a lock light, drawn on a 16-pixel grid with solid
 shapes so it holds up as a browser tab icon. `web/public/favicon.svg` is the
 same file. There is no social preview image yet.
+
+The redrawn posters and props are HTML sources in `docs/reference/room-art/`
+(`posters.html`, `props.html`). To change one, edit the source, screenshot the
+element with a transparent background (for example Playwright's
+`locator.screenshot({ omitBackground: true })`), resize it to the size in the
+existing file and convert it with `cwebp -q 78 -alpha_q 90`.
