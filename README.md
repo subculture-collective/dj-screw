@@ -112,12 +112,12 @@ discovery.
 
 ## Deploy
 
-Not deployed yet. The web app builds into a static nginx image from
-[`web/Dockerfile`](web/Dockerfile). Run it beside the pinned engine image and
-PostgreSQL, as in [`docker-compose.yml`](docker-compose.yml), and put HTTPS in
-front of the web service. The planned address is `woodroom.subcult.tv`
-([ADR 0003](docs/adr/0003-name-woodroom.md)); deployment still needs a host and
-the owner's approval.
+Live at https://woodroom.subcult.tv/ on Almaz since 2026-11-21. The web app
+builds into a static nginx image from [`web/Dockerfile`](web/Dockerfile) and
+runs beside the pinned engine and PostgreSQL. Caddy exposes only catalog reads
+and playback. [The deployment runbook](docs/runbooks/deployment.md) covers the
+host layout, frontend and core updates, rollback and catalog jobs. There is no
+automatic deploy yet.
 
 ## Project layout
 
