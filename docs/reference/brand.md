@@ -26,24 +26,31 @@ were recorded in the wood room (ADR 0003).
 - **Parallax:** the room moves at 35% of the scroll speed. With
   `prefers-reduced-motion: reduce` it stays still. There is no per-page camera
   movement.
-- **Content panel:** `main` is one brushed-aluminium panel (rubber in the dark
-  scheme) with rack screws in its top corners.
+- **Floating modules:** each section of a page (search, browse by year, the
+  tape page, the footer) is its own frosted module: brushed aluminium at 86%
+  opacity (rubber at 88% in the dark scheme) with an 18-pixel backdrop blur. The
+  shelf breaks into rack units of ten tapes. The wall shows between modules and,
+  blurred, through them as it moves. Browsers without backdrop blur get opaque
+  panels. A page title that sits on the wall gets a black rack plate.
+- **Lower wall:** three more posters hang further down, so the gaps between
+  modules have something passing behind them all the way down a long page.
 - **Rack:** the masthead and the player are black rack units in both schemes.
   They redefine the colour tokens locally, so components inside them need no
   special cases.
 
 ## Tokens
 
-Defined in `web/src/styles.css` under `@theme`. Contrast is measured against the
-surface each token sits on.
+Defined in `web/src/styles.css` under `@theme`. Text contrast is the worst case
+on a glass module: over the black poster in the light scheme, over the gold
+poster lettering in the dark scheme. On solid surfaces it is higher.
 
 | Token | Light | Dark | Use |
 | --- | --- | --- | --- |
 | `--color-paper` | `#e2e3e4` aluminium | `#1c1c1e` rubber | Content panel |
 | `--color-ink` | `#121214` (14.6:1) | `#f2f2f0` (15.2:1) | Text |
 | `--color-ink-soft` | `#45474b` (7.2:1) | `#b9babd` (8.8:1) | Secondary text |
-| `--color-ink-faint` | `#5a5d62` (5.1:1) | `#94969b` (5.8:1) | Hints |
-| `--color-marker` | `#a82c10` (5.4:1) | `#ff5a33` (5.5:1) | Actions, current item, side headings |
+| `--color-ink-faint` | `#4a4c50` (5.1:1) | `#94969b` (4.8:1) | Hints |
+| `--color-marker` | `#8c240e` (5.2:1) | `#ff5a33` (4.6:1) | Actions, current item, side headings |
 | `--color-rack` | `#161618` | same | Masthead and player |
 | `--color-strobe` | `#ff5a33` (5.8:1 on rack) | same | Accent on the rack |
 | `--color-lock` | `#39c46a` | same | Status light only |
@@ -67,8 +74,9 @@ Copy and names live in `web/src/brand.ts`, including the room's posters
   toned honey-brown, with six boards of uneven width and dark grooves added.
   The owner's paneling references set the tone and groove spacing.
 - The posters are original CSS designs that name artists Screw mixed and their
-  records of the time: E.S.G. (*Sailin' Da South*), Fat Pat (*Ghetto Dreams*)
-  and Lil' Keke (*Don't Mess Wit Texas*). They do not copy real poster artwork,
+  records of the time: E.S.G. (*Sailin' Da South*), Fat Pat (*Ghetto Dreams*),
+  Lil' Keke (*Don't Mess Wit Texas*), UGK (*Ridin' Dirty*), Big Pokey (*Hardest
+  Pit in the Litter*) and Z-Ro (*Look What You Did to Me*). They do not copy real poster artwork,
   photographs or label logos.
 - The gold record, the single, the wall lamp and the air conditioner are drawn
   in CSS from details in published photos of the room. The photos themselves

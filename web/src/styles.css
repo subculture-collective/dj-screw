@@ -13,17 +13,18 @@
   --color-paper-raised: #eeeeef;
   --color-ink: #121214;
   --color-ink-soft: #45474b;
-  --color-ink-faint: #5a5d62;
+  --color-ink-faint: #4a4c50;
   --color-rule: #b5b8bc;
   --color-rule-strong: #80848a;
-  /* Strobe orange. This text-safe shade is 5.4:1 on aluminium. */
-  --color-marker: #a82c10;
-  --color-marker-deep: #85220b;
+  /* Strobe orange, dark enough for text on the glass modules (5.2:1 at
+     worst, 6.9:1 on solid aluminium). */
+  --color-marker: #8c240e;
+  --color-marker-deep: #6e1c0b;
   --color-on-marker: #ffffff;
   --color-stripe-red: #1c1c1e;
   --color-stripe-mustard: #c2361a;
   --color-stripe-teal: #8a8d91;
-  --color-focus: #a82c10;
+  --color-focus: #8c240e;
   --color-scrim: rgba(12, 8, 4, 0.6);
 
   /* The rack keeps its colours in both schemes. */
@@ -2374,7 +2375,7 @@ dd {
   top: 0;
   left: var(--nav, 0px);
   right: 0;
-  height: 18em;
+  height: 60em;
   font-size: 1.45rem;
   transform: translateY(var(--room-shift, 0px));
 }
@@ -2471,10 +2472,7 @@ dd {
   font-weight: 700;
 }
 .room-poster.chrome {
-  left: 2%;
-  top: 1.1em;
-  rotate: -1.5deg;
-  background:
+    background:
     radial-gradient(120% 60% at 50% 100%, #1d3557, transparent 70%), #0b0b0e;
   color: #e3b341;
 }
@@ -2492,10 +2490,7 @@ dd {
   color: transparent;
 }
 .room-poster.flame {
-  left: 52%;
-  top: 0.9em;
-  rotate: 1deg;
-  background: linear-gradient(180deg, #c0182e, #3a0609 85%);
+    background: linear-gradient(180deg, #c0182e, #3a0609 85%);
   color: #ffd23f;
 }
 .room-poster.flame strong {
@@ -2503,10 +2498,7 @@ dd {
   text-shadow: 2px 2px 0 #1a0204;
 }
 .room-poster.star {
-  left: 67%;
-  top: 2.2em;
-  rotate: -0.8deg;
-  background:
+    background:
     linear-gradient(180deg, transparent 84%, #b5162b 84% 89%, transparent 89%),
     #f1ede4;
   color: #1d3a7a;
@@ -2522,6 +2514,15 @@ dd {
   font-size: 4.5em;
   color: rgba(29, 58, 122, 0.14);
 }
+
+.room-poster.slot-a { left: 2%; top: 1.1em; rotate: -1.5deg; }
+.room-poster.slot-b { left: 52%; top: 0.9em; rotate: 1deg; }
+.room-poster.slot-c { left: 67%; top: 2.2em; rotate: -0.8deg; }
+.room-poster.slot-d { left: 8%; top: 24em; rotate: 1.2deg; }
+.room-poster.slot-e { left: 58%; top: 33em; rotate: -1deg; }
+.room-poster.slot-f { left: 24%; top: 47em; rotate: 0.8deg; }
+.room-poster.slot-e strong { font-size: 1.6em; }
+.room-poster.slot-f strong { font-size: 1.9em; }
 
 /* Framed gold record and a single on the wall. */
 .room-plaque {
@@ -2572,53 +2573,157 @@ dd {
   .room-props {
     font-size: 0.78rem;
   }
-  .room-poster.chrome {
+  .room-poster.slot-a {
     left: 3%;
   }
   .room-plaque {
     left: 30%;
   }
-  .room-poster.flame {
+  .room-poster.slot-b {
     left: 53%;
   }
-  .room-poster.star,
+  .room-poster.slot-c,
   .room-vinyl,
   .room-lamp {
     display: none;
   }
 }
 
-/* ---- Content panel ------------------------------------------------------- */
-/* Pages sit on one brushed-aluminium panel with rack screws in the top
-   corners. */
+/* ---- Floating modules --------------------------------------------------- */
+/* Each section of a page is its own frosted aluminium module, with the room
+   showing between modules and, blurred, through them as the wall moves behind.
+   The glass is opaque enough that every text colour keeps 4.5:1 over the
+   darkest thing on the wall (docs/reference/brand.md). */
+:root {
+  --glass: rgba(228, 229, 230, 0.86);
+  --glass-edge: rgba(255, 255, 255, 0.55);
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --glass: rgba(28, 28, 30, 0.88);
+    --glass-edge: rgba(255, 255, 255, 0.08);
+  }
+}
 main {
-  position: relative;
   margin-top: var(--wall-band);
-  margin-bottom: 2rem;
-  padding-inline: clamp(0.85rem, 2.4vw, 1.75rem);
-  padding-top: 1.6rem;
-  background: var(--panel-surface);
-  border-radius: var(--radius-panel);
-  box-shadow: var(--shadow-card);
+  padding-top: 0;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1rem, 3vw, 2.25rem);
 }
-main::before,
-main::after {
-  content: "";
-  position: absolute;
-  top: 0.55rem;
-  width: 0.55rem;
-  height: 0.55rem;
-  border-radius: 50%;
+main > section,
+main > details,
+main > footer,
+main > form,
+main > div {
+  position: relative;
+  margin: 0;
+  padding: clamp(0.9rem, 2.2vw, 1.5rem);
   background:
-    linear-gradient(135deg, transparent 44%, rgba(0, 0, 0, 0.45) 45% 55%, transparent 56%),
-    radial-gradient(circle, #f2f2f3, #8d9095);
-  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+    repeating-linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.07) 0 1px,
+      transparent 1px 3px
+    ),
+    var(--glass);
+  -webkit-backdrop-filter: blur(18px) saturate(1.15);
+  backdrop-filter: blur(18px) saturate(1.15);
+  border: 1px solid var(--glass-edge);
+  border-radius: var(--radius-panel);
+  box-shadow: 0 2px 3px rgba(20, 8, 2, 0.5);
 }
-main::before {
-  left: 0.55rem;
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  main > section,
+  main > details,
+  main > footer,
+  main > form,
+  main > div {
+    background: var(--panel-surface);
+  }
 }
-main::after {
-  right: 0.55rem;
+/* The shelf breaks into rack units of ten tapes with the wall between them.
+   The catalog's other parts (heading, tools, notes, pagination) form their own
+   modules before and after the list. */
+main > section.catalog {
+  padding: 0;
+  background: none;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  border: 0;
+  box-shadow: none;
+  display: flex;
+  flex-direction: column;
+}
+.catalog > *,
+.tape-list > * {
+  --glass-pad: clamp(0.9rem, 2.2vw, 1.5rem);
+}
+.catalog > :not(.tape-list),
+.tape-list > * {
+  margin: 0;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.07) 0 1px,
+      transparent 1px 3px
+    ),
+    var(--glass);
+  -webkit-backdrop-filter: blur(18px) saturate(1.15);
+  backdrop-filter: blur(18px) saturate(1.15);
+  border-inline: 1px solid var(--glass-edge);
+}
+.catalog > :not(.tape-list) {
+  padding-inline: var(--glass-pad);
+}
+.catalog > :first-child,
+.catalog > .tape-list + *,
+.tape-list > :first-child,
+.tape-list > button.tape:nth-of-type(10n + 1) {
+  border-top: 1px solid var(--glass-edge);
+  border-top-left-radius: var(--radius-panel);
+  border-top-right-radius: var(--radius-panel);
+}
+.catalog > :first-child,
+.catalog > .tape-list + * {
+  padding-top: var(--glass-pad);
+}
+.catalog > .tape-list + * {
+  margin-top: clamp(1rem, 3vw, 2.25rem);
+}
+.catalog > :has(+ .tape-list),
+.catalog > :last-child:not(.tape-list),
+.tape-list > button.tape:nth-of-type(10n),
+.tape-list > button.tape:last-child {
+  border-bottom-left-radius: var(--radius-panel);
+  border-bottom-right-radius: var(--radius-panel);
+  box-shadow: 0 2px 3px rgba(20, 8, 2, 0.5);
+}
+.catalog > :has(+ .tape-list),
+.catalog > :last-child:not(.tape-list) {
+  padding-bottom: var(--glass-pad);
+}
+.tape-list {
+  margin-top: clamp(1rem, 3vw, 2.25rem);
+}
+.tape-list > * {
+  padding-inline: var(--glass-pad);
+}
+.tape-list > button.tape:nth-of-type(10n):not(:last-child) {
+  margin-bottom: clamp(0.85rem, 2.4vw, 1.75rem);
+}
+.tape-list > button.tape:nth-of-type(10n + 1):not(:first-of-type) {
+  padding-top: 0.35rem;
+}
+
+/* A page title that sits on the wall gets a rack plate behind it. */
+main > h1:not(.visually-hidden) {
+  align-self: flex-start;
+  margin: 0;
+  padding: 0.45rem 0.9rem;
+  background: var(--color-rack);
+  color: var(--color-rack-ink);
+  border-radius: var(--radius-label);
+  box-shadow: 0 2px 3px rgba(20, 8, 2, 0.5);
 }
 
 /* ---- Rack: masthead and player ------------------------------------------ */

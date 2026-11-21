@@ -41,7 +41,7 @@ export function Room() {
         </div>
         <div className="room-lamp" />
         {roomPosters.map((poster) => (
-          <div key={poster.artist} className={`room-poster ${poster.tone}`}>
+          <div key={poster.artist} className={`room-poster ${poster.tone} slot-${poster.slot}`}>
             <span className="room-poster-top">{poster.kicker}</span>
             <strong>{poster.artist}</strong>
             <em>{poster.title}</em>
