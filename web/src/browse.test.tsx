@@ -63,14 +63,11 @@ describe("Catalog browsing", () => {
     ).toBe("");
     expect(validateDates({ ...emptySearch, date_from: "2020-02-01" })).toBe("");
   });
-  it("shows counted artist suggestions and decades from actual facets", () => {
+  it("shows counted year suggestions and decades from actual facets", () => {
     const html = renderToString(
       <BrowseDirectory
         facets={{
-          artists: [
-            { value: "Ween", count: 12 },
-            { value: "Billy Strings", count: 50 },
-          ],
+          artists: [],
           venues: [],
           years: [
             { value: "1997", count: 7 },
@@ -83,7 +80,9 @@ describe("Catalog browsing", () => {
         select={() => {}}
       />,
     );
-    expect(html.indexOf("Billy Strings")).toBeLessThan(html.indexOf("Ween"));
+    expect(html).toContain("Browse by year");
+    expect(html).not.toContain("Venues");
+    expect(html.indexOf("1999")).toBeLessThan(html.indexOf("1997"));
     expect(html.replaceAll("<!-- -->", "")).toContain("1990s");
     expect(html.replaceAll("<!-- -->", "")).toContain("2020s");
     expect(html).toContain("Suggestions are limited");

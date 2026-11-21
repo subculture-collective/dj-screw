@@ -7,7 +7,7 @@ left or right sidebars.
 Placement changes only classes on the existing player. The audio element, its
 time, volume, pause state and the queue are untouched, so the layout can change
 mid-track. Only the validated placement name is stored, under
-`lineage.player.placement`; missing, invalid or refused storage falls back to bottom.
+`grey-tapes.player.placement`; missing, invalid or refused storage falls back to bottom.
 
 The shell reorders around the player with CSS because moving the element in the
 document would remount the audio. `--player-height` reserves page space for the
@@ -26,11 +26,11 @@ list closes again when the player leaves the sidebar or the window falls back to
 the bottom bar. The rail is 340 px wide by default. Drag its inner edge, or focus
 that edge and use the arrow keys (Shift for bigger steps), Home or End, to set a
 width between 260 px and 640 px, never more than half the window. The width is
-stored under `lineage.player.rail`; an invalid or missing value uses the default.
+stored under `grey-tapes.player.rail`; an invalid or missing value uses the default.
 
 ## Controls
 
-The audio element has no native controls; Lineage draws its own transport in
+The audio element has no native controls; Grey Tapes draws its own transport in
 every placement: previous, play or pause, and next; a scrubber with elapsed and
 total time; and a mute button with a volume slider. Previous restarts the track
 once it has played for more than three seconds, otherwise it plays the track

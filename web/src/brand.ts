@@ -1,31 +1,33 @@
-// Brand constants for Lineage. Keep copy and names consistent across the app
+// Brand constants for Grey Tapes. Keep copy and names consistent across the app
 // and metadata. See docs/reference/brand.md for voice, tokens and usage.
 export const brand = {
-  name: "Lineage",
-  descriptor: "live recordings",
-  tagline: "Live recordings, with their lineage.",
+  name: "Grey Tapes",
+  descriptor: "DJ Screw chapters",
+  tagline: "Every chapter, slowed down and on the shelf.",
   description:
-    "Search live shows from the Internet Archive’s Live Music Archive by artist, venue and date. Every recording keeps its source metadata, corrections and taper lineage visible.",
-  collectionName: "Live Music Archive",
-  collectionURL: "https://archive.org/details/etree",
+    "Browse and play DJ Screw’s tapes from the Internet Archive’s DJ Screw Discography: every chapter by number and year, with side A and side B track lists and the artists on each tape.",
+  collectionName: "DJ Screw Discography",
+  // The Internet Archive collection identifier the engine imports.
+  collection: "dj-screw-discography",
+  collectionURL: "https://archive.org/details/dj-screw-discography",
 } as const;
 
 export const discoveryCopy = {
-  browse: "Browse recordings",
+  browse: "Browse the shelf",
   browseShort: "Browse",
-  search: "Search recordings",
+  search: "Search tapes",
   searchShort: "Search",
-  explore: "Explore the collection",
-  exploreShort: "Explore",
+  explore: "Browse by year",
+  exploreShort: "Years",
   calendarShort: "Calendar",
   topArtists: "Top artists",
   seeAll: "See all",
-  recording: "Recording",
-  invalidRecording: "Choose a valid recording identifier.",
+  recording: "Tape",
+  invalidRecording: "Choose a valid tape identifier.",
   recordingMissing:
-    "This recording is not in the catalog. It may have been excluded or removed.",
-  openRecording: "Open recording page",
-  backToRecordings: "Back to recordings",
+    "This tape is not in the catalog. It may have been excluded or removed.",
+  openRecording: "Open tape page",
+  backToRecordings: "Back to the shelf",
   calendar: "Concert calendar",
   onThisDay: "On this day",
   artist: "Artist page",
@@ -49,9 +51,9 @@ export const discoveryCopy = {
   sourceFacts: "Artist information from MusicBrainz",
   biographyCredit: "Wikipedia contributors · CC BY-SA 4.0",
   collectionBiographyCredit:
-    "Text from the artist's Live Music Archive collection page",
+    "Text from the artist's Internet Archive collection page",
   readCollection: "View the collection",
-  sourceCollection: "Artist collection on the Live Music Archive",
+  sourceCollection: "Artist collection on Internet Archive",
   unknown: "Not recorded",
   loadingArtist: "Loading artist information…",
   artistError:
@@ -80,19 +82,19 @@ export const discoveryCopy = {
 } as const;
 
 export const recordingCopy = {
-  lineageMissing: "Lineage not recorded",
+  lineageMissing: "Not recorded",
   sourceMissing: "Source not recorded",
-  setlist: "Setlist",
+  setlist: "Track list",
   notes: "Notes",
   readFullNotes: "Read the full notes",
 } as const;
 
 export const playerCopy = {
   placement: "Player position",
-  openRecording: "Open recording page",
+  openRecording: "Open tape page",
   showDetails: "Details",
   hideDetails: "Hide details",
-  details: "Playing recording details",
+  details: "Playing tape details",
   resize: "Resize player sidebar",
   play: "Play",
   pause: "Pause",
@@ -113,12 +115,12 @@ export const playerCopy = {
 } as const;
 
 export const shelfCopy = {
-  filterLabel: "Filter the recordings on this page",
+  filterLabel: "Filter the tapes on this page",
   filterPlaceholder: "Filter this page",
   order: "Order",
   catalogOrder: "Catalog order",
-  newestFirst: "Newest first (dated recordings)",
-  columns: { artist: "Artist", title: "Recording", venue: "Venue", date: "Date" },
+  newestFirst: "Newest first",
+  columns: { chapter: "Chapter", title: "Tape", date: "Year" },
   ascending: "ascending",
   descending: "descending",
   sortBy: (column: string, direction: string) =>
@@ -128,6 +130,13 @@ export const shelfCopy = {
   shown: (shown: number, total: number) =>
     `${shown} of ${total} on this page`,
   noMatch: (filter: string) =>
-    `No recordings on this page match “${filter}”.`,
+    `No tapes on this page match “${filter}”.`,
   clearFilter: "Clear filter",
+} as const;
+
+export const tapeCopy = {
+  release: "Release",
+  side: (side: string) => `Side ${side}`,
+  disclaimer:
+    "Grey Tapes is an independent project. It is not affiliated with or endorsed by Screwed Up Records & Tapes or the estate of DJ Screw.",
 } as const;

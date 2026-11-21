@@ -11,7 +11,6 @@ import {
 } from "./artist-images";
 import { recordingArtwork } from "./artwork";
 import BrowseDirectory from "./BrowseDirectory";
-import OnThisDayShelf from "./OnThisDayShelf";
 import ArtistPage from "./ArtistPage";
 import DateDiscovery from "./DateDiscovery";
 import RecordingDetail, { TrackList } from "./RecordingDetail";
@@ -36,7 +35,8 @@ import type { CSSProperties, FormEvent, KeyboardEvent, MouseEvent } from "react"
 import { getJSON, label, missingItemMessage, tracksFor } from "./archive";
 import { catalogData } from "./catalog-data";
 import type { Detail, Recording, Track, ImportStatus, Facets } from "./archive";
-import { brand, discoveryCopy, playerCopy, shelfCopy } from "./brand";
+import { brand, discoveryCopy, playerCopy, shelfCopy, tapeCopy } from "./brand";
+import { tapeLabel } from "./tape";
 import {
   clampRail,
   isRail,
@@ -288,7 +288,7 @@ export default function App() {
       .then((version) =>
         version.modules.source_artist_photos === "1"
           ? catalogData.read<{ artists: Parameters<typeof artistPhotosFrom>[0] }>(
-              "/api/source-catalog/v1/artist-photos?collection=etree",
+              `/api/source-catalog/v1/artist-photos?collection=${brand.collection}`,
               controller.signal,
             )
           : undefined,
@@ -334,14 +334,14 @@ export default function App() {
             "This catalog service needs an update before it can load the collection.",
           );
         if (
-          version.collection !== "etree" &&
-          !version.collections?.includes("etree")
+          version.collection !== brand.collection &&
+          !version.collections?.includes(brand.collection)
         )
           throw new Error(
-            "The Live Music Archive is unavailable on this catalog service.",
+            `The ${brand.collectionName} is unavailable on this catalog service.`,
           );
         return catalogData.read<Catalog>(
-          `/api/source-catalog/v1/items?collection=etree&${catalogQuery(search)}`,
+          `/api/source-catalog/v1/items?collection=${brand.collection}&${catalogQuery(search)}`,
           controller.signal,
         );
       })
@@ -361,7 +361,7 @@ export default function App() {
     const timer = window.setInterval(() => {
       if (document.hidden) return;
       getJSON<ImportStatus>(
-        "/api/source-catalog/v1/status?collection=etree",
+        `/api/source-catalog/v1/status?collection=${brand.collection}`,
         controller.signal,
       )
         .then((status) => {
@@ -381,7 +381,7 @@ export default function App() {
     if (!detailID) return;
     const controller = new AbortController();
     getJSON<Detail>(
-      `/api/source-catalog/v1/items/${encodeURIComponent(detailID)}?collection=etree`,
+      `/api/source-catalog/v1/items/${encodeURIComponent(detailID)}?collection=${brand.collection}`,
       controller.signal,
     )
       .then(setDetail)
@@ -394,7 +394,7 @@ export default function App() {
     const controller = new AbortController();
     catalogData
       .read<Facets>(
-        "/api/source-catalog/v1/facets?collection=etree",
+        `/api/source-catalog/v1/facets?collection=${brand.collection}`,
         controller.signal,
       )
       .then((next) => {
@@ -466,7 +466,7 @@ export default function App() {
     reveal.current = show;
     if (push)
       window.history.pushState(
-        // inApp marks entries Back can return to without leaving Lineage;
+        // inApp marks entries Back can return to without leaving the app;
         // from names the view that Back would show.
         { pages, scroll: window.scrollY, inApp: true, from: view },
         "",
@@ -566,7 +566,7 @@ export default function App() {
     setPlayError(undefined);
     try {
       const params = new URLSearchParams({
-        collection: "etree",
+        collection: brand.collection,
         action: "play",
         file: track.name,
       });
@@ -617,7 +617,7 @@ export default function App() {
   const destinations = {
     browse: { ...emptySearch },
     search: { ...emptySearch, view: "search" },
-    explore: { ...emptySearch, view: "explore", dimension: "artists" },
+    explore: { ...emptySearch, view: "explore", dimension: "years" },
     calendar: {
       ...emptySearch,
       artist: search.artist,
@@ -668,7 +668,7 @@ export default function App() {
     (key) => search[key],
   );
   const refining =
-    (["venue", "year", "date_from", "date_to", "availability"] as const).some(
+    (["year", "availability"] as const).some(
       (key) => search[key],
     ) ||
     (!!search.artist && !search.view);
@@ -722,8 +722,6 @@ export default function App() {
                 ["browse", discoveryCopy.browse, discoveryCopy.browseShort],
                 ["search", discoveryCopy.search, discoveryCopy.searchShort],
                 ["explore", discoveryCopy.explore, discoveryCopy.exploreShort],
-                ["calendar", discoveryCopy.calendar, discoveryCopy.calendarShort],
-                ["on-this-day", discoveryCopy.onThisDay, discoveryCopy.onThisDay],
               ] as const
             ).map(([key, text, short]) => (
               <a
@@ -740,36 +738,6 @@ export default function App() {
               </a>
             ))}
           </nav>
-          {facets && facets.artists.length > 0 && (
-            <nav className="sidebar-artists" aria-label={discoveryCopy.topArtists}>
-              <p className="eyebrow">{discoveryCopy.topArtists}</p>
-              {[...facets.artists]
-                .sort((a, b) => b.count - a.count)
-                .slice(0, 8)
-                .map((artist) => {
-                const next = { ...emptySearch, artist: artist.value, view: "artist" };
-                return (
-                  <a
-                    key={artist.value}
-                    href={`/?${searchQuery(next)}`}
-                    aria-current={
-                      view === "artist" && search.artist === artist.value
-                        ? "page"
-                        : undefined
-                    }
-                    onClick={navigate(next, "heading")}
-                  >
-                    <Artwork
-                      artist={artistImageFor(artist.value, artistPhotos)}
-                      name={artist.value}
-                    />
-                    <span className="sidebar-artist-name">{artist.value}</span>
-                    <small>{artist.count.toLocaleString()}</small>
-                  </a>
-                );
-              })}
-            </nav>
-          )}
           <a
             className="source-link"
             href={brand.collectionURL}
@@ -821,7 +789,7 @@ export default function App() {
             <p className="eyebrow">{discoveryCopy.recording}</p>
             <h1 ref={pageHeading} tabIndex={-1}>
               {detail
-                ? label(detail.metadata.creator) || "Unknown artist"
+                ? tapeLabel(label(detail.metadata.title)).name || routeID
                 : discoveryCopy.recording}
             </h1>
             {!routeID ? (
@@ -867,29 +835,28 @@ export default function App() {
                 <input
                   value={draft.q}
                   onChange={(e) => editFilter("q", e.target.value)}
-                  placeholder="Artist, city, tour name, song, taper…"
+                  placeholder="Chapter, tape name, rapper, song…"
                   type="search"
                   maxLength={1000}
                   aria-describedby="search-help"
                 />
               </label>
               <button type="submit" className="primary">
-                Find shows
+                Find tapes
               </button>
             </div>
             <p id="search-help" className="search-help">
-              Search stored metadata: titles, places, tour mentions, songs,
-              subjects, notes, and recording credits. Tour names use text
-              search; the catalog has no separate tour field.
+              Search stored metadata: tape titles, chapter numbers, track
+              titles and the artists in them, subjects and notes.
             </p>
             <details
               className="filter-panel"
               open={refining || undefined}
               key={refining ? "refining" : "idle"}
             >
-              <summary>Filter by artist, venue, year or date</summary>
+              <summary>Filter by year or availability</summary>
               <div className="filter-fields">
-                {(["artist", "venue", "year"] as const).map((key) => (
+                {(["year"] as const).map((key) => (
                   <label key={key}>
                     {filterLabels[key]}
                     <input
@@ -908,30 +875,12 @@ export default function App() {
                   </label>
                 ))}
                 <label>
-                  From date
-                  <input
-                    type="date"
-                    value={draft.date_from}
-                    max={draft.date_to || undefined}
-                    onChange={(e) => editFilter("date_from", e.target.value)}
-                  />
-                </label>
-                <label>
-                  To date
-                  <input
-                    type="date"
-                    value={draft.date_to}
-                    min={draft.date_from || undefined}
-                    onChange={(e) => editFilter("date_to", e.target.value)}
-                  />
-                </label>
-                <label>
                   Source availability
                   <select
                     value={draft.availability}
                     onChange={(e) => editFilter("availability", e.target.value)}
                   >
-                    <option value="">All recordings</option>
+                    <option value="">All tapes</option>
                     <option value="available">Available at last check</option>
                     <option value="unavailable">
                       Unavailable at last check
@@ -945,11 +894,11 @@ export default function App() {
                 </button>
               </div>
             </details>
-            {(["artists", "venues", "years"] as const).map((key) => (
+            {(["years"] as const).map((key) => (
               <datalist key={key} id={`catalog-${key.slice(0, -1)}`}>
                 {facets?.[key].map((entry) => (
                   <option key={entry.value} value={entry.value}>
-                    {entry.count.toLocaleString()} recordings
+                    {entry.count.toLocaleString()} tapes
                   </option>
                 ))}
               </datalist>
@@ -957,25 +906,13 @@ export default function App() {
             {filterError && <p role="alert">{filterError}</p>}
           </form>
         </section>}
-        {home && supportsDiscovery && (
-          <OnThisDayShelf
-            monthDay={destinations["on-this-day"].month_day}
-            heading={`${discoveryCopy.onThisDay} · ${now.toLocaleDateString(undefined, { month: "long", day: "numeric" })}`}
-            artistPhotos={artistPhotos}
-            open={open}
-            seeAll={navigate(destinations["on-this-day"], "heading")}
-            seeAllHref={`/?${searchQuery(destinations["on-this-day"])}`}
-          />
-        )}
         {view !== "recording" && <BrowseDirectory
           key={view === "explore" ? `explore:${search.dimension}` : home ? "home" : "narrowed"}
-          initialDimension={view === "explore" && (search.dimension === "venues" || search.dimension === "years") ? search.dimension : "artists"}
           onDimensionChange={view === "explore" ? (dimension) => changeSearch({ ...search, dimension }) : undefined}
           // The sidebar lists the top artists from 1024px, so the home view
           // starts with the directory closed there.
           open={(home && !wide) || view === "explore"}
           facets={facets}
-          artistPhotos={artistPhotos}
           error={facetError}
           retry={() => {
             setFacetError("");
@@ -1009,7 +946,7 @@ export default function App() {
                 : search.view === "calendar"
                   ? discoveryCopy.dateRecordings
                   : search.artist
-                    ? `${search.artist} recordings`
+                    ? `${search.artist} tapes`
                     : search.q
                       ? `Results for “${search.q}”`
                       : appliedFilters.length
@@ -1019,7 +956,7 @@ export default function App() {
             <div className="catalog-meta">
               <span className="catalog-count">
                 {catalog
-                  ? `${catalog.total.toLocaleString()} recordings`
+                  ? `${catalog.total.toLocaleString()} tapes`
                   : loading
                     ? "Checking the catalog…"
                     : "Catalog unavailable"}
@@ -1079,7 +1016,7 @@ export default function App() {
           )}
           {loading && (
             <p role="status" className="notice">
-              Loading recordings from the catalog…
+              Loading tapes from the catalog…
             </p>
           )}
           {error && (
@@ -1098,8 +1035,8 @@ export default function App() {
           {catalog?.items.length === 0 && (
             <p className="notice">
               {catalog.status.imported === 0
-                ? "No recordings have been added to this catalog yet."
-                : "No recordings match. Try another artist, venue or year."}
+                ? "No tapes have been added to this catalog yet."
+                : "No tapes match. Try another chapter, name or year."}
             </p>
           )}
           {catalog && catalog.items.length > 0 && (
@@ -1160,7 +1097,9 @@ export default function App() {
                 <span aria-hidden="true" />
               </div>
             )}
-            {shelfRows.map(({ recording, index }, position) => (
+            {shelfRows.map(({ recording, index }, position) => {
+              const tape = tapeLabel(label(recording.title), label(recording.date));
+              return (
               <Fragment key={recording.identifier}>
                 {search.sort === "date_desc" &&
                   !shelfSort &&
@@ -1182,36 +1121,34 @@ export default function App() {
                     {String(history.length * 100 + index + 1).padStart(3, "0")}
                   </span>
                   <Artwork
-                    artist={artistImageFor(recording.creator, artistPhotos)}
-                    name={label(recording.creator)}
+                    name={tape.name || recording.identifier}
                     cover={{
-                      artist: label(recording.creator) || "Unknown artist",
-                      date: label(recording.date).slice(0, 10),
+                      artist: tape.name || recording.identifier,
+                      date: tape.series || tape.year,
                     }}
                   />
                   <span className="tape-info">
-                    <strong>
-                      {label(recording.creator) || "Unknown artist"}
-                    </strong>
+                    <strong>{tape.series || tapeCopy.release}</strong>
                     <span title={label(recording.title) || recording.identifier}>
-                      {label(recording.title) || recording.identifier}
+                      {tape.name || recording.identifier}
                       {recording.unavailable ? " · Source unavailable" : ""}
                     </span>
                     <span className="tape-place">
-                      {[label(recording.venue), label(recording.coverage)]
+                      {[label(recording.creator), tape.format]
                         .filter(Boolean)
-                        .join(" · ") || "Venue and place not recorded"}
+                        .join(" · ")}
                     </span>
                   </span>
                   <span className="tape-date">
-                    {label(recording.date).slice(0, 10) || "Date unknown"}
+                    {tape.year || "Year unknown"}
                   </span>
                   <span aria-hidden="true" className="arrow">
                     →
                   </span>
                 </button>
               </Fragment>
-            ))}
+              );
+            })}
           </div>
           {catalog && (catalog.cursor || history.length > 0) && (
             <nav aria-label="Catalog pages" className="pagination">
@@ -1251,12 +1188,12 @@ export default function App() {
         <footer>
           <div>
             <p>
-              {brand.name} is built on Arkhiv. Recorded by tapers, preserved by
-              the Internet Archive.
+              {brand.name} is built on Arkhiv. Tapes by DJ Screw (1971–2000),
+              preserved by the Internet Archive.
             </p>
             <p>
-              Availability and playback depend on the source recording. Audio
-              streams from the Internet Archive.
+              Availability and playback depend on the source files. Audio
+              streams from the Internet Archive. {tapeCopy.disclaimer}
             </p>
           </div>
           {status && (

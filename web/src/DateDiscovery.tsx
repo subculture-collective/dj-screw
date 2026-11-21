@@ -1,3 +1,4 @@
+import { brand } from "./brand";
 import { useEffect, useState } from "react";
 import type { ConcertCalendar } from "./archive";
 import { catalogData } from "./catalog-data";
@@ -135,7 +136,7 @@ function MonthPicker({
 // view resolved (the URL's month or the current one), zero-padded.
 export function calendarQuery(search: Search, month: number) {
   return new URLSearchParams({
-    collection: "etree",
+    collection: brand.collection,
     month: String(month).padStart(2, "0"),
     year_from: search.year_from,
     year_to: search.year_to,

@@ -2,7 +2,7 @@
 # The optional core-dev override builds shared-engine changes from Arkhiv.
 x-core-environment: &core-environment
   DATABASE_URL: postgres://${POSTGRES_USER:-app}:${POSTGRES_PASSWORD:-change-me}@postgres:5432/${POSTGRES_DB:-app}?sslmode=disable
-  VHNESS_COLLECTION: etree
+  VHNESS_COLLECTION: dj-screw-discography
   API_ADDR: 0.0.0.0:8080
   ARKHIV_PUBLIC: "0"
 
@@ -29,7 +29,7 @@ services:
     command:
       - >-
         vhness migrate &&
-        vhness collection --collection etree --policy ${COLLECTION_POLICY:-source_stream}
+        vhness collection --collection dj-screw-discography --policy ${COLLECTION_POLICY:-source_stream}
         --budget ${MEDIA_BUDGET:-0} --reserve ${MEDIA_RESERVE:-0} &&
         vhness discover-catalog --pages 0 --items 0
     environment: *core-environment

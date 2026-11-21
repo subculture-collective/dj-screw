@@ -1,13 +1,11 @@
 import { useState, useSyncExternalStore } from "react";
-import Artwork from "./ArtworkView";
-import { artistImageFor, type ArtistPhotos } from "./artist-images";
 import type { Facets } from "./archive";
 import type { Search } from "./browse";
 
-type Dimension = "artists" | "venues" | "years";
+// Every tape has the same creator and no venue, so years are the one
+// useful directory. The engine still serves the other facets.
+type Dimension = "years";
 const dimensions = {
-  artists: { label: "Artists", key: "artist" },
-  venues: { label: "Venues", key: "venue" },
   years: { label: "Years", key: "year" },
 } as const;
 // Single-column phone layouts preview fewer suggestions; keep in step with the
@@ -28,10 +26,9 @@ function useNarrow() {
 }
 export default function BrowseDirectory({
   open = true,
-  initialDimension = "artists",
+  initialDimension = "years",
   onDimensionChange,
   facets,
-  artistPhotos,
   error,
   retry,
   select,
@@ -40,7 +37,6 @@ export default function BrowseDirectory({
   initialDimension?: Dimension;
   onDimensionChange?: (dimension: Dimension) => void;
   facets?: Facets;
-  artistPhotos?: ArtistPhotos;
   error: string;
   retry: () => void;
   select: (filters: Partial<Search>) => void;
@@ -67,10 +63,10 @@ export default function BrowseDirectory({
   return (
     <details className="browse-directory" open={open || undefined}>
       <summary>
-        <span className="summary-title">Explore the collection</span>
+        <span className="summary-title">Browse by year</span>
         <span className="summary-hint">
-          Choose an artist, a room, or a year to narrow your search. Counts
-          describe imported recordings.
+          Choose a year to see the tapes dated to it. Counts describe imported
+          tapes; many chapters carry only an approximate year.
         </span>
       </summary>
       <div className="browse-controls">
@@ -118,7 +114,7 @@ export default function BrowseDirectory({
             value={sort}
             onChange={(event) => setSort(event.target.value)}
           >
-            <option value="count">Most recordings</option>
+            <option value="count">Most tapes</option>
             <option value="name">
               {dimension === "years" ? "Newest year" : "Alphabetical"}
             </option>
@@ -150,12 +146,6 @@ export default function BrowseDirectory({
                     })
                   }
                 >
-                  {dimension === "artists" && (
-                    <Artwork
-                      artist={artistImageFor(entry.value, artistPhotos)}
-                      name={entry.value}
-                    />
-                  )}
                   <span className="directory-name">{entry.value}</span>
                   <small>{entry.count.toLocaleString()}</small>
                 </button>

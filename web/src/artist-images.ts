@@ -1,3 +1,4 @@
+import { brand } from "./brand";
 import type { ArtistPhoto, ArtistProfile } from "./archive";
 // Curated references, independent of imported recording metadata.
 // Add exact aliases only after confirming the artist and inspecting the image.
@@ -71,7 +72,7 @@ export type ArtistPhotos = ReadonlyMap<string, ArtistImage>;
 const archiveImageLicense = "Internet Archive collection image";
 const mediaID = /^[0-9a-f]{64}$/;
 export const artistMediaURL = (sha256: string) =>
-  `/api/source-catalog/v1/artist-media/${sha256}?collection=etree`;
+  `/api/source-catalog/v1/artist-media/${sha256}?collection=${brand.collection}`;
 
 // An engine photograph: a Commons file, or the artist's Live Music Archive
 // collection image. Stored renditions are used when the engine has them.

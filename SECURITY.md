@@ -2,13 +2,13 @@
 
 ## Supported scope
 
-This policy covers the Lineage web app and the deployment configuration in this repository, as served at https://lineage.subcult.tv/. The catalog and search API come from SUBCULT's shared archive engine.
+This policy covers the Grey Tapes web app and the deployment configuration in this repository. The catalog and search API come from SUBCULT's shared archive engine.
 
 ## Reporting a vulnerability
 
 Do not publish sensitive vulnerabilities in public issues.
 
-Report privately through [GitHub private vulnerability reporting](https://github.com/subculture-collective/lineage/security/advisories/new).
+Report privately through [GitHub private vulnerability reporting](https://github.com/subculture-collective/dj-screw/security/advisories/new).
 
 Include:
 

@@ -1,27 +1,27 @@
 @import "tailwindcss";
 
 /*
-  Lineage · J-Card design system
+  Grey Tapes · J-Card design system, retuned to a grey cassette shell
   Reference: docs/reference/brand.md. Tokens live in @theme so Tailwind
   utilities and these component rules share one source. The dark scheme
   overrides the same custom properties under prefers-color-scheme.
 */
 @theme static {
-  --color-paper: #f4efe4;
-  --color-paper-deep: #eae3d2;
-  --color-paper-raised: #fbf8f1;
-  --color-ink: #1c1915;
-  --color-ink-soft: #5b544a;
-  --color-ink-faint: #8d8371;
-  --color-rule: #cfc6b2;
-  --color-rule-strong: #8d8371;
-  --color-marker: #c43a24;
-  --color-marker-deep: #a12d1a;
-  --color-on-marker: #fbf8f1;
-  --color-stripe-red: #c43a24;
-  --color-stripe-mustard: #e0a52d;
-  --color-stripe-teal: #2f6b8f;
-  --color-focus: #2f6b8f;
+  --color-paper: #e9e8e4;
+  --color-paper-deep: #dcdad4;
+  --color-paper-raised: #f5f4f1;
+  --color-ink: #18171a;
+  --color-ink-soft: #57545c;
+  --color-ink-faint: #77737d;
+  --color-rule: #c7c4cc;
+  --color-rule-strong: #8a8690;
+  --color-marker: #6b3fa0;
+  --color-marker-deep: #52307d;
+  --color-on-marker: #f5f4f1;
+  --color-stripe-red: #6b3fa0;
+  --color-stripe-mustard: #c2364f;
+  --color-stripe-teal: #8f9aa6;
+  --color-focus: #6b3fa0;
   --color-scrim: rgba(28, 25, 21, 0.55);
 
   --font-sans:
@@ -38,18 +38,18 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --color-paper: #15130f;
-    --color-paper-deep: #1f1c17;
-    --color-paper-raised: #26221c;
-    --color-ink: #efe8d8;
-    --color-ink-soft: #b3a892;
-    --color-ink-faint: #7f7563;
-    --color-rule: #3a3528;
-    --color-rule-strong: #6b6251;
-    --color-marker: #e0573f;
-    --color-marker-deep: #c43a24;
-    --color-on-marker: #15130f;
-    --color-focus: #6fb0d1;
+    --color-paper: #141317;
+    --color-paper-deep: #1d1b21;
+    --color-paper-raised: #25232a;
+    --color-ink: #ece9f0;
+    --color-ink-soft: #b2adb9;
+    --color-ink-faint: #8d8894;
+    --color-rule: #34313a;
+    --color-rule-strong: #615c69;
+    --color-marker: #a67fe0;
+    --color-marker-deep: #7f58bf;
+    --color-on-marker: #141317;
+    --color-focus: #b99cf0;
     --color-scrim: rgba(0, 0, 0, 0.7);
     --shadow-card: 0 1px 0 rgba(0, 0, 0, 0.4), 0 12px 32px rgba(0, 0, 0, 0.5);
     color-scheme: dark;
@@ -1341,7 +1341,7 @@ dd {
   background: var(--color-paper);
   color: var(--color-ink);
 }
-/* Lineage's own transport: previous, play and next, a scrubber and volume. */
+/* The app's own transport: previous, play and next, a scrubber and volume. */
 .stream-player {
   flex: 1 1 24rem;
   min-width: 0;
@@ -1555,12 +1555,12 @@ dd {
     var(--color-stripe-teal) 66.6%
   );
 }
-.jcard-cover[data-tone="0"] { --cover-bg: #c43a24; --cover-fg: #fbf8f1; }
-.jcard-cover[data-tone="1"] { --cover-bg: #e0a52d; --cover-fg: #1c1915; }
-.jcard-cover[data-tone="2"] { --cover-bg: #2f6b8f; --cover-fg: #fbf8f1; }
-.jcard-cover[data-tone="3"] { --cover-bg: #1c1915; --cover-fg: #f4efe4; }
-.jcard-cover[data-tone="4"] { --cover-bg: #eae3d2; --cover-fg: #1c1915; }
-.jcard-cover[data-tone="5"] { --cover-bg: #a12d1a; --cover-fg: #fbf8f1; }
+.jcard-cover[data-tone="0"] { --cover-bg: #6b3fa0; --cover-fg: #f5f4f1; }
+.jcard-cover[data-tone="1"] { --cover-bg: #8f8c95; --cover-fg: #18171a; }
+.jcard-cover[data-tone="2"] { --cover-bg: #52307d; --cover-fg: #f5f4f1; }
+.jcard-cover[data-tone="3"] { --cover-bg: #18171a; --cover-fg: #e9e8e4; }
+.jcard-cover[data-tone="4"] { --cover-bg: #c7c4cc; --cover-fg: #18171a; }
+.jcard-cover[data-tone="5"] { --cover-bg: #c2364f; --cover-fg: #f5f4f1; }
 .jcard-date {
   font-family: var(--font-mono);
   font-size: 7.5cqi;
@@ -2267,4 +2267,20 @@ dd {
   * {
     transition: none !important;
   }
+}
+
+/* Tape sides and the performer under each song title. */
+.tape-side {
+  margin: 1rem 0 0.25rem;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-marker);
+}
+.track-performer {
+  display: block;
+  font-weight: 400;
+  font-size: 0.85em;
+  color: var(--color-ink-soft);
 }

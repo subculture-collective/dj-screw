@@ -1,3 +1,4 @@
+import { brand } from "./brand";
 import type { ReactNode } from "react";
 import Artwork from "./ArtworkView";
 import RecordingContent from "./RecordingContent";
@@ -8,9 +9,12 @@ import { label } from "./archive";
 import type { Detail, Track } from "./archive";
 import type { Search } from "./browse";
 import { trackDisplayTitle } from "./track-title";
+import { tapeCopy } from "./brand";
+import { tapeLabel, trackCredit, trackLength } from "./tape";
 
 // Display titles are cleaned; each row keeps its original title and file name
-// as a tooltip, and the disclosure lists them all.
+// as a tooltip, and the disclosure lists them all. Side-numbered files get a
+// side heading and the performer on its own line.
 export function TrackList({
   tracks,
   play,
@@ -23,8 +27,17 @@ export function TrackList({
   return (
     <>
       <ol className="tracks">
-        {tracks.map((track, index) => (
+        {tracks.map((track, index) => {
+          const credit = trackCredit(track, trackDisplayTitle(track));
+          const previous =
+            index > 0
+              ? trackCredit(tracks[index - 1], trackDisplayTitle(tracks[index - 1])).side
+              : "";
+          return (
           <li key={track.name}>
+            {credit.side && credit.side !== previous && (
+              <h4 className="tape-side">{tapeCopy.side(credit.side)}</h4>
+            )}
             <button
               onClick={() => play(index)}
               aria-current={index === current ? "true" : undefined}
@@ -35,14 +48,18 @@ export function TrackList({
               <strong
                 title={`Original title: ${track.title || "Not recorded"} · File: ${track.name}`}
               >
-                {trackDisplayTitle(track)}
+                {credit.song}
+                {credit.performer && (
+                  <span className="track-performer">{credit.performer}</span>
+                )}
               </strong>
               <span className="track-length">
-                {index === current ? "Playing" : track.length || "▶"}
+                {index === current ? "Playing" : trackLength(track.length) || "▶"}
               </span>
             </button>
           </li>
-        ))}
+          );
+        })}
       </ol>
       {tracks.length > 0 && (
         <details className="provenance">
@@ -89,13 +106,16 @@ export default function RecordingDetail({
   related: (filters: Partial<Search>) => void;
 }) {
   const creator = label(detail.metadata.creator);
-  const venue = label(detail.metadata.venue);
   const date = label(detail.metadata.date);
-  const coverage = label(detail.metadata.coverage);
+  const tape = tapeLabel(label(detail.metadata.title), date);
   return (
     <div className="recording-body">
       {heading?.(creator || "Unknown artist")}
-      <p className="detail-title">{label(detail.metadata.title)}</p>
+      <p className="detail-title">
+        {[tape.series || tapeCopy.release, tape.year, tape.format]
+          .filter(Boolean)
+          .join(" · ")}
+      </p>
       {actions}
       <Artwork
         recording={recordingArtwork(
@@ -105,7 +125,7 @@ export default function RecordingDetail({
         )}
         artist={artistImageFor(detail.metadata.creator, artistPhotos)}
         name={label(detail.metadata.title) || identifier}
-        cover={{ artist: creator || "Unknown artist", date: date.slice(0, 10) }}
+        cover={{ artist: tape.name || identifier, date: tape.series || tape.year }}
         caption
       />
       <div className="related-browse" aria-label="Browse related recordings">
@@ -114,19 +134,9 @@ export default function RecordingDetail({
             More by {creator}
           </button>
         )}
-        {venue && (
-          <button onClick={() => related({ venue })}>At this venue</button>
-        )}
-        {/^\d{4}-\d{2}-\d{2}$/.test(date) && (
-          <button
-            onClick={() => related({ year: "", date_from: date, date_to: date })}
-          >
-            On this date
-          </button>
-        )}
-        {coverage && (
-          <button onClick={() => related({ q: coverage })}>
-            Search this place
+        {tape.year && (
+          <button onClick={() => related({ year: tape.year })}>
+            More from {tape.year}
           </button>
         )}
       </div>
@@ -153,7 +163,7 @@ export default function RecordingDetail({
             : "previously"}{" "}
           ·{" "}
           <a
-            href={`/api/source-catalog/v1/items/${encodeURIComponent(identifier)}/source?collection=etree`}
+            href={`/api/source-catalog/v1/items/${encodeURIComponent(identifier)}/source?collection=${brand.collection}`}
             target="_blank"
             rel="noreferrer"
           >
@@ -201,7 +211,7 @@ export default function RecordingDetail({
             disabled={resolving}
             onClick={() => play(0)}
           >
-            Play recording ▶
+            Play tape ▶
           </button>
         )}
       </div>

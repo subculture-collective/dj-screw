@@ -122,7 +122,7 @@ describe("Curated artist images", () => {
     ]);
     const ween = artistImageFor("Ween", photos);
     expect(ween?.url).toBe(
-      `/api/source-catalog/v1/artist-media/${"b".repeat(64)}?collection=etree`,
+      `/api/source-catalog/v1/artist-media/${"b".repeat(64)}?collection=dj-screw-discography`,
     );
     expect(ween?.rightsURL).toBeUndefined();
     expect(ween?.rights).toContain("artist collection on Internet Archive");

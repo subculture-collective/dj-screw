@@ -1,17 +1,13 @@
-# Application stack
+# Stack
 
-Lineage (repository `arkhiv-live-music`) is a React/TypeScript consumer of the shared Arkhiv Go engine.
-The published archive-viewer kit supplies shared requests and audio controls.
-PostgreSQL stores metadata, source snapshots, corrections and worker state through
-Arkhiv's migrations and operators. This repository owns no Go backend or schema.
+Grey Tapes (repository `dj-screw`) is a React/TypeScript consumer of the shared
+Arkhiv Go engine. The engine runs as a pinned container image
+(`deploy/archive-core.env`) with PostgreSQL 17 and imports the Internet Archive
+collection `dj-screw-discography`.
 
-Vite serves the development frontend and proxies `/api` to the engine. The web
-container uses nginx with the same proxy boundary. Compose supplies the engine,
-its metadata worker, operator and database. Engine and viewer release receipts
-are independently pinned under `deploy/` and upgraded through Arkhiv's registry.
+- Frontend: React 19, Vite 7, Tailwind 4, `@subcult/archive-viewer` 0.4.13.
+- Engine: Arkhiv core 0.4.12 (see `deploy/core-release.json`).
+- Audio and covers stream from Internet Archive in the browser.
 
-The product is named Lineage and uses the J-Card design system; see
-[brand.md](brand.md) and [ADR 0002](../adr/0002-lineage-brand-and-j-card-design-system.md).
-The pinned core and viewer versions are recorded in `deploy/core-release.json`
-and `deploy/viewer-release.json`. See the root README for the full-import/review
-workers, optional development override, operator commands and verification.
+The product name and design are recorded in [brand.md](brand.md) and
+[ADR 0002](../adr/0002-grey-tapes-from-lineage.md).

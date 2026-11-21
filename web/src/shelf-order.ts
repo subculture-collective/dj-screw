@@ -1,20 +1,18 @@
 import { label } from "./archive";
 import type { Recording } from "./archive";
+import { tapeLabel } from "./tape";
 
 // Sorting and filtering here apply to the page of recordings already loaded.
 // The catalog's own order (`sort` in the search) covers every page.
-export const shelfColumns = ["artist", "title", "venue", "date"] as const;
+export const shelfColumns = ["chapter", "title", "date"] as const;
 export type ShelfColumn = (typeof shelfColumns)[number];
 export type ShelfSort = { column: ShelfColumn; descending: boolean };
 
 export function shelfValue(recording: Recording, column: ShelfColumn): string {
-  if (column === "artist") return label(recording.creator);
-  if (column === "title") return label(recording.title) || recording.identifier;
-  if (column === "venue")
-    return [label(recording.venue), label(recording.coverage)]
-      .filter(Boolean)
-      .join(" · ");
-  return label(recording.date).slice(0, 10);
+  const tape = tapeLabel(label(recording.title), label(recording.date));
+  if (column === "chapter") return tape.series;
+  if (column === "title") return tape.name || recording.identifier;
+  return tape.year;
 }
 
 // Case and accents do not matter: "beyonce" finds "Beyoncé".

@@ -29,12 +29,12 @@ describe("player placement preference", () => {
   });
 
   it.each(["top", "mini", "bottom", "left", "right"])("restores a saved %s placement", (value) => {
-    vi.stubGlobal("localStorage", storage({ "lineage.player.placement": value }));
+    vi.stubGlobal("localStorage", storage({ "grey-tapes.player.placement": value }));
     expect(readPlacement()).toBe(value);
   });
 
   it.each(["sideways", "", "TOP", "Left"])("rejects the invalid value %j", (value) => {
-    vi.stubGlobal("localStorage", storage({ "lineage.player.placement": value }));
+    vi.stubGlobal("localStorage", storage({ "grey-tapes.player.placement": value }));
     expect(readPlacement()).toBe("bottom");
   });
 
@@ -58,7 +58,7 @@ describe("player placement preference", () => {
     const local = storage();
     vi.stubGlobal("localStorage", local);
     writePlacement("mini");
-    expect([...local.values]).toEqual([["lineage.player.placement", "mini"]]);
+    expect([...local.values]).toEqual([["grey-tapes.player.placement", "mini"]]);
   });
 });
 
@@ -67,7 +67,7 @@ describe("player rail width", () => {
     vi.stubGlobal("localStorage", storage());
     expect(readRailWidth()).toBe(railDefault);
     for (const value of ["", "abc", "12", "9000", "-400"]) {
-      vi.stubGlobal("localStorage", storage({ "lineage.player.rail": value }));
+      vi.stubGlobal("localStorage", storage({ "grey-tapes.player.rail": value }));
       expect(readRailWidth()).toBe(railDefault);
     }
   });
@@ -76,7 +76,7 @@ describe("player rail width", () => {
     const local = storage();
     vi.stubGlobal("localStorage", local);
     writeRailWidth(412.6);
-    expect([...local.values]).toEqual([["lineage.player.rail", "413"]]);
+    expect([...local.values]).toEqual([["grey-tapes.player.rail", "413"]]);
     expect(readRailWidth()).toBe(413);
   });
 

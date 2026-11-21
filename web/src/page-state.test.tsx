@@ -28,16 +28,20 @@ describe("shareable root-query pages", () => {
   });
 
   it.each([
-    ["?view=search", "Search recordings"],
-    ["?view=explore&dimension=venues", "Explore the collection"],
+    ["?view=search", "Search tapes"],
+    ["?view=explore&dimension=venues", "Browse by year"],
     ["?view=recording&id=show.01", "Loading recording"],
-    ["?view=recording", "Choose a valid recording identifier"],
-    ["?view=recording&id=../bad", "Choose a valid recording identifier"],
+    ["?view=recording", "Choose a valid tape identifier"],
+    ["?view=recording&id=../bad", "Choose a valid tape identifier"],
   ])("renders useful direct page state for %s", (search, content) => {
     vi.stubGlobal("window", { location: { search } });
     const html = renderToString(<App />);
     expect(html).toContain(content);
-    if (search.includes("dimension=venues")) expect(html.replace(/<!--.*?-->/g, "")).toContain("Find venues");
+    if (search.includes("dimension=venues")) {
+      const text = html.replace(/<!--.*?-->/g, "");
+      expect(text).toContain("Find years");
+      expect(text).not.toContain("Find venues");
+    }
     expect(html).toContain('class="masthead"');
     if (search.includes("recording")) expect(html).not.toContain('aria-label="Recording list"');
   });
@@ -54,35 +58,38 @@ describe("dedicated recording page", () => {
   it("renders the return link and a focusable heading on a direct load", () => {
     vi.stubGlobal("window", { location: { search: "?view=recording&id=show.01" } });
     const html = renderToString(<App />);
-    expect(html).toContain("Back to recordings");
-    expect(html).toMatch(/<h1 tabindex="-1">Recording<\/h1>/);
+    expect(html).toContain("Back to the shelf");
+    expect(html).toMatch(/<h1 tabindex="-1">Tape<\/h1>/);
     expect(html).not.toContain('aria-label="Audio player"');
   });
 
   it("presents description, source, lineage, provenance and tracks in the shared body", () => {
     const detail: Detail = {
-      metadata: { creator: "Ween", title: "Ween Live at Roseland", date: "1996-10-01", venue: "Roseland" },
-      source_metadata: { description: "Second night.", source: "Schoeps MK4", lineage: "DAT > CD > FLAC" },
+      metadata: { creator: "DJ Screw", title: "DJ Screw - Chapter 042. Popped Up Smoked Up (1996)", date: "1996" },
+      source_metadata: { description: "Recorded in Houston.", source: "Cassette", lineage: "Tape > CD > FLAC" },
       editorial: {},
-      files: [{ name: "01 Intro.mp3", title: "Intro" }],
-      playback_bindings: [{ item: "i", representation: "r", files: ["01 Intro.mp3"] }],
+      files: [
+        { name: "101. Luniz - I Got 5 On It.mp3", title: "101. Luniz - I Got 5 On It" },
+        { name: "201. Big Moe - Purple Stuff.mp3", title: "201. Big Moe - Purple Stuff" },
+      ],
+      playback_bindings: [{ item: "i", representation: "r", files: ["101. Luniz - I Got 5 On It.mp3", "201. Big Moe - Purple Stuff.mp3"] }],
     };
-    const tracks = tracksFor("ween1996", detail.files!);
+    const tracks = tracksFor("screw042", detail.files!);
     const html = renderToString(
       <RecordingDetail
-        identifier="ween1996"
+        identifier="screw042"
         detail={detail}
         tracks={tracks}
-        actions={<a href="/?view=recording&amp;id=ween1996">Open recording page</a>}
+        actions={<a href="/?view=recording&amp;id=screw042">Open recording page</a>}
         resolving={false}
         playError=""
         play={() => {}}
         related={() => {}}
       />,
     ).replace(/<!-- -->/g, "");
-    for (const text of ["Ween Live at Roseland", "Second night.", "Schoeps MK4", "DAT &gt; CD &gt; FLAC", "Original metadata snapshot", "1 playable tracks", "Open recording page", "More by Ween"])
+    for (const text of ["Chapter 042 · 1996", "Recorded in Houston.", "Cassette", "Tape &gt; CD &gt; FLAC", "Original metadata snapshot", "2 playable tracks", "Side A", "Side B", "Open recording page", "More from 1996", "Play tape"])
       expect(html).toContain(text);
-    expect(html).toContain("/api/source-catalog/v1/items/ween1996/source?collection=etree");
+    expect(html).toContain("/api/source-catalog/v1/items/screw042/source?collection=dj-screw-discography");
   });
 });
 
@@ -128,6 +135,6 @@ describe("recording page return and missing states", () => {
 
   it("rejects an identifier with unsupported characters", () => {
     vi.stubGlobal("window", { location: { search: "?view=recording&id=bad!id" } });
-    expect(renderToString(<App />)).toContain("Choose a valid recording identifier");
+    expect(renderToString(<App />)).toContain("Choose a valid tape identifier");
   });
 });

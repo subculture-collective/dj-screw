@@ -139,10 +139,11 @@ describe("RecordingContent", () => {
     expect(html).not.toMatch(/<img|<script|javascript:|onerror/);
   });
 
-  it("states missing source and lineage instead of omitting them", () => {
+  it("omits source and lineage rows when the fields have no text", () => {
     const html = renderToString(<RecordingContent detail={detail()} />);
-    expect(html).toContain("Source not recorded");
-    expect(html).toContain("Lineage not recorded");
+    expect(html).not.toContain("not recorded");
+    expect(html).not.toContain("<dt>source</dt>");
+    expect(html).not.toContain("<dt>lineage</dt>");
   });
 
   it("shows retained lineage with a preview and its full text", () => {
@@ -152,7 +153,7 @@ describe("RecordingContent", () => {
     );
     expect(html).toContain("<summary>");
     expect(html).toContain(`${"B".repeat(60)}`);
-    expect(html).not.toContain("Lineage not recorded");
+    expect(html).toContain("<dt>lineage</dt>");
   });
 
   it("does not present the songs search projection as a setlist", () => {
@@ -164,7 +165,7 @@ describe("RecordingContent", () => {
       />,
     );
     expect(html).not.toContain("Dark Star");
-    expect(html).not.toContain("Setlist");
+    expect(html).not.toContain("Track list");
   });
 
   it("renders a retained setlist field separately, keeping multi-song lines whole", () => {
@@ -175,7 +176,7 @@ describe("RecordingContent", () => {
         })}
       />,
     );
-    expect(html).toContain("Setlist");
+    expect(html).toContain("Track list");
     expect(html).toContain("China Cat Sunflower &gt; I Know You Rider");
   });
 

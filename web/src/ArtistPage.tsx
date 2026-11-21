@@ -1,3 +1,4 @@
+import { brand } from "./brand";
 import { useEffect, useState } from "react";
 import type { ArtistProfile } from "./archive";
 import { catalogData } from "./catalog-data";
@@ -20,7 +21,7 @@ export default function ArtistPage({
     const controller = new AbortController();
     catalogData
       .read<ArtistProfile>(
-        `/api/source-catalog/v1/artist?collection=etree&artist=${encodeURIComponent(artist)}`,
+        `/api/source-catalog/v1/artist?collection=${brand.collection}&artist=${encodeURIComponent(artist)}`,
         controller.signal,
       )
       .then((next) => {

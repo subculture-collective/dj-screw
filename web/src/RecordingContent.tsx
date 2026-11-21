@@ -91,16 +91,21 @@ function FullText({
   );
 }
 
-const facts = ["date", "venue", "coverage", "taper", "transferer", "subject"];
+const facts = ["date", "creator", "subject"];
 
-// Shared by every surface that presents a recording. `metadata.songs` is a
-// search projection of file titles, so it is not shown as a setlist here.
+// Shared by every surface that presents a tape. `metadata.songs` is a
+// search projection of file titles, so it is not shown as a track list here.
+// Discography descriptions usually repeat the title, so a repeat is skipped;
+// source and lineage appear only when the uploader recorded them.
 export default function RecordingContent({ detail }: { detail: Detail }) {
+  const description = retainedField(detail, "description");
   const setlist = retainedField(detail, "setlist");
   const notes = retainedField(detail, "notes");
+  const repeatsTitle =
+    plainText(description).trim() === label(detail.metadata.title).trim();
   return (
     <div className="recording-content">
-      <Notes field={retainedField(detail, "description")} />
+      {!repeatsTitle && <Notes field={description} />}
       {plainText(setlist) && (
         <>
           <h3>{copy.setlist}</h3>
@@ -123,25 +128,20 @@ export default function RecordingContent({ detail }: { detail: Detail }) {
               </div>
             ),
         )}
-        <div>
-          <dt>source</dt>
-          <dd>
-            <FullText
-              field={retainedField(detail, "source")}
-              missing={copy.sourceMissing}
-            />
-          </dd>
-        </div>
-        <div>
-          <dt>lineage</dt>
-          <dd>
-            <FullText
-              field={retainedField(detail, "lineage")}
-              missing={copy.lineageMissing}
-              preview
-            />
-          </dd>
-        </div>
+        {(["source", "lineage"] as const).map((key) =>
+          plainText(retainedField(detail, key)) ? (
+            <div key={key}>
+              <dt>{key}</dt>
+              <dd>
+                <FullText
+                  field={retainedField(detail, key)}
+                  missing={key === "source" ? copy.sourceMissing : copy.lineageMissing}
+                  preview={key === "lineage"}
+                />
+              </dd>
+            </div>
+          ) : null,
+        )}
       </dl>
     </div>
   );

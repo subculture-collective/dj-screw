@@ -1,6 +1,7 @@
 # Agent Instructions
 
-This repository is an Arkhiv consumer with a React/TypeScript frontend, the
+This repository is Grey Tapes, a DJ Screw tape browser for the Internet Archive
+collection `dj-screw-discography`. It is an Arkhiv consumer with a React/TypeScript frontend, the
 published `@subcult/archive-viewer` kit, a shared Arkhiv Go engine image and
 PostgreSQL. It contains no independent Go backend, catalog schema or metadata worker.
 
@@ -25,8 +26,8 @@ normal development. `docker-compose.core-dev.yml` optionally builds the actual
 core from a canonical Arkhiv checkout for shared-engine changes. The frontend
 and dependency checks require compatible module versions.
 
-The frontend owns its composition and design. The product is Lineage and its
-J-Card design system is documented in `docs/reference/brand.md` (ADR 0002). Use
+The frontend owns its composition and design. The product is Grey Tapes; its
+J-Card tokens and voice are in `docs/reference/brand.md` and its origin in ADR 0002. Use
 its tokens in `web/src/styles.css` and copy constants in `web/src/brand.ts`
 rather than literal colors or strings. Use the kit for shared behavior rather
 than copying its hooks or controls. Curated artist image references belong in
@@ -54,15 +55,17 @@ only after reviewing scope and verification, or use the reviewed ready-for-picku
 form. Treat `ready-for-agent` alone and assignment to `open-pilot` as pickup approval
 when enabled. `make typecheck` does not emit application files.
 
+Tape labels and sides are parsed for display only in `web/src/tape.ts`; source
+titles and filenames stay the identities. Use `brand.collection` rather than a
+literal collection name. The collection stays `source_stream`; never add local
+audio preservation for it.
+
 Artist/date discovery requires the adopted `source_discovery` module-1 capability.
-Preserve the published pins and the runtime capability guard. Artist enrichment sources stay independent of recording metadata, and all
+Preserve the published pins and the runtime capability guard. All
 date/artist views must honor source-catalog exclusions.
 
-## Frontend delivery
+## Delivery
 
-The GitHub Actions `Deploy` workflow deploys the frontend from main; pull requests
-are verified by `PR CI`. The Gitea `template-check` workflow only verifies.
-Use docs/automatic-frontend-deployment.md for its scoped Dozor profile and rollback.
-Shared-engine deployments use a separate receiver key and a validated long-running
-backup before migration. See docs/core-deployment.md. Metadata workers, media
-review and acquisition remain separate operator workflows.
+`PR CI` verifies pull requests on GitHub. There is no deploy workflow yet;
+public deployment needs an owner decision, a host profile and a domain.
+Metadata workers, media review and acquisition remain separate operator workflows.

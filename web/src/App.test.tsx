@@ -20,11 +20,11 @@ describe("Live Music Archive", () => {
   it("renders catalog search and its loading state", () => {
     const html = renderToString(<App />);
     expect(html).toContain("Search the catalog");
-    expect(html).toContain("Loading recordings from the catalog");
+    expect(html).toContain("Loading tapes from the catalog");
   });
-  it("renders the Lineage brand and design-system shell", () => {
+  it("renders the Grey Tapes brand and design-system shell", () => {
     const html = renderToString(<App />);
-    expect(html).toContain(">Lineage<");
+    expect(html).toContain(">Grey Tapes<");
     expect(html).toContain(brand.tagline);
     expect(html).toContain('class="stripes"');
     expect(html).toContain('class="masthead"');
@@ -34,8 +34,11 @@ describe("Live Music Archive", () => {
     const html = renderToString(<App />);
     const nav = html.slice(html.indexOf('class="primary-nav"'));
     expect(nav).toContain('href="/" aria-current="page"');
-    expect(nav).toContain("view=calendar");
-    expect(nav).toContain("view=on-this-day");
+    expect(nav).toContain("view=search");
+    expect(nav).toContain("view=explore&amp;dimension=years");
+    expect(nav).not.toContain("view=calendar");
+    expect(nav).not.toContain("view=on-this-day");
+    expect(nav.slice(0, nav.indexOf("</nav>")).match(/<a /g)).toHaveLength(3);
     expect(html.indexOf("primary-nav")).toBeLessThan(html.indexOf("<main"));
   });
   it("groups derivative formats, skips private files and orders tracks naturally", () => {

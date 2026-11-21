@@ -21,7 +21,7 @@ separate from the playable tracks.
 
 **Lineage.** Long chains show a shortened preview, cut at a chain boundary, and
 disclose the full text. Only whitespace is normalized in the preview. An absent
-value reads **Lineage not recorded**.
+row is left out.
 
 ## Recording page
 
@@ -39,3 +39,9 @@ focus returns to the tape the page was opened from. A page opened from a shared
 link or from another recording page returns to the home page instead. Opening or inspecting
 another recording never changes what is playing, because the player stays outside
 the page content.
+
+## Grey Tapes changes
+
+Discography uploads repeat the title as the description, so a description that
+matches the title is not shown. Source and lineage rows appear only when the
+uploader recorded them. The facts list shows date, creator and subject.

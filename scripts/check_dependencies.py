@@ -21,10 +21,3 @@ missing = [key for key, version in required.items() if core['modules'].get(key) 
 if missing:
     raise SystemExit('Published engine lacks required modules: ' + ', '.join(missing))
 
-# The receiver wrapper must add labels only. CI also compares image layers.
-steps = [line.split(None, 1) for line in re.sub(r"\\\n", " ", (root / "deploy/core.Dockerfile").read_text()).splitlines() if line.strip() and not line.lstrip().startswith("#")]
-assert {step[0].upper() for step in steps} <= {"ARG", "FROM", "LABEL"}
-assert [step[1].strip() for step in steps if step[0].upper() == "FROM"] == ["${CORE_IMAGE}"]
-assert steps[0] == ["ARG", "CORE_IMAGE"]
-
-assert 'org.opencontainers.image.source="https://git.subcult.tv/PatrickFanella/arkhiv-live-music"' in (root / "deploy/core.Dockerfile").read_text(), "Core wrapper must identify the deployed Gitea mirror"

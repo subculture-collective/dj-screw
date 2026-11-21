@@ -38,7 +38,7 @@ describe("historical date discovery", () => {
   it("requests the resolved, zero-padded month when the URL omits one", () => {
     const params = calendarQuery({ ...emptySearch, view: "calendar" }, 5);
     expect(params.get("month")).toBe("05");
-    expect(params.get("collection")).toBe("etree");
+    expect(params.get("collection")).toBe("dj-screw-discography");
     expect(params.get("artist")).toBe("");
   });
   it("renders single, range, and all-years controls without requesting providers", () => {

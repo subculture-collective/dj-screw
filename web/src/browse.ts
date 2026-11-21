@@ -111,7 +111,7 @@ export function readFocus(state: unknown): string | undefined {
   return typeof focus === "string" && focus ? focus : undefined;
 }
 
-// Where the recording page's return link goes. An entry pushed inside Lineage
+// Where the recording page's return link goes. An entry pushed inside the app
 // from a list returns through history, keeping its filters, page and scroll.
 // A shared or reloaded link, or one reached from another recording page, goes
 // to the home page.
