@@ -27,7 +27,8 @@ core from a canonical Arkhiv checkout for shared-engine changes. The frontend
 and dependency checks require compatible module versions.
 
 The frontend owns its composition and design. The product is Woodroom; its
-J-Card tokens and voice are in `docs/reference/brand.md` and its origin in ADR 0002. Use
+design (two decks in the wood room), tokens and voice are in `docs/reference/brand.md`;
+its origin is in ADR 0002 and its name in ADR 0003. The wood room is `web/src/Room.tsx`. Use
 its tokens in `web/src/styles.css` and copy constants in `web/src/brand.ts`
 rather than literal colors or strings. Use the kit for shared behavior rather
 than copying its hooks or controls. Curated artist image references belong in
