@@ -117,10 +117,7 @@ export const playerCopy = {
 export const shelfCopy = {
   filterLabel: "Filter the tapes on this page",
   filterPlaceholder: "Filter this page",
-  order: "Order",
-  catalogOrder: "Catalog order",
-  newestFirst: "Newest first",
-  columns: { chapter: "Chapter", title: "Tape", date: "Year" },
+  columns: { chapter: "Chapter", title: "Tape", date: "Year (as uploaded)" },
   ascending: "ascending",
   descending: "descending",
   sortBy: (column: string, direction: string) =>
@@ -136,6 +133,12 @@ export const shelfCopy = {
 
 export const tapeCopy = {
   release: "Release",
+  // Chapter numbers come from the posthumous "Diary of the Originator"
+  // reissues, not from when a tape was made. Years are the uploader's.
+  yearNote:
+    "Chapter numbers are not chronological. Years come from each upload’s title and are approximate.",
+  yearAsUploaded: (year: string) => `${year} (as uploaded)`,
+  pageOrder: "chapters in number order",
   side: (side: string) => `Side ${side}`,
   disclaimer:
     "Grey Tapes is an independent project. It is not affiliated with or endorsed by Screwed Up Records & Tapes or the estate of DJ Screw.",

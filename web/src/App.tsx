@@ -1050,28 +1050,15 @@ export default function App() {
                   onChange={(event) => setShelfFilter(event.target.value)}
                 />
               </label>
-              {supportsDiscovery &&
-                search.view !== "calendar" &&
-                search.view !== "on-this-day" && (
-                  <label className="shelf-order">
-                    <span>{shelfCopy.order}</span>
-                    <select
-                      value={search.sort === "date_desc" ? "date_desc" : ""}
-                      onChange={(event) =>
-                        applyFilters({ sort: event.target.value })
-                      }
-                    >
-                      <option value="">{shelfCopy.catalogOrder}</option>
-                      <option value="date_desc">{shelfCopy.newestFirst}</option>
-                    </select>
-                  </label>
-                )}
               <span className="shelf-count" role="status">
                 {shelfFilter.trim() || shelfSort
                   ? shelfCopy.shown(shelfRows.length, catalog.items.length)
                   : ""}
               </span>
             </div>
+          )}
+          {catalog && catalog.items.length > 0 && (
+            <p className="shelf-note">{tapeCopy.yearNote}</p>
           )}
           {catalog && catalog.items.length > 0 && shelfRows.length === 0 && (
             <div className="notice">
@@ -1167,7 +1154,7 @@ export default function App() {
                 Page {history.length + 1} ·{" "}
                 {search.sort === "date_desc"
                   ? "newest first"
-                  : "ordered by catalog identifier"}
+                  : tapeCopy.pageOrder}
               </span>
               <button
                 disabled={!catalog.cursor || !catalog.items.length || loading}
