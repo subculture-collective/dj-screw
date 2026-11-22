@@ -9,7 +9,8 @@ import {
   artistPhotosFrom,
   type ArtistPhotos,
 } from "./artist-images";
-import { recordingArtwork, shelfCover } from "./artwork";
+import { recordingArtwork } from "./artwork";
+import { hostedCover } from "./cover-files";
 import BrowseDirectory from "./BrowseDirectory";
 import ArtistPage from "./ArtistPage";
 import DateDiscovery from "./DateDiscovery";
@@ -1147,7 +1148,7 @@ export default function App() {
                         <span className="tape-number">{chapterNumber(chapter.number)}</span>
                         <Artwork
                           name={tape.name || recording.identifier}
-                          recording={shelfCover(recording.identifier)}
+                          recording={hostedCover(recording.identifier, "thumb")}
                           cover={{
                             artist: tape.name || recording.identifier,
                             date: tape.series || tape.year,
@@ -1392,7 +1393,7 @@ export default function App() {
             />
           )}
           <Artwork
-            recording={recordingArtwork(
+            recording={hostedCover(playing.identifier, "large") ?? recordingArtwork(
               playing.identifier,
               playing.recording.files || [],
             )}

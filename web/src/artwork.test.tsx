@@ -10,6 +10,18 @@ import {
 import Artwork from "./ArtworkView";
 
 describe("Recording artwork", () => {
+  it("prefers the front cover over the inlay, back and discs", () => {
+    expect(
+      recordingArtwork("show", [
+        { name: "Back Inlay.jpg" },
+        { name: "Front Inlay.jpg" },
+        { name: "CD 1.jpg" },
+        { name: "Back.jpg" },
+        { name: "Front.jpg" },
+      ])?.file,
+    ).toBe("Front.jpg");
+  });
+
   it("prefers a cover over thumbnails and unrelated images", () => {
     const artwork = recordingArtwork("show", [
       { name: "photo.jpg" },
