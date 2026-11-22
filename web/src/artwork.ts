@@ -41,9 +41,15 @@ export function recordingArtwork(
         );
       if (/\.png$/i.test(name) && !namedArtwork && file.format !== "Item Image")
         return [];
+      // Inlays, backs and discs are other parts of the packaging; an inlay
+      // shows the front artwork printed in reverse.
+      const packaging = /inlay|insert|inside|back|tray|spine|\b(cd|disc|disk)\b/i.test(
+        name.replace(/\.[^.]+$/, "").replace(/[_-]/g, " "),
+      );
       const score =
         (namedArtwork ? 0 : file.format === "Item Image" ? 1 : 2) +
-        (/thumb/i.test(name) ? 3 : 0);
+        (/thumb/i.test(name) ? 3 : 0) +
+        (packaging ? 4 : 0);
       return [{ file: file.name, score }];
     })
     .sort((a, b) => a.score - b.score || a.file.localeCompare(b.file));
@@ -57,13 +63,3 @@ export function recordingArtwork(
     : undefined;
 }
 
-// The list's thumbnail, imported by scripts/import-covers.ts with the rule
-// above. A tape without one falls back to the generated cover.
-export function shelfCover(id: string): RecordingArtwork | undefined {
-  if (!/^[a-zA-Z0-9][a-zA-Z0-9._-]*$/.test(id)) return undefined;
-  return {
-    file: `${id}.webp`,
-    url: `/covers/${encodeURIComponent(id)}.webp`,
-    source: `https://archive.org/details/${encodeURIComponent(id)}`,
-  };
-}

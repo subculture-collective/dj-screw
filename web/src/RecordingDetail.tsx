@@ -5,6 +5,7 @@ import RecordingContent from "./RecordingContent";
 import { artistImageFor } from "./artist-images";
 import type { ArtistPhotos } from "./artist-images";
 import { recordingArtwork } from "./artwork";
+import { hostedCover } from "./cover-files";
 import { label } from "./archive";
 import type { Detail, Track } from "./archive";
 import type { Search } from "./browse";
@@ -125,7 +126,7 @@ export default function RecordingDetail({
       </p>
       {actions}
       <Artwork
-        recording={recordingArtwork(
+        recording={(!detail.unavailable && hostedCover(identifier, "large")) || recordingArtwork(
           identifier,
           detail.files || [],
           !!detail.unavailable,
