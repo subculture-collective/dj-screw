@@ -36,7 +36,7 @@ import { getJSON, label, missingItemMessage, tracksFor } from "./archive";
 import { catalogData } from "./catalog-data";
 import type { Detail, Recording, Track, ImportStatus, Facets } from "./archive";
 import { brand, discoveryCopy, playerCopy, shelfCopy, tapeCopy } from "./brand";
-import { tapeLabel } from "./tape";
+import { chapterNumber, shelfChapter, tapeLabel } from "./tape";
 import {
   clampRail,
   isRail,
@@ -50,8 +50,8 @@ import {
   writeRailWidth,
 } from "./player-placement";
 import type { Placement } from "./player-placement";
-import { arrangeShelf, nextSort, shelfColumns } from "./shelf-order";
-import type { ShelfColumn, ShelfSort } from "./shelf-order";
+import { arrangeShelf, chapterOrder, nextSort, shelfColumns, shelfSeries } from "./shelf-order";
+import type { ShelfColumn, ShelfSeries, ShelfSort } from "./shelf-order";
 import { Room } from "./Room";
 
 type Catalog = {
@@ -87,6 +87,7 @@ export default function App() {
   // order in the search covers every page.
   const [shelfFilter, setShelfFilter] = useState("");
   const [shelfSort, setShelfSort] = useState<ShelfSort>();
+  const [series, setSeries] = useState<ShelfSeries>("all");
   const [artistPhotos, setArtistPhotos] = useState<ArtistPhotos>();
   const [draft, setDraft] = useState<Search>(search);
   const [facets, setFacets] = useState<Facets>();
@@ -341,10 +342,25 @@ export default function App() {
           throw new Error(
             `The ${brand.collectionName} is unavailable on this catalog service.`,
           );
-        return catalogData.read<Catalog>(
-          `/api/source-catalog/v1/items?collection=${brand.collection}&${catalogQuery(search)}`,
-          controller.signal,
-        );
+        const read = (page: Search) =>
+          catalogData.read<Catalog>(
+            `/api/source-catalog/v1/items?collection=${brand.collection}&${catalogQuery(page)}`,
+            controller.signal,
+          );
+        if (pageView(search) !== "browse") return read(search);
+        // The plain shelf is small (about 380 tapes): load every page so it can
+        // be listed in chapter order rather than the catalog's identifier order.
+        return (async () => {
+          const first = await read(search);
+          const items = [...first.items];
+          let cursor = first.cursor;
+          for (let page = 0; cursor && page < 20; page++) {
+            const next = await read({ ...search, cursor });
+            items.push(...next.items);
+            cursor = next.cursor;
+          }
+          return { ...first, items: chapterOrder(items), cursor: undefined };
+        })();
       })
       .then((page) => {
         if (!controller.signal.aborted) setCatalog(page);
@@ -676,7 +692,7 @@ export default function App() {
   const home = view === "browse";
   const showCatalog = view !== "explore" && view !== "recording";
   const status = catalog?.status;
-  const shelfRows = arrangeShelf(catalog?.items ?? [], shelfFilter, shelfSort);
+  const shelfRows = arrangeShelf(catalog?.items ?? [], shelfFilter, shelfSort, series);
   const sortButton = (column: ShelfColumn) => {
     const active = shelfSort?.column === column;
     const direction = active
@@ -1052,8 +1068,21 @@ export default function App() {
                   onChange={(event) => setShelfFilter(event.target.value)}
                 />
               </label>
+              <label className="shelf-series">
+                <span>{shelfCopy.seriesLabel}</span>
+                <select
+                  value={series}
+                  onChange={(event) => setSeries(event.target.value as ShelfSeries)}
+                >
+                  {shelfSeries.map((value) => (
+                    <option key={value} value={value}>
+                      {shelfCopy.series[value]}
+                    </option>
+                  ))}
+                </select>
+              </label>
               <span className="shelf-count" role="status">
-                {shelfFilter.trim() || shelfSort
+                {shelfFilter.trim() || shelfSort || series !== "all"
                   ? shelfCopy.shown(shelfRows.length, catalog.items.length)
                   : ""}
               </span>
@@ -1065,79 +1094,88 @@ export default function App() {
           {catalog && catalog.items.length > 0 && shelfRows.length === 0 && (
             <div className="notice">
               <p>{shelfCopy.noMatch(shelfFilter.trim())}</p>
-              <button onClick={() => setShelfFilter("")}>
+              <button
+                onClick={() => {
+                  setShelfFilter("");
+                  setSeries("all");
+                }}
+              >
                 {shelfCopy.clearFilter}
               </button>
             </div>
           )}
           <div className="tape-list">
-            {catalog && catalog.items.length > 0 && (
-              <div className="tape-head">
-                <span className="tape-number" aria-hidden="true">
-                  #
-                </span>
-                <span aria-hidden="true" />
-                <span className="tape-head-info">
-                  {shelfColumns
-                    .filter((column) => column !== "date")
-                    .map((column) => sortButton(column))}
-                </span>
-                {sortButton("date")}
-                <span aria-hidden="true" />
+            {/* Rows come in rack units of ten, with the wall showing between them. */}
+            {Array.from({ length: Math.ceil(shelfRows.length / 10) }, (_, unit) => (
+              <div className="rack-unit" key={unit}>
+                {unit === 0 && (
+                  <div className="tape-head">
+                    <span className="tape-number" aria-hidden="true">
+                      #
+                    </span>
+                    <span aria-hidden="true" />
+                    <span className="tape-head-info">
+                      {shelfColumns
+                        .filter((column) => column !== "date")
+                        .map((column) => sortButton(column))}
+                    </span>
+                    {sortButton("date")}
+                    <span aria-hidden="true" />
+                  </div>
+                )}
+                {shelfRows.slice(unit * 10, unit * 10 + 10).map(({ recording }, offset) => {
+                  const position = unit * 10 + offset;
+                  const tape = tapeLabel(label(recording.title), label(recording.date));
+                  const chapter = shelfChapter(recording.identifier, label(recording.title));
+                  return (
+                    <Fragment key={recording.identifier}>
+                      {search.sort === "date_desc" &&
+                        !shelfSort &&
+                        !shelfFilter.trim() &&
+                        (position === 0 ||
+                          label(shelfRows[position - 1].recording.date).slice(0, 4) !==
+                            label(recording.date).slice(0, 4)) && (
+                          <h3 className="recording-year">
+                            {label(recording.date).slice(0, 4)}
+                          </h3>
+                        )}
+                      <button
+                        className="tape"
+                        data-recording={recording.identifier}
+                        onClick={() => open(recording.identifier)}
+                      >
+                        <span className="tape-number">{chapterNumber(chapter.number)}</span>
+                        <Artwork
+                          name={tape.name || recording.identifier}
+                          cover={{
+                            artist: tape.name || recording.identifier,
+                            date: tape.series || tape.year,
+                          }}
+                        />
+                        <span className="tape-info">
+                          <strong>{tapeCopy.seriesLine(chapter.number, chapter.reissue)}</strong>
+                          <span title={label(recording.title) || recording.identifier}>
+                            {tape.name || recording.identifier}
+                            {recording.unavailable ? " · Source unavailable" : ""}
+                          </span>
+                          <span className="tape-place">
+                            {[label(recording.creator), tape.format]
+                              .filter(Boolean)
+                              .join(" · ")}
+                          </span>
+                        </span>
+                        <span className="tape-date">
+                          {tape.year || "Year unknown"}
+                        </span>
+                        <span aria-hidden="true" className="arrow">
+                          →
+                        </span>
+                      </button>
+                    </Fragment>
+                  );
+                })}
               </div>
-            )}
-            {shelfRows.map(({ recording, index }, position) => {
-              const tape = tapeLabel(label(recording.title), label(recording.date));
-              return (
-              <Fragment key={recording.identifier}>
-                {search.sort === "date_desc" &&
-                  !shelfSort &&
-                  !shelfFilter.trim() &&
-                  (position === 0 ||
-                    label(shelfRows[position - 1].recording.date).slice(0, 4) !==
-                      label(recording.date).slice(0, 4)) && (
-                    <h3 className="recording-year">
-                      {label(recording.date).slice(0, 4)}
-                    </h3>
-                  )}
-                <button
-                  className="tape"
-                  key={recording.identifier}
-                  data-recording={recording.identifier}
-                  onClick={() => open(recording.identifier)}
-                >
-                  <span className="tape-number">
-                    {String(history.length * 100 + index + 1).padStart(3, "0")}
-                  </span>
-                  <Artwork
-                    name={tape.name || recording.identifier}
-                    cover={{
-                      artist: tape.name || recording.identifier,
-                      date: tape.series || tape.year,
-                    }}
-                  />
-                  <span className="tape-info">
-                    <strong>{tape.series || tapeCopy.release}</strong>
-                    <span title={label(recording.title) || recording.identifier}>
-                      {tape.name || recording.identifier}
-                      {recording.unavailable ? " · Source unavailable" : ""}
-                    </span>
-                    <span className="tape-place">
-                      {[label(recording.creator), tape.format]
-                        .filter(Boolean)
-                        .join(" · ")}
-                    </span>
-                  </span>
-                  <span className="tape-date">
-                    {tape.year || "Year unknown"}
-                  </span>
-                  <span aria-hidden="true" className="arrow">
-                    →
-                  </span>
-                </button>
-              </Fragment>
-              );
-            })}
+            ))}
           </div>
           {catalog && (catalog.cursor || history.length > 0) && (
             <nav aria-label="Catalog pages" className="pagination">

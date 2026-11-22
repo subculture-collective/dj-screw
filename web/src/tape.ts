@@ -92,3 +92,23 @@ export function trackLength(length: string | undefined): string {
     ? `${hours}:${String(minutes).padStart(2, "0")}:${seconds}`
     : `${minutes}:${seconds}`;
 }
+
+// Releases that are a numbered chapter under another title. Each was matched
+// by comparing its track list and running time with the chapter's on
+// 2026-11-21 (docs/research/chapter-dates.md). Releases that only share some
+// songs with a chapter are not listed.
+export const chapterReissues: Readonly<Record<string, number>> = {
+  // "Next Episode" (2004): Chapter 015's thirteen songs, same order, 103.2 min.
+  "20200531_20200531_0159": 15,
+  // "N 2 Deep" (2004): Chapter 019 split into fewer tracks, 101.8 vs 102.0 min.
+  "20200531_20200531_0144": 19,
+};
+
+// A tape's place in the chapter series: 0 when it has no chapter number.
+export type ShelfChapter = { number: number; reissue: boolean };
+export function shelfChapter(identifier: string, title: string): ShelfChapter {
+  const reissue = chapterReissues[identifier];
+  if (reissue !== undefined) return { number: reissue, reissue: true };
+  return { number: tapeLabel(title).chapter ?? 0, reissue: false };
+}
+export const chapterNumber = (number: number) => String(number).padStart(3, "0");

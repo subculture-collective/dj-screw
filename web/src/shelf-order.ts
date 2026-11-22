@@ -1,16 +1,26 @@
 import { label } from "./archive";
 import type { Recording } from "./archive";
-import { tapeLabel } from "./tape";
+import { chapterNumber, shelfChapter, tapeLabel } from "./tape";
 
-// Sorting and filtering here apply to the page of recordings already loaded.
-// The catalog's own order (`sort` in the search) covers every page.
+// Sorting and filtering here apply to the recordings already loaded: the
+// whole shelf on the browse page, or one page of search results.
 export const shelfColumns = ["chapter", "title", "date"] as const;
 export type ShelfColumn = (typeof shelfColumns)[number];
 export type ShelfSort = { column: ShelfColumn; descending: boolean };
 
+// Which tapes to show: every tape, those in the chapter series, or the
+// releases without a chapter number.
+export const shelfSeries = ["all", "chapters", "none"] as const;
+export type ShelfSeries = (typeof shelfSeries)[number];
+
+// "015" for Chapter 015, "015r" for a reissue of it (sorted after the
+// original), "000" for a tape with no chapter.
 export function shelfValue(recording: Recording, column: ShelfColumn): string {
   const tape = tapeLabel(label(recording.title), label(recording.date));
-  if (column === "chapter") return tape.series;
+  if (column === "chapter") {
+    const chapter = shelfChapter(recording.identifier, label(recording.title));
+    return chapterNumber(chapter.number) + (chapter.reissue ? "r" : "");
+  }
   if (column === "title") return tape.name || recording.identifier;
   return tape.year;
 }
@@ -25,14 +35,23 @@ export function arrangeShelf(
   items: Recording[],
   filter: string,
   sort?: ShelfSort,
+  series: ShelfSeries = "all",
 ) {
   const terms = fold(filter).split(/\s+/).filter(Boolean);
   const rows = items
     .map((recording, index) => ({ recording, index }))
     .filter(({ recording }) => {
+      if (series === "all") return true;
+      const numbered = shelfChapter(recording.identifier, label(recording.title)).number > 0;
+      return series === "chapters" ? numbered : !numbered;
+    })
+    .filter(({ recording }) => {
       if (!terms.length) return true;
       const text = fold(
-        shelfColumns.map((column) => shelfValue(recording, column)).join(" "),
+        [
+          ...shelfColumns.map((column) => shelfValue(recording, column)),
+          tapeLabel(label(recording.title)).series,
+        ].join(" "),
       );
       return terms.every((term) => text.includes(term));
     });
@@ -58,4 +77,19 @@ export function nextSort(
   if (current?.column !== column) return { column, descending: first };
   if (current.descending === first) return { column, descending: !first };
   return undefined;
+}
+
+// The whole shelf in chapter order: tapes without a chapter (000) first by
+// year and name, then each chapter followed by any reissue of it.
+export function chapterOrder(items: Recording[]): Recording[] {
+  const key = (recording: Recording) =>
+    [
+      shelfValue(recording, "chapter"),
+      shelfValue(recording, "date") || "9999",
+      shelfValue(recording, "title"),
+      recording.identifier,
+    ].join("\u0000");
+  return [...items].sort((a, b) =>
+    key(a).localeCompare(key(b), undefined, { numeric: true, sensitivity: "base" }),
+  );
 }

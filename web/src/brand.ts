@@ -115,30 +115,37 @@ export const playerCopy = {
 } as const;
 
 export const shelfCopy = {
-  filterLabel: "Filter the tapes on this page",
-  filterPlaceholder: "Filter this page",
+  filterLabel: "Filter these tapes",
+  filterPlaceholder: "Filter by name, chapter or year",
+  seriesLabel: "Series",
+  series: { all: "All tapes", chapters: "Chapters", none: "No series" },
   columns: { chapter: "Chapter", title: "Tape", date: "Year (as uploaded)" },
   ascending: "ascending",
   descending: "descending",
   sortBy: (column: string, direction: string) =>
     direction
-      ? `Sort this page by ${column}, ${direction}`
-      : `Sort this page by ${column}`,
-  shown: (shown: number, total: number) =>
-    `${shown} of ${total} on this page`,
+      ? `Sort these tapes by ${column}, ${direction}`
+      : `Sort these tapes by ${column}`,
+  shown: (shown: number, total: number) => `${shown} of ${total} tapes shown`,
   noMatch: (filter: string) =>
-    `No tapes on this page match “${filter}”.`,
+    filter ? `No tapes here match “${filter}”.` : "No tapes here match this series.",
   clearFilter: "Clear filter",
 } as const;
 
 export const tapeCopy = {
   release: "Release",
+  // The series column of a shelf row; a chapter number of 0 means no series.
+  seriesLine: (number: number, reissue: boolean) =>
+    number === 0
+      ? "No series"
+      : `Chapter ${String(number).padStart(3, "0")}${reissue ? " reissue" : ""}`,
   // Chapter numbers come from the posthumous "Diary of the Originator"
   // reissues, not from when a tape was made. Years are the uploader's.
   yearNote:
     "Chapter numbers are not chronological. Years come from each upload’s title and are approximate.",
   yearAsUploaded: (year: string) => `${year} (as uploaded)`,
   pageOrder: "chapters in number order",
+  reissueOf: (number: number) => `Reissue of Chapter ${String(number).padStart(3, "0")}`,
   side: (side: string) => `Side ${side}`,
   disclaimer:
     "Woodroom is an independent project. It is not affiliated with or endorsed by Screwed Up Records & Tapes or the estate of DJ Screw.",

@@ -10,7 +10,7 @@ import type { Detail, Track } from "./archive";
 import type { Search } from "./browse";
 import { trackDisplayTitle } from "./track-title";
 import { tapeCopy } from "./brand";
-import { tapeLabel, trackCredit, trackLength } from "./tape";
+import { shelfChapter, tapeLabel, trackCredit, trackLength } from "./tape";
 
 // Display titles are cleaned; each row keeps its original title and file name
 // as a tooltip, and the disclosure lists them all. Side-numbered files get a
@@ -108,12 +108,15 @@ export default function RecordingDetail({
   const creator = label(detail.metadata.creator);
   const date = label(detail.metadata.date);
   const tape = tapeLabel(label(detail.metadata.title), date);
+  const chapter = shelfChapter(identifier, label(detail.metadata.title));
   return (
     <div className="recording-body">
       {heading?.(creator || "Unknown artist")}
       <p className="detail-title">
         {[
-          tape.series || tapeCopy.release,
+          chapter.reissue
+            ? tapeCopy.reissueOf(chapter.number)
+            : tape.series || tapeCopy.release,
           tape.year && tapeCopy.yearAsUploaded(tape.year),
           tape.format,
         ]
