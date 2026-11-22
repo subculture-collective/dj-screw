@@ -21,7 +21,8 @@ metadata workers never fetch audio. Playback uses engine-resolved, reviewed file
 
 Core 0.4.11 supplies source-catalog module 1, source-discovery module 1,
 source-artist-photos module 1, source-artist-media module 1, batch playback
-reviews and nested source audio. Viewer 0.4.13 validates the resulting URLs. Use the pinned engine for
+reviews and nested source audio; core 0.4.13 adds reviewed self-hosted source
+audio in `local_preserve` collections. Viewer 0.4.14 validates the resulting URLs. Use the pinned engine for
 normal development. `docker-compose.core-dev.yml` optionally builds the actual
 core from a canonical Arkhiv checkout for shared-engine changes. The frontend
 and dependency checks require compatible module versions.
@@ -58,8 +59,10 @@ when enabled. `make typecheck` does not emit application files.
 
 Tape labels and sides are parsed for display only in `web/src/tape.ts`; source
 titles and filenames stay the identities. Use `brand.collection` rather than a
-literal collection name. The collection stays `source_stream`; never add local
-audio preservation for it.
+literal collection name; `brand.sourceCollection` is the Internet Archive
+collection. Audio is self-hosted from the `local_preserve` collection
+`dj-screw-discography-local` (ADR 0004). There is no recovery copy by owner
+decision: recovery is downloading again with `scripts/mirror_audio.py`.
 
 Artist/date discovery requires the adopted `source_discovery` module-1 capability.
 Preserve the published pins and the runtime capability guard. All

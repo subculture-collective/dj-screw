@@ -89,7 +89,7 @@ describe("dedicated recording page", () => {
     ).replace(/<!-- -->/g, "");
     for (const text of ["Chapter 042 · 1996 (as uploaded)", "Recorded in Houston.", "Cassette", "Tape &gt; CD &gt; FLAC", "Original metadata snapshot", "2 playable tracks", "Side A", "Side B", "Open recording page", "More from 1996", "Play tape"])
       expect(html).toContain(text);
-    expect(html).toContain("/api/source-catalog/v1/items/screw042/source?collection=dj-screw-discography");
+    expect(html).toContain("/api/source-catalog/v1/items/screw042/source?collection=dj-screw-discography-local");
   });
 });
 

@@ -2,7 +2,8 @@
 # The optional core-dev override builds shared-engine changes from Arkhiv.
 x-core-environment: &core-environment
   DATABASE_URL: postgres://${POSTGRES_USER:-app}:${POSTGRES_PASSWORD:-change-me}@postgres:5432/${POSTGRES_DB:-app}?sslmode=disable
-  VHNESS_COLLECTION: dj-screw-discography
+  VHNESS_COLLECTION: dj-screw-discography-local
+  VHNESS_MEDIA: /media
   API_ADDR: 0.0.0.0:8080
   ARKHIV_PUBLIC: "0"
 
@@ -29,8 +30,9 @@ services:
     command:
       - >-
         vhness migrate &&
-        vhness collection --collection dj-screw-discography --policy ${COLLECTION_POLICY:-source_stream}
-        --budget ${MEDIA_BUDGET:-0} --reserve ${MEDIA_RESERVE:-0} &&
+        vhness collection --collection dj-screw-discography-local --policy local_preserve
+        --budget ${MEDIA_BUDGET:-2147483648} --reserve ${MEDIA_RESERVE:-1073741824}
+        --source-collection dj-screw-discography &&
         vhness discover-catalog --pages 0 --items 0
     environment: *core-environment
     depends_on:
@@ -40,7 +42,7 @@ services:
     image: ${ARCHIVE_ENGINE_IMAGE:?Load deploy/archive-core.env}
     environment: *core-environment
     volumes:
-      - media-data:/media:ro
+      - ${MEDIA_ROOT:-./data/media}:/media:ro
       - derivative-data:/derivatives:ro
     ports:
       - "127.0.0.1:${API_PORT:-8080}:8080"
@@ -75,11 +77,16 @@ services:
       - >-
         test -n "$$PLAYBACK_REVIEW_NOTES" || { echo 'Set explicit PLAYBACK_REVIEW_NOTES before starting'; exit 1; };
         while true; do
-        vhness review-source-audio-batch --items 100 --timeout 10m --notes "$$PLAYBACK_REVIEW_NOTES";
+        vhness review-source-audio-batch --items 100 --timeout 30m
+        --recovery-receipt "/imports/$$RECOVERY_RECEIPT" --notes "$$PLAYBACK_REVIEW_NOTES";
         sleep 30; done
     environment:
       <<: *core-environment
       PLAYBACK_REVIEW_NOTES: ${PLAYBACK_REVIEW_NOTES:-}
+      RECOVERY_RECEIPT: ${RECOVERY_RECEIPT:-receipt.json}
+    volumes:
+      - ${MEDIA_ROOT:-./data/media}:/media:ro
+      - ${IMPORT_ROOT:-./data/imports}:/imports:ro
     depends_on:
       initialize: {condition: service_completed_successfully}
     restart: unless-stopped
@@ -91,7 +98,7 @@ services:
     image: ${ARCHIVE_ENGINE_IMAGE:?Load deploy/archive-core.env}
     environment: *core-environment
     volumes:
-      - media-data:/media
+      - ${MEDIA_ROOT:-./data/media}:/media:ro
       - derivative-data:/derivatives
       - ${IMPORT_ROOT:-./data/imports}:/imports:ro
     depends_on:
@@ -105,5 +112,4 @@ services:
 
 volumes:
   postgres-data:
-  media-data:
   derivative-data:
