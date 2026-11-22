@@ -56,3 +56,14 @@ export function recordingArtwork(
       }
     : undefined;
 }
+
+// The list's thumbnail, imported by scripts/import-covers.ts with the rule
+// above. A tape without one falls back to the generated cover.
+export function shelfCover(id: string): RecordingArtwork | undefined {
+  if (!/^[a-zA-Z0-9][a-zA-Z0-9._-]*$/.test(id)) return undefined;
+  return {
+    file: `${id}.webp`,
+    url: `/covers/${encodeURIComponent(id)}.webp`,
+    source: `https://archive.org/details/${encodeURIComponent(id)}`,
+  };
+}
