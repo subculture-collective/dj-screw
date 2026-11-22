@@ -15,7 +15,8 @@ built from [Lineage](https://github.com/subculture-collective/lineage); see
 
 Woodroom is an independent project. It is not affiliated with or endorsed by
 Screwed Up Records & Tapes or the estate of DJ Screw. The tapes keep their own
-rights; this app stores metadata and streams audio from Internet Archive.
+rights. The audio is a verified copy of Internet Archive's files, served from
+our own server ([ADR 0004](docs/adr/0004-self-hosted-audio.md)).
 
 ## Features
 
@@ -75,8 +76,9 @@ make compose-build   # build the container images without starting them
 | `PROJECT_NAME` | Compose project name |
 | `POSTGRES_DB`, `POSTGRES_USER`, `POSTGRES_PASSWORD`, `POSTGRES_PORT` | Local PostgreSQL |
 | `API_PORT`, `WEB_PORT` | Loopback ports for the API and web app |
-| `COLLECTION_POLICY` | `source_stream` (default) streams audio from Internet Archive. Keep it. |
-| `MEDIA_BUDGET`, `MEDIA_RESERVE` | Byte limits used only by local preservation |
+| `MEDIA_ROOT` | Folder holding `dj-screw-discography-local/<identifier>/<file>`; fill it with `scripts/mirror_audio.py` |
+| `MEDIA_BUDGET`, `MEDIA_RESERVE` | Byte budget for that folder, and free space the volume must keep |
+| `RECOVERY_RECEIPT` | Checksum receipt under `IMPORT_ROOT`, required by playback reviews |
 | `IMPORT_ROOT` | Folder of metadata, correction and manifest files for operator commands |
 | `PLAYBACK_REVIEW_NOTES` | Note recorded by the optional playback reviewer; it will not start without one |
 
@@ -87,8 +89,17 @@ digest. [`deploy/core-release.json`](deploy/core-release.json) and
 
 ## Operator commands
 
-Start the playback reviewer, which marks supported public audio files as
-playable in batches of 100 without fetching any media:
+Download the audio first. The script resumes, skips files that already match,
+and keeps only files whose size and MD5 match Internet Archive:
+
+```bash
+python3 -I scripts/mirror_audio.py data/media/dj-screw-discography-local
+```
+
+Write the checksum receipt with Arkhiv's `scripts/source_audio_receipt.py`
+(see its `docs/runbooks/local-source-audio.md`) into `IMPORT_ROOT`. Then start
+the playback reviewer, which marks each item playable in batches of 100 once
+all its tracks are on disk and match:
 
 ```bash
 docker compose --env-file .env --env-file deploy/archive-core.env --profile playback up --build -d
@@ -100,10 +111,11 @@ collection, save its `https://archive.org/metadata/<id>` response and import it:
 
 ```bash
 docker compose --env-file .env --env-file deploy/archive-core.env --profile operator run --rm operator \
-  import-source-catalog --collection dj-screw-discography --id 172straightwreckin --file /imports/172straightwreckin.json
+  import-source-catalog --collection dj-screw-discography-local --id 172straightwreckin --file /imports/172straightwreckin.json
 
 docker compose --env-file .env --env-file deploy/archive-core.env --profile operator run --rm operator \
-  review-source-audio --collection dj-screw-discography --id SOURCE_ID --notes 'Playback review.'
+  review-source-audio --collection dj-screw-discography-local --id SOURCE_ID \
+  --recovery-receipt /imports/receipt.json --notes 'Playback review.'
 ```
 
 Stop the `metadata-worker` or `playback-reviewer` service to pause it; it

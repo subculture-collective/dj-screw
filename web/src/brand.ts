@@ -7,8 +7,11 @@ export const brand = {
   description:
     "Browse and play DJ Screw’s tapes from the Internet Archive’s DJ Screw Discography: every chapter by number and year, with side A and side B track lists and the artists on each tape.",
   collectionName: "DJ Screw Discography",
+  // The engine collection: a self-hosted copy of the Internet Archive
+  // collection below (ADR 0004).
+  collection: "dj-screw-discography-local",
   // The Internet Archive collection identifier the engine imports.
-  collection: "dj-screw-discography",
+  sourceCollection: "dj-screw-discography",
   collectionURL: "https://archive.org/details/dj-screw-discography",
 } as const;
 

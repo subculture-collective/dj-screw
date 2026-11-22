@@ -34,7 +34,7 @@ async function get(url: string) {
 
 const search = await (
   await get(
-    `https://archive.org/advancedsearch.php?q=collection%3A${encodeURIComponent(brand.collection)}&fl%5B%5D=identifier&rows=10000&output=json`,
+    `https://archive.org/advancedsearch.php?q=collection%3A${encodeURIComponent(brand.sourceCollection)}&fl%5B%5D=identifier&rows=10000&output=json`,
   )
 ).json();
 const ids: string[] = search.response.docs.map((doc: { identifier: string }) => doc.identifier).sort();
