@@ -82,9 +82,10 @@ export function nextSort(
 // The whole shelf in chapter order: tapes without a chapter (000) first by
 // year and name, then each chapter followed by any reissue of it.
 export function chapterOrder(items: Recording[]): Recording[] {
+  // Releases outside the chapter series ("000") go after the chapters.
   const key = (recording: Recording) =>
     [
-      shelfValue(recording, "chapter"),
+      shelfValue(recording, "chapter").replace(/^000$/, "zzz"),
       shelfValue(recording, "date") || "9999",
       shelfValue(recording, "title"),
       recording.identifier,

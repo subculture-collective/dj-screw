@@ -9,7 +9,7 @@ import {
   artistPhotosFrom,
   type ArtistPhotos,
 } from "./artist-images";
-import { recordingArtwork } from "./artwork";
+import { recordingArtwork, shelfCover } from "./artwork";
 import BrowseDirectory from "./BrowseDirectory";
 import ArtistPage from "./ArtistPage";
 import DateDiscovery from "./DateDiscovery";
@@ -1147,6 +1147,7 @@ export default function App() {
                         <span className="tape-number">{chapterNumber(chapter.number)}</span>
                         <Artwork
                           name={tape.name || recording.identifier}
+                          recording={shelfCover(recording.identifier)}
                           cover={{
                             artist: tape.name || recording.identifier,
                             date: tape.series || tape.year,

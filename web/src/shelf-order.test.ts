@@ -56,13 +56,13 @@ const shelf: Recording[] = [
 ];
 
 describe("the whole shelf in chapter order", () => {
-  it("puts releases without a chapter first, then chapters with reissues after them", () => {
+  it("lists chapters with reissues after them, then releases without a chapter", () => {
     expect(chapterOrder(shelf).map((item) => item.identifier)).toEqual([
-      "20200530_20200530_1520",
-      "DJ_Screw_-_The_Greatest_Hits_2005",
       "DJScrewChapter001DonDeal1997",
       "DJScrewChapter019N2Deep1999",
       "20200531_20200531_0144",
+      "20200530_20200530_1520",
+      "DJ_Screw_-_The_Greatest_Hits_2005",
     ]);
   });
 
